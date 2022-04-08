@@ -1,0 +1,732 @@
+Devops learning:-
+-------------------------------------------------------------
+
+>> valaxy technologies
+>> DevOps Hint
+>> Java Techie
+>> YB Madhu Sudhan Reddy
+https://www.youtube.com/c/MadhuSudhanReddyYB
+
+-------------------------------------------------------------
+Redhat os -> install
+>> what is docker
+>> vms vs containers
+>> what are containers
+		>>> docker architecture
+> Docker client
+> Docker Daemon
+> Docker Registry
+
+>> docker installation steps:-
+> yum install docker
+> docker version
+> systemctl start docker
+> docker version
+
+>> docker commands
+> docker run hello-world
+> docker images
+> docker pull ubuntu
+> docker images
+
+			>>> container lifecycle
+>> container lifecycle
+++ docker --version (## version of your dockerhost.)
+++ docker images (## list of images in your dockerhost.)
+++ docker ps (## list of your running containers.)
+++ docker ps -a (## list  of your active and inactive containers)
+
+>> docker --version  
+>> docker images
+>> docker ps
+>> docker ps -a
+
+## running the containers with attached mode.
+>> docker run -it <image name>
+>> docker run -it ubuntu
+
+## come out of the container
+> apt-get
+> exit
+>> yum 
+
+## active containers
+>> docker ps
+>> docker ps -a
+
+>> docker run -it ubuntu
+
+## active containers
+>> docker ps
+>> 
+
+## how to start and stop the containers.
+>> docker ps    (## no running containers)
+>> docker ps -a
+>> docker start <container-id> (## start the stopped container)
+>> docker ps  (## list of active container)
+>> docker stop <container-id>
+
+## Removing the containers
+>> docker rm <container name>
+>> docker rm <container-id>
+
+>> docker ps
+>> docker ps -a
+>> docker rm <running-container-id> (# running container not possible to delete )
+>> docker stop <running-container-id> 
+>> docker rm <container-id>
+>> docker rm <container-id> <container-id>
+
+## Remove the docker images
+>> docker rmi <image-name>
+>> docker rmi ubuntu
+>> docker ps -a
+## first remove the container and after delete the image.
+>> docker rm <container-id>
+>> docker rm <container-id>
+>> docker rmi <image-name>
+>> docker images
+
+## how to stop the running container
+>> docker stop command is using to stopped the container
+>> docker stop <container-name>
+>> docker stop <container-id>
+>> docker ps  (## no running containers)
+>> docker ps -a
+
+## Running the container in deteached mode.
+>> docker run -itd <image-name>
+>> docker run -itd ubuntu
+>> docker ps  (# running containers)
+>> docker stop <container-id>
+>> docker ps
+
+## how to attached to the container
+>> docker ps
+>> docker ps -a
+>> docker start <container-id>
+>> docker ps
+>> docker attach <container-id>
+> exit
+>> docker ps
+>> docker ps -a
+
+		>>> container life cycle-1
+>> docker --version
+>> docker images
+>> docker ps
+>> docker ps -a
+
+>> docker --version (## docker of version)
+>> docker images (## list of docker images)
+>> docker ps (## active or running containers)
+>> docker ps -a (## inactive containers)
+
+		>>> Container life cycle-2
+## Running the containers in attached mode.
+>> docker run -it <image name>
+>> docker run -it ubuntu
+> apt-get
+> exit
+>> docker ps (# active containers list)
+>> docker ps -a (# active and inactive )
+>> docker run -it ubuntu
+>
+## note: come out of the container keep up and running.
+ctrl+p and  ctrl+q (# container is active)
+>> docker ps   (# container is active)
+
+
+			>>> container lifecycle -3
+>> docker stop <container-name>
+>> docker stop <container-id>
+>> docker ps
+>> docker ps -a
+
+			>>> container lifecycle -4
+>> how to start a stopped containers
+>> docker ps
+>> docker ps -a
+>> docker start <container-id>
+>> docker ps
+
+			>>> container lifecycle -5 
+## Running a contanier in detached mode or rootuser mode.
+>> docker run -itd <image-name>
+>> docker run -itd ubuntu
+>> docker ps
+>> docker stop <container-id>
+>> docker ps
+## stopped container how to attached to the container
+# note: the container should be in running state.
+>> docker ps -a
+>> docker start <container-id>
+>> docker ps 
+>> docker attach <container-id>
+> exit
+>> docker ps
+>> docker ps -a
+				>>> container lifecycle - 6
+## Removing a container
+Note: only the stopped containers to remove only ,active containers not possible to remove.
+>> docker rm <container name>
+>> docker ps
+>> docker ps -a
+>> docker rm <container-id>
+note:  active containers are not possible to delete.
+you cannot remove a active containers.
+>> docker stop <container-id>
+>> docker rm <container-id>
+>> docker ps -a
+>> docker ps
+
+
+				>>> container lifecycle -7
+## Remove the docker images
+>> docker rmi <image name>
+>> docker images
+>> docker rmi ubuntu
+>> docker ps -a
+>> docker rm <container-id>
+>> docker ps -a
+>> docker rmi ubuntu
+>> docker images
+
+
+>>>> what are the docker volumes?
+			
+			>>>> creating docker volume
+> Docker volume create
+
+>> docker
+>> systemctl start docker
+>> docker volume ls
+>> docker volume create vol1 (## create a docker volume)
+>> docker volume ls  (## list of docker volumes)
+>> docker volume inspect vol1 (## inspect the docker volume)
+>> cd /var/lib/docker/volumes/vol1/_data (## store the docker volumes data)
+
+
+			>>>> attaching volume to a container
+>> docker volume ls
+>> docker run -it --name container1 -v vol1:/data ubuntu
+> ls
+> cd data
+> ls
+> touch file1.txt
+> echo "I am from container1">file1.txt
+> ls
+> exit
+>> docker volume ls
+>> docker volume inspect vol1
+>> cd /var/lib/docker/volumes/vol1/_data
+>> ls
+>> cat file1.txt
+>> touch file2.txt
+>> echo "I am from Host" > file2.txt
+>> ls
+>> docker ps
+>> docker ps -a
+>> docker start container1
+>> docker attach container1
+> cd data
+> ls
+> cat file2.txt
+> exit
+>> docker ps
+>> docker rm container1 (## remove the container)
+>> docker ps -a
+>> ls
+note: volumes should have persistent data.
+
+		>>>> Attaching volume to multiple containers
+>> docker ps -a
+>> docker run -it --name container2 -v vol1:/data1 ubuntu
+>> cd data1
+>> ls
+
+		>>>> Deleteing a volume
+## How to remove a volume
+>> docker volume ls
+>> docker volume rm vol1
+>> docker rm container2
+>> docker ps -a
+>> docker volume rm vol1 (## unused volumes)
+>> docker volume ls
+>> cd /
+>> docker volume ls
+
+		>>>> Creating volume with vflag
+## How to create volume
+> using -v flag
+>> docker volume ls
+>> docker run  -it --name container3 -v vol2: /data2 ubuntu
+> ls
+> cd data2
+> ls
+> touch file3.txt
+> echo "From Container3" > file3.txt
+> ls
+> exit
+>> docker volume ls
+>> docker volume inspect vol2
+>> cd /var/lib/docker/volumes/vol2/_data
+>> ls
+>> cat file3.txt
+
+				>>>> Bind mounts
+## what are bind mounts
+>> pwd
+/tmp/logs
+>> touch file.txt
+>> echo "Iam from Host" > file.txt
+>> ls
+>> docker run -it --name container6 -v /tmp/logs:/data ubuntu
+> ls
+> cd data
+> exit
+>> docker run -it --name container7 -v /tmp/logs:/data:Z ubuntu
+> cd data
+> ls
+> cat file.txt
+> touch file2.txt
+> echo "Iam from container7">file2.txt
+> exit
+>> pwd
+>> ls
+>> cat file2.txt
+note: same volume can be attach to multiple containers
+
+				>>>> Migrating docker volume
+## migrating docker volume
+>> docker volume ls
+>> docker volume inspect vol2
+>> cd /var/lib/docker/volumes/vol2/_data
+>> ls
+>> docker run -it --name container1 -v vol2:/data ubuntu
+> ls
+> cd data
+> ls
+> touch file4.txt
+> echo "I am from container1">file4.txt
+> exit
+>> pwd
+>> ls
+>> docker run -it --name container2 --volumes-from container1 ubuntu
+> ls
+> cd data
+> ls
+
+		>>>> creating our own docker images
+## Building Docker Images
+>> what is docker file
+put our docker instructions.
+>> what is docker image
+file system layers added one above with others.
+
+
+|------------------|                 |--------------------|
+|                  |  build          |                    |
+|  Docker file     |---------------->| Docker images      |
+|------------------|                 |--------------------|
+
+
+>> mkdir docker-images
+>> cd docker-images
+>> vi dockerfile
+FROM ubuntu
+Maintainer "Devsec"
+RUN apt-get update
+RUN spt-get install vim -y
+CMD /bin/echo "Hello From Docker"
+>> ls
+>> systemctl start docker
+>> docker build -t myimage .
+>> docker images
+
+			>>>> Default bridge network in docker
+## Docker networks
+>> systemctl start docker
+>> docker network ls (## default networks in docker)
+>> docker network inspect bridge
+## run the container
+>> docker run -itd --name test1 ubuntu
+note: ubuntu = image name
+      test1  = container name
+>> docker images
+>> docker ps  (# active containers)
+>> docker network inspect bridge
+>> docker ps
+>> docker inspect test1   (# inspect the container)
+>> docker run -itd --name test2 ubuntu
+note: test2 = container name
+      ubuntu = image name
+>> docker ps
+>> docker network inspect bridge
+>> docker inspect test2
+note: containers attach with bridge network.communicate with each other
+>> docker ps
+>> docker attach test1
+>> docker inspect test2
+>> docker attach test1
+> ping <ipofcontainer2> (#ex: test2)
+> apt-get update && apt-get install -y iputils-ping
+> ping <ipofcontainer2>
+> exit
+>> docker start test1
+>> docker attach test1
+> ping test2
+# note: containers cannot communicate names directly.
+> ping <ipaddroftest2>
+>> docker inspect test2
+
+
+		>>>> User-defined bridge network in docker
+## user-defined bridge network
+>> docker network ls
+>> docker network create --driver bridge bridge1 (# create a new network)
+>> docker network ls
+
+## attach containers to user-defined network
+>> docker run -itd --name test3 --network bridge1 ubuntu (# attach to  a new bridge network)
+#note: test3 = container name
+>> docker ps
+>> docker inspect test3
+>> docker run -itd --name test4 --network bridge1 ubuntu
+#note: test4 = container name
+>> docker inspect test4
+>> docker ps
+test1 and test2 => default bridge network
+test3 and test4 => user-defined bridge network
+>> docker attach test3
+> apt-get update && apt-get install iputils-ping -y
+> ping test4
+## note: here test3 communicate with test4
+> ping <test4ipaddr>
+> exit
+>> docker inspect test4
+
+# note: containers can communicate only ipaddresses not hostnames.
+
+>> docker ps
+>> docker start test3
+>> docker attach test3
+>> docker inspect test1
+# note:this is in the default bridge network
+>> docker attach test3
+> ping <test1ip>
+> ping test2
+note: it cannot connect .
+>  
+
+			>>>> port publishing in docker
+>> docker run -itd --name test5 nginx
+note: test5 => container name
+      nginx => docker image
+>> docker images (# list of all images)
+>> docker ps (# active containers)      
+>> docker inspect test5 (# attach to default bridge network)
+>> docker inspect test5
+>> curl 172.17.0.2:80  
+>> curl <test-5>:80
+note: ip is test5 container ipaddress
+>> ip addr show
+note: ip address of host machine
+>> curl <host-machine-ip>:80
+
+## port forwarding
+>> docker run -itd --name test4 -P nginx
+>> docker ps
+>> curl 10.128.0.4:32768
+note: test4 ip address
+goto aws instance and copy the public and paste into browser
+<ip>:32768
+
+			>>>> Binding ports
+## Binding ports
+-p means Binding ports
+## create a new container
+>> docker run -itd --name test3 -p 9999:80 nginx
+note: 9999 = host port
+      80   = container port			
+>> docker ps (# active containers)
+>> docker inspect test3  (# inspect the test3 container)
+>> curl 10.128.0.4:9999
+note: internalport of host machine
+34.70.93.140:9999 >> access the nginx server in browser
+34.70.93.140:32768 >> access the nginx server in browser
+this is called port forwarding.
+
+		>>>> Deploying docker containers via jenkins
+## Deploying docker containers via jenkins
+>> goto jenkins dashboard
+>> create a new project -> GOL-Deploy -> Free style project -> ok
+
+>> source code management -> git -> https://github.com/devops-trainer/game-of-life.git
+
+>> Build -> Execute shell
+rm -rf jenkins-dockerimages
+mkdir jenkins-dockerimages
+cd jenkins-dockerimages
+cp /var/lib/jenkins/workspace/GOL-Package/gameoflife-web/target/gameoflife.war .
+touch dockerfile
+cat <<EOT>> dockerfile
+From tomcat
+ADD gameoflife.war /usr/local/tomcat/webapps
+CMD "catalina.sh" "run"
+EXPOSE 8080
+EOT
+sudo docker build -t mydeploy:$BUILD_NUMBER .
+sudo docker run -itd -P mydeploy:$BUILD_NUMBER
+
+
+## EOT means end of the text.
+>> cd /var/lib/jenkins/workspace/
+>> ls
+>> 
+
+Build Now
+>> systemctl start docker
+>> vi /etc/sudoers
+jenkins ALL=(ALL) NOPASSWD: ALL
+
+note: if you comment the line build fail.
+don't comment the line
+
+>> cd /var/lib/jenkins/workspace/
+>> ls
+>> cd GOL-Deploy
+>> ls
+>> 
+
+goto source code management -> none(disable the git) -> save
+
+>> cd GOL-Deploy
+>> ls
+>> rm -rf *
+>> ls
+
+Build now 
+
+>> cd GOL-Deploy
+>> ls
+jenkins-dockerimages
+>> cd jenkins-dockerimages
+>> ls
+>> cat dockerfile
+
+>> docker images
+>> docker ps
+>> goto browser
+host-ip:32770/gameoflife/
+
+
+goto  gol-package project
+post-build actions -> build other projects -> GOL-Deploy-> save
+
+goto gol-deploy project
+build triggers -> enable the build after other projects are built -> GOL-Package -> save
+
+Build the pipeline
+
+----------------------------------------------------------
+
+	>>>> Container Orchestrator Tool -Docker Swarm
+
+		>>> docker swarm-1
+## what is swarm?
+> container orchestration and clustering tool
+
+## why swarm?
+> High availability of services
+> Load balancing
+> Scaling the containers
+> Rolling updates
+
+				>>> docker swarm-2
+## Swarm architecture
+> manager node
+> worker node
+> services
+
+				>>> Docker swarm cluster setup
+## swarm commands
+> To start swarm -> 
+
+Docker swarm init -advertise-addr <ip of manager>								
+## create a cluster of 3 nodes 
+manager1 and worker1 and worker2
+
+first install the docker in 3 nodes(m.w1,w2)
+## manager
+>> yum install docker -y
+>> systemctl start docker
+
+## worker-1
+>> yum install docker -y
+>> systemctl start docker
+
+## worker-2
+>> yum install docker -y
+>> systemctl start docker
+
+## manager
+>> ip addr show
+>> docker swarm init --advertise-addr 10.142.0.6
+>> docker node ls
+
+## worker-1
+>> docker swarm join \
+ --token SWMTKN-1-278Kfdlkdslkd;lkd;lksldk;lkfdjhdkjfdsjsdjdsjds \
+ 10.142.0.6.2377
+
+## worker-2
+>> docker swarm join \
+ --token SWMTKN-1-278Kfdlkdslkd;lkd;lksldk;lkfdjhdkjfdsjsdjdsjds \
+ 10.142.0.6.2377
+ 
+## manager
+>> docker node ls
+>> docker swarm join-token worker
+>> docker swarm join-token manager
+>> docker node ls
+
+
+		>>>> Starting services on docker swarm cluster
+
+>> docker service create -p 8001:80 --name websvc nginx
+>> docker service ls
+>> docker service ls
+>> docker node ls
+>> docker service ps websvc
+>> docker node update --availability drain manager
+>> docker node ls
+>> docker service ps websvc
+>> docker ps
+>> 
+## worker-1
+>> docker ps
+
+goto  browser <manager-host-ip:8081>
+<worker1-ip:8081>
+<worker2-ip:8081> 
+
+# manager
+>> docker ps
+
+# worker-1
+>> docker ps
+
+	
+			>>>> HA of services on docker swarm cluster
+## manager-node
+>> docker service ls
+>> docker service ps websvc
+>> docker node update --availability drain worker-1
+>> docker node ls
+>> docker service ps websvc
+>> docker service ls
+
+	>>>> scaling and load balancing on the swarm cluster 
+## manager-node
+>> docker ps
+>> docker service ls (# display the list of the services)
+>> docker service scale websvc=10  (#scale up the service)
+>> docker service ls
+>> docker service ps websvc
+>> docker node update --availability active manager
+>> docker node ls
+>> docker service scale websvc=15
+>> docker service ls
+>> docker service ps websvc
+>> docker ps
+
+## worker-1
+>> docker ps
+
+## worker-2
+>> docker ps
+
+----------------------------------------------------------
+			>>>> Docker machine
+	>>> what is docker machine?
+## docker machine
+> tool to automate creation of dockerized hosts(hosts with docker engine)
+> docker host:
+     vm where docker engine is running
+
+using docker-machine we can create docker hosts on local computer, or on company's datacenter or on cloud providers
+	
+			>>>> why docker machine?     
+ ## why docker machine?
+ > provision and manage multiple docker hosts
+ > provision docker swarm clusters
+
+ 	>>>> Create docker hosts on GCP from docker-machine on
+linux system
+
+## install docker machine
+> Directly on:
+ + Linux
+ + Mac
+ + Windows
+
+ on windows via docker toolbox also
+
+ >> create a aws instance and launch.
+ demo1 instance lauch successfully
+
+ ## download the docker machine binary
+ >> curl -L https://github.com/docker/machine/releases/download/v0.14.0/docker-machine- `uname -s`-`uname -m` >/tmp/docker-machine
+ >> chmod +x /tmp/docker-machine
+ >> cd /tmp/docker-machine /usr/local/bin/docker-machine
+ >> docker-machine -version
+ >> docker machine ls
+ >> gcloud auth login
+ y
+ >> docker-machine create --driver google --google-project prime-micron-224000 vm01
+ >> docker machine ls
+ >> docker-machine create --driver google --google-project prime-micron-224000 vm02
+ >> docker machine ls 
+
+
+		 >>>> Switch the env with docker machine cmnds  
+>> docker-machine ls
+>> docker-machine env vm01
+>> eval $(docker-machine env vm01)
+>> docker-machine active
+>> docker images
+>> eval $(docker-machine env -u)
+>> docker-machine active
+>> yum install docker
+>> systemctl start docker
+>> docker-machine ls
+>> eval $(docker-machine env vm01)
+>> docker-machine active
+>> docker images
+>> docker run -itd -P nginx
+>> docker images
+>> docker ps
+>> docker-machine ip vm01
+>> curl 35.224.146.103:32768
+>> 
+goto browser <vm01:ip>:32768
+
+>> eval $(docker-machine env vm02)
+>> docker-machine active
+>> docker images
+>> docker run -itd -P tomcat
+>> docker ps
+>> docker-machine ip vm02
+>> curl 35.225.71.152:32768
+<vm02ip>:32768
+>> 
+goto browser <vm02ip>:32768
+
+>> docker-machine ls
+>> eval $(docker-machine env -u) (#unset the environment)
+>> docker-machine ls
+
+------------------------End-------------------------------
+

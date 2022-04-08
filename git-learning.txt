@@ -1,0 +1,644 @@
+git and github   
+========================
+git is a distributed version control system.
+
+
+>> ls -l
+>> ls -la
+Initialize new git repo
+>> git init
+>> ls -l
+>> ls -la
+>> cd .git/
+>> ls -lrt
+>> echo "hello subscribers"
+>> echo "hello subscribers" | git hash-object --stdin 
+>> ls -lrt
+>> echo "hello subscribers" | git hash-object --stdin -w
+>> ls -lrt
+>> cd 7f
+>> ll
+>> cd ..
+>> cd ..
+>> cd ..
+hash value = it is a combination of foldername and filename
+
+foldername + filename = hashvalue
+
+>> git cat-file -p <hashvalue>
+hello subscribers
+
+difference between blobs and trees
+
+>> git structure 
+
+git -> git repository -> staging -> working directory
+
+>> staging area files (indexing)
+git ls-files -s
+
+----------------------------------------------
+>>> git basics and installation steps
+
+first install the visual studio code
+after the git bash install 
+
+>> mkdir myproject
+>> code myproject/
+>> cd myproject/
+>> touch index.html
+<html>
+<head>
+<title>basic html</title>
+</head>
+<body>
+<p>this is first paragraph</p>
+</body>
+</html>
+>> touch style.css
+body{
+	background-color: blue;
+}
+>> ls -lrt
+
+### initialize the project and it will convert into git repo.
+>> git init
+>> git status
+
+
+### git structure 
+untracked    modified     staged    commited
+ 1               4         2 & 5     3 & 6  
+example: ### git add index.html
+### git commit -m "first commit"
+
+practical:-
+>> git status
+>> git add index.html style.css
+>> git status     (# staged)
+>> git rm --cached style.css (# unstaged)
+>> git status
+>> git commit -m "first commit"
+>> git config --global user.email "email"
+>> git config --global user.name "username"
+>> git config --global user.email
+>> git config --global user.name
+>> git commit -m "first commit"
+>> git status
+untracked style.css
+>> git add style.css
+>> git commit -m "changes in style.css"
+>> git status
+
+index.html
+<h>git learning</h>
+
+style.css
+h1{
+	font-size: 40px;
+}
+>> git status
+>> git add index.html style.css
+	or
+>> git add .
+>> git status
+>> git commit -m "Added headers"
+>> git status
+>> ls -lrt
+>> touch script.sh
+>> git status  (# status untracked)
+>> git add .
+>> git commit -m "script added"
+>> git status
+>> git log (# history of last tasks)
+>> git log --online
+
+index.html
+<p>this is a paragraph</p>
+
+>> git status
+>> git add .
+>> git status
+>> git commit   (#add git commits in single file)
+Have added header
+added para
+added colors
+added barcode
+added pics
+# close the window
+>> git log --oneline
+
+			>>>> Git modify commits	
+>> how to modify git things:-
+- Head
+- Git checkout
+- Git revert, Reset(soft,hard.mixed)
+
+>> pwd  (#check the directory)
+>> ls
+>> git status
+>> git log --oneline
+
+HEAD
+>> git show HEAD (# latest commit)	
+>> git log --oneline
+>> git show <uid>
+
+Git checkout (# to viewed the backstage information)
+>> git log --oneline
+>> git checkout <uid>  (# style.css )
+>> git log --oneline
+>> git checkout master
+>> git status
+>> git log --oneline
+>> git checkout <script uid> (# example 39692f4)
+>> git checkout master
+>> git log --oneline
+>> git checkout <style.css uid> (# example 903697e)
+>> git log --oneline  (# second commit)
+script.sh
+var a = 100
+>> git status
+untracked file:
+	script.sh
+>> git add .
+>> git status
+>> git commit -m "testing"
+>> git status
+>> git log --oneline
+>> git checkout master
+>> git log --oneline
+>> git checkout 903697e
+>> git log --oneline
+>> git checkout master
+>> git log --oneline
+>> 
+create the example.sh
+>> git status
+untracked: 
+	example.sh
+>> git add .
+staged state
+>> git commit -m "adding file"
+>> git log --oneline
+>> git revert <adding file uid> (#1b650ab)
+revert means the delete the file
+
+Git Reset (soft.hard, mixed)
+>> script.sh
+var a = 10
+>> git add .
+>> git commit -m "variable added"
+>> git status
+>> git log --oneline (# history of last activities)
+>> git reset -- mixed <adding file uid> (#1b21490)(#default one)
+>> git status
+unstaged
+>> git checkout .
+>> git status
+>> script.sh
+var a = 10
+>> git add .
+>> git commit -m "test1"
+>> script.sh
+var b = 20
+>> git add .
+>> git commit -m "test2"
+>> git log --oneline
+>> git reset --soft  <test1uid> (#df65ca9)
+>> git status
+>> git reset .
+>> git status
+>> git checkout
+>> git status
+Hard		
+>> git log --oneline
+>> git reset --hard <firstcommituid> (#3d1dad0)
+>> git log --oneline (# you lost the data,don't do it)
+>> 
+overview:
+Head (to view the last commit)
+git checkout (we can see the all commits status information and readonly)
+>> git revert (remove the files and changes undo)
+>> git reset (soft,hard,mixed)
+mixed is default and go to unstaged,
+soft is staged
+delete the last commits
+hard is using to delete all commits and files.
+
+            >> Github
+>> what is github
+git -> local repo
+github -> online repo
+>> git repo                          >> github 
+push,commit,pull ,local           
+
+>>github
+github.com
+
+create a repo
+myproject1
+des: this is my first github project
+public
+create repo
+
+and 
+create new repo
+myfirst github
+public
+creating repo
+
+git remote add origin https://github.com/github-username/myproject.git
+
+goto git bash
+>> pwd
+>> git log --oneline
+>> ll
+>> index.html
+<h1>this is a header</h1>
+>> script.js
+var a = 10
+var b = 20
+var c = 10
+>> style.css
+p{
+	color: blue;
+}
+p{
+	color: brown;
+}
+>> git add .
+>> git commit -m "changes made in all files"
+>> git log --oneline
+>> git remote add origin https://github.com/github-username/myproject.git
+
+push the code into repository
+>> git push origin master
+>> 
+goto index.html file in github and edit the file
+add the
+<p>this is paragraph</p>
+
+commit changes
+changes done on html with paragraph
+
+>> git log --oneline
+commits wont reflect in local repo.
+pull to all the commits data.
+>> git pull origin master
+>> git log --oneline
+>> 
+to set the name to pull request
+>> git branch --set-upstream-to=origin/master
+
+goto myproject
+script.js
+edit
+var c1 = 220
+
+commit changes
+added a variable to css
+
+>> git pull
+>> git log --oneline
+>>
+create a new file (on repo)
+testing.sh
+var T = 99
+commit newfile
+added testing shell script
+
+>> git pull
+
+
+		>>> Git branches and merge branches
+
+branches have two master and feature
+>> git log --oneline
+
+### check the branches		
+>> git branch
+
+### create a branch
+>> git branch feature-1
+
+>> git branch
+feature-1
+master*
+
+#### i will go to feature branch
+>> git checkout feature-1
+
+>> git log --oneline
+>> script.js
+var d = 40
+>> git status
+>> git add .
+>> git status
+>> git commit -m "added var D"
+>> git log --oneline
+>> 
+
+## change the branch
+>> git checkout master
+>> git log --oneline
+>> 
+
+## create and checkout
+>> git checkout -b feature-2
+>> 
+
+## delete the branch
+>> git branch -D feature-2
+
+>> git checkout master
+>> git branch -D feature-1 (# delete the feature-1)
+
+## how many branches you have
+>> git branch
+
+
+### how to create a branch in github
+>> git branch
+>> git branch feature-2
+>> git checkout feature-2
+>> style.css
+p{
+	color: brown;
+}
+>> git add .
+>> git commit -m "changed color to brown"
+>> git log --oneline
+>> 
+## code push to github
+>> github push origin feature-2
+>> git log --oneline
+
+## feature-2 lo change the script.js
+var d = 20
+
+commits changes 
+changed variables
+
+## go to feature-2
+how many commits you have 7
+
+## go to git bash
+>> git log --oneline
+
+commits not on the git local repo,so pull .
+
+>> git pull origin master feature-2
+>> git log --oneline
+>> 
+
+####  how to merge the branches
+>> git branch
+
+## create the branch
+>> git branch ttt
+>> git checkout ttt
+>>> style.css
+h{
+	color: blue;
+}
+
+>> git commit -am "changed header color" (# this works only old files)
+>> git log --oneline
+>> 
+
+>> git checkout master
+>> git log --oneline
+
+### merge the files 
+>> git merge ttt
+>> git log --oneline
+>> 
+
+### fast forward merge
+
+master------.basecommit
+					  \
+					   \-----.ttt
+
+
+master--------|---------ttt(merge commit)
+			basecommit
+
+>>> git checkout ttt
+style.css
+p{
+	color: green;
+}
+>> git commit -am "changed para color"
+>> git checkout master
+color: blue;
+>> git checkout master
+color: green;
+>> git checkout master
+>> git merge ttt
+>> git log --oneline
+>> 
+
+### 3 way merge
+>> git checkout ttt
+script.js
+var e = 200
+>> git commit -am "added variable in .js"
+>> git log --oneline
+>> git checkout master
+style.css 
+h{
+	color:black;
+}
+>> git commit -am "changed header to black in .css"
+>> git log --oneline
+>> git merge ttt
+>> git log --oneline
+changes has been done in ttt and master.
+this is called 3-way merge.
+
+### conflit merge
+ttt    -> .js-edit  
+master -> .js-edit   (#conflit merge)
+
+>> git checkout ttt
+var a = 100
+>> git commit -am "var a changed to 100"
+>> git checkout master
+var a = 100 (# replace d (# var d = 100))
+>> git commit -am "var a changed to d"
+>> git log --oneline
+>> git checkout ttt
+>> git log --oneline
+this is called conflit.
+same file ni ,two different branches nunchi file ni edit chesi commit chesamu.
+
+>> git checkout master
+>> git merge ttt
+merge conflict in script.js
+
+remove the all necessary data 
+>> git add .
+>> git commit
+>> git log --oneline
+script.js
+var F = 4000
+>> git commit -am "4000"
+>> git checkout ttt
+>> script.js
+var e = 4000
+>> git commit -am "4000-2"
+>> git checkout master
+>> git merge ttt
+remove the unnecessary data
+>> git merge --abort
+>> git checkout ttt
+
+		>>> Git Rebase
+
+git rebase 
+                  base commit
+master.----------|-------.		
+                 |
+                 |----.----.
+                 feature branch
+
+>> go to ec2 terminal
+>> vi rebase.sh
+this is rebasefile example:
+>> ls -la
+>> git log --oneline
+>> git branch feature
+>> git checkout feature
+>> git log --oneline
+>> git checkout master
+>> git log --oneline
+>> vi rebase.sh
+-- please follow videos to get a good knowledge
+>> git add .
+>> git status
+>> git commit -m "changes done to checkout vidoes".
+>> git log --oneline
+>> git checkout feature
+>> git log --oneline
+>> 
+Rebase = it will feach the latest commits on master.
+
+>> git rebase master
+>> git log --oneline
+>> git checkout master
+>> vi rebase.sh
+-- please join the membership to support to ttt
+>> git log --oneline
+>> git add .
+>> git commit -m "Request for Subs" .
+>> git log --oneline
+>> vi rebase.sh
+-- please subscribe
+>> git add .
+>> git commit -m "Request for subscription" .
+>> git log --oneline
+>> git checkout feature
+>> git log --oneline
+not visible the logs
+>> git rebase master
+>> git log --oneline
+>> git merge feature
+>> git checkout master
+>> git merge feature
+>> 
+
+			>>> Github merge & Conflicts
+
+>> How to merge branches in github
+
+goto github
+
+>> create feature branch
+feature-1
+
+goto rebase.sh and edit
+-- this is a change on github to show Merge
+
+Commits changes
+changes done on new branch
+
+click on the compare&pull request
+
+create pull request
+click on the merge pull request
+click on the conform merge
+delete the branch
+
+
+		>>> github conflicts
+## create the test branch (# goto test branch)
+test
+
+## create and open the conflit.sh
+>> conflict.sh
+count a = 100;
+
+commmit changes
+updated conflicts.sh file
+
+## goto main branch or master branch
+edit the conflict.sh 
+var b = 200;
+
+commit changes
+addedvariable
+
+### goto main project  window
+now we are going to compare&pull request.
+now click on the pull request.
+click on the Reslove conflicts.
+
+i'll remove this code 
+var b = 200;
+>>>>>>> main
+
+## i have only 
+count a = 100;
+
+click on mark as resolved
+
+now click on count merge
+
+click on merge pull request
+
+click on conform merge
+
+now i can delete the branch
+
+
+		>>> Github forking
+
+github.com/geerlingguy/ansible-for-devops
+
+goto others project menu and select the project and click one fork symbol
+
+### clone the project
+copy the https link 
+
+goto my ec2 terminal and directory.
+>> mkdir ansible-devops
+>> cd ansible-devops
+>> git clone <copy-link>
+>> ls -lrt
+
+----------- completed -------------
+how to upload floder into github
+
+git init
+git add <folder1> <folder2> <etc.>
+git commit -m "Your message about the commit"
+git remote add origin https://github.com/yourUsername/yourRepository.git
+git push -u origin master
+git push origin master
+
+
+
+
+

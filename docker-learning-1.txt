@@ -1,0 +1,443 @@
+ >>>> docker learning (ubuntu box)
+-----------------------------------------------------------
+
+### how to pull container
+>>  docker search postgres
+### run the container
+>> docker pull postgres:11.12
+>> docker pull postgres:12.7
+>> docker images
+### Run the docker image
+>> docker run -d --name some-postgres -e POSTGRES_PASSWORD=mysecretpasssword -e PGDATA=/var/lib/postgresql/data/pgdata -v /custom/mount:/var/lib/postgresql/data postgres:11.12
+>> docker ps (#view the containers)
+
+>> docker container vs docker image
+>> vm vs docker
+
+			>>> docker installation steps:-
+>> docker installation
+
+>>> docker commands
+>> what is the difference b/t container and image.
+## container is a running environment.
+
+## search image
+>> docker search redis
+
+## pull the image
+>> docker pull redis
+
+## check images
+>> docker images
+
+## start or run the images
+>> docker run redis
+
+## running containers
+>> docker ps
+
+## run the detached mode
+>> docker run -d redis
+
+## running containers
+>> docker ps
+
+## run the detached mode
+>> docker run -d redis
+
+## running containers
+>> docker ps
+# note :- same versions of containers run at a time.
+
+## stop the container
+>> docker stop <container-id>
+
+## running containers or live containers
+>> docker ps
+
+## stopped containers
+>> docker ps -a
+
+## Assign the port
+>> docker run -p6000:6379 redis
+
+# 6000 = host port
+# 6379 = expose port
+
+## running containers or live containers
+>> docker ps
+
+## other versions of redis.
+>> docker run -d redis:5.0
+
+## running containers or live containers
+>> docker ps
+
+## error accured due to same port
+>> docker run -p6000:6379 redis:5.0
+
+## Assign the port
+>> docker run -p6003:6379 redis
+
+## running containers or live containers
+>> docker ps
+
+## stop the container
+>> docker stop <container-id>
+>> docker stop <container-id> 
+
+## running containers or live containers
+>> docker ps
+# note: no containers running here.
+
+## stopped containers
+>> docker ps -a
+
+
+## start the container
+>> docker start <container-id>
+
+## running containers or live containers
+>> docker ps
+
+## stop the container
+>> docker stop <container-id>
+
+## stopped containers
+>> docker ps -a
+
+## stopped containers perminently remove.
+>> docker rm <container-id>
+>> docker rm <container-id> <container-id>
+
+## stopped containers
+>> docker ps -a
+
+## stopped containers perminently remove.
+>> docker rm <container-id>
+
+## running containers or live containers
+>> docker ps
+# note: no running containers running here.
+
+## stopped containers
+>> docker ps -a
+# note: no stopped containers running here.
+
+
+## view the images
+>> docker images
+
+## Remove the images
+>> docker rmi <image-id>
+
+>> docker images
+>> docker ps 
+>> docker ps -a
+
+## debug and trobbelshooting commands
+>> docker pull redis
+>> docker images
+>> docker run -d redis
+>> docker ps
+
+## check the docker logs
+>> docker logs <container-id>
+
+>> docker run -d redis
+>> docker ps
+
+>> docker stop <container-id>
+
+>> docker ps
+
+## give the perticular name of container(ex:redis-dev)
+>> docker run -d -p6000:6379 --name redis-dev redis
+
+## running containers
+>> docker ps 
+
+>> docker logs redis-dev
+
+## running containers
+>> docker ps 
+
+## inside of the container
+>> docker exec -it <container-id> /bin/bash
+note: -it = iterative terminal
+
+>> env
+>> cd /var/log
+
+-----------------------------------------------------------
+            >>>> Docker part-2 (ubuntu box)
+
+		>>> docker networking
+
+>> docker network ls 
+
+## start a container
+>> docker run -dit --name alpine1 alpine ash
+
+## running containers
+>> docker ps
+>> docker container ls
+
+>> docker network inspect bridge
+
+>> docker attach alpine1; ip addr show
+> ip addr show
+> ping 172.17.0.2 
+> exit
+
+>> docker network inspect bridge
+
+>> docker attach alpine2
+> ip addr show
+> ping 172.17.0.2 
+> ctrl-p and ctrl-q
+
+>> docker container ls
+
+>> docker ps -a
+
+>> docker start 1
+>> docker ps -a
+
+>> docker attach alpine1
+
+>> docker ps -a
+
+>> docker attach alpine1
+> exit
+
+>> docker ps -a
+
+>> docker start 1
+
+>> docker ps
+
+## stop container
+>> docker container stop alpine1 alpine2
+
+## remove container
+>> docker container rm alpine1 alpine2
+
+>> docker ps
+
+>> docker ps -a
+
+>> docker network ls
+
+## create a network
+>> docker network create --driver bridge alpine-net
+
+>> docker network ls
+
+>> docker network inspect alpine-net
+
+>> docker run -dit --name alpine1 --network alpine-net alpine ash
+
+>> docker run -dit --name alpine2 --network alpine-net alpine ash
+
+>> docker run -dit --name alpine3 alpine ash
+
+>> docker run -dit --name alpine4 --network alpine-net alpine ash
+
+>> docker network connect bridge alpine4
+
+>> docker container ls
+
+>> docker network inspect bridge
+
+>> docker network inspect alpine-net
+
+>> docker attach alpine1
+> ping alpine4
+> ping alpine3 (# that is not same in the bridge network)
+> ping alpine2
+
+>>>> Docker container storage
+>> cow = copy on test
+>> mkdir cowtest
+>> cd cowtest
+
+>> vi hello.sh
+hello
+>> chmod +x hello.sh
+
+>> vi Dockerfile.base
+FROM ubuntu:20.04
+COPY . /app
+
+>> vi Dockerfile
+FROM koe/base-image:1.0
+CMD /app/hello.sh
+
+## build the image (initial image)
+>> docker build -t koe/base-image:1.0 -f Dockerfile.base .
+
+## final image 
+>> docker build -t koe/final-image:1.0 -f Dockerfile .
+
+>> docker image ls
+
+>> docker history <image-id>   (#koe/base-image)
+>> docker history <image-id>   (#koe/final-image)
+
+		>>> using bind mount to create a storage.
+
+>> mkdir bind1
+>> echo bound > bind1/bond.txt
+>> cd bind1
+>> ll
+>> cd ..
+>> docker run --rm -dit --name=bind1 --mount type=bind,source="$(pwd)"/bind1,target=/app nginx:latest
+>> docker ps
+>> docker exec bind1 ls -l /app
+>> echo hello > bind1/hello.txt
+>> docker exec bind1 ls -l /app
+>> docker exec bind1 touch /app/ttt.txt
+>> docker exec bind1 ls -l /app
+>> cd bind1/
+>> ll
+>> docker run --rm -dit --name=bind2 -v "$(pwd)"/bind1:/app nginx:latest
+>> docker ps
+>> docker exec bind2 ls -l /app
+>> docker exec bind1 ls -l /app
+>> docker inspect bind1 | less
+>> docker inspect bind2 | less
+
+## create a volume
+>> docker volume create myvol
+>> docker volume ls
+>> docker volume inspect myvol
+>> docker run -it --name voltest --rm --mount source=myvol,target=/data nginx:latest /bin/sh
+> cp /etc/hosts /data
+> touch /data/testfile
+ctrl+p ctrl+q
+>> cd /var/lib/docker/volumes/myvol/_data
+>> ls
+>> vi hosts
+>> docker run -it --name voltest2 --rm --mount source=myvol,target=/data nginx:latest /bin/sh 
+> ls /data
+> ctrl+p ctrl+q
+>> cd
+>> docker run -it --name voltest3 --rm --mount source=myvol,target=/data nginx:latest /bin/sh
+>> ctrl+p ctrl+q
+
+>>> install nfs server
+>> apt install nfs-server nfs-common
+>> mkdir /nfsdata
+>> vi /etc/exports
+/nfsdata    *(rw,no_root_squash)
+>> chown nobody:nogroup /nfsdata
+>> chmod 777 /nfsdata/
+>> systemctl restart nfs-kernel-server 
+>> systemctl status nfs-kernel-server
+>> showmount -e localhost
+>> docker volume create --driver local --opt type=nfs --opt o=addr=127.0.0.1,rw --opt device=:/nfsdata nfsvol
+>> docker volume ls
+>> docker volume inspect nfsvol
+>> docker volume ls
+>> docker volume inspect myvol
+>> docker run -it --name nfstest --rm --mount source=nfsvol,target=/data nginx:latest /bin/bash
+> cd /data
+> touch hello
+ctrl+p ctrl+q
+>> docker volume inspect nfsvol
+>> cd /var/lib/docker/volumes/nfsvol/_data
+>> ll
+>> 
+-----------------------------------------------------
+         >>>> part-3 docker compose
+
+>> what is docker compose
+if you're running multiple containers you goto docker compose.
+>> how to create docker network?
+docker network create <network-name>
+>> docker run -d mongo
+>> docker run -d mongo-express
+
+practical session:-
+------------------
+
+## create a docker network
+>> docker network create mongo-network
+>> docker container ls
+## create mongodb container
+>> docker run -d -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=password --name mongodb --net mongo-network mongo
+>> docker container ls
+## create a mongo-express
+>> docker run -d -p 8081:8081 -e ME_CONFIG_MONGODB_ADMINUSERNAME=admin -e ME_CONFIG_MONGODB_ADMINPASSWORD=password --net mongo-network --name mongo-express1 -e ME_CONFIG_MONGODB_SERVER=mongodb mongo-express
+>> docker container ls
+
+run the browser <ip:8081>
+
+>>> how to write docker compose file
+>> vi docker-compose.yaml
+version: '3'
+services:
+  # my-app:
+  # image: ${docker-registery}/my-app:1.0
+  # ports:
+  # - 3000:3000
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - mongo-data:/data/db
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8080:8081
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=password
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+volumes:
+  mongo-data:
+    driver: local
+
+>> docker-compose -f docker-compose.yaml up
+>> docker ps -a
+
+		>>> what is  Dockerfile?
+>> docker container ls
+>> docker-compose -f docker-compose.yaml down
+>> docker container ls
+>> ls -lrt
+>> vi Dockerfile
+FROM node:13-alpine #pull the image called nodejs application.
+
+ENV MONGO_DB_USERNAME=admin \
+    MONGO_DB_PWD=password
+
+RUN mkdir -p /home/app
+
+COPY ./app /home/app
+
+#set default dir so that next commands executes in /home/app dir
+WORKDIR /home/app
+
+# will execute npm install in /home/app because of WORKDIR
+RUN npm install
+
+# no need for /home/app/server.js because of WORKDIR
+CMD ["node", "server.js"] 
+
+>> docker build -t devapp:1.0 .
+>> docker images
+>> docker run devapp:1.0
+>> docker container ls
+>> docker ps -a
+>> docker exec -it <container-id> /bin/sh
+>> ls -lrt
+>> 
+-----------------------------------------------------------
+>>> Devops projects
+>> https://www.youtube.com/watch?v=8D46Pgbz0gg&list=PLxzKY3wu0_FJdJd3IKdiM4Om1hGo2Hsdt

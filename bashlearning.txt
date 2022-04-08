@@ -1,0 +1,1399 @@
+>>>> Bash scripting
+-------------------------------------------------------------
+>>>> Bash Scripting in Telugu -- Devops Month - Session 1
+
+>> main commands->grep,cat,ls,awk
+
+>> what is bash
+>> what is shell
+>> what are the types of shells
+>> 
+
+practical session:-
+-----------------
+>> sudo su -
+>> echo $0    (###which shell we're using)
+>> bash -version (###which version we're using)
+>> yum install tcsh
+>> tcsh
+>> echo $0 (### we're in tcsh shell)
+>> echo $dirstack --show dir (#which directory you're in)
+>> exit     (exit the shell)
+>> one more shell sh
+>> sh         (# shell)
+>> echo $0
+>> exit
+>> csh        (# shell)
+>> echo $0
+>> exit
+>> yum install ksh
+>> ksh        (# shell)  
+>> echo $0
+>> exit
+>> yum install zsh
+>> zsh        (# shell)
+>> echo $0
+>> exit
+
+>>> how to declare variables
+>> MYNAME=ttt
+>> echo $MYNAME
+
+>> MYNAME=trie tree
+command not found
+>> echo $MYNAME
+ttt
+
+>> MYNAME="trie tree"
+>> echo $MYNAME
+
+>> MYCOMP='trie tree'
+>> echo $MYCOMP
+
+>>> variable inside declares string
+>> MYCOMP="my name is: $MYNAME "
+>> echo $MYCOMP
+
+>> MYCOMP='my name is: $MYNAME '
+>> echo $MYCOMP
+note:- variable calls the string using single quotes('') not works.
+
+>>> How to check PPID
+>> echo $$PPID
+
+>>> How to give readonly variables
+>> readonly READONLYVAR=string
+>> echo $READONLYVAR
+>> READONLYVAR=mystring
+you can't change the string
+
+>> echo $MYCOMP
+>> unset MYCOMP (#UNSET the variable value)
+>> echo $MYCOMP
+>> unset READONLYVAR
+you can't change the readonly variable
+>> echo $MYNAME
+>> export MYCOMP=ttt
+>> echo $MYCOMP
+>> export MYCOMP=ttt
+>> echo $MYCOMP
+>> bash 
+>> echo $MYCOMP
+
+>>> how many varialbes exported to see the command
+>> env
+
+>>> check the all variables
+>> declare
+
+>>> which bash level you are in
+>> bash
+>> bash
+>> bash
+>> echo $SHLVL
+>> exit
+>> echo $SHLVL
+>> exit
+>> echo $SHLVL
+>> exit
+>> echo $SHLVL
+>> exit
+
+>> declare -a
+>> echo $BASH_VERSINFO
+>> echo $BASH_VERSINFO[0]
+>> echo ${BASH_VERSINFO[0]}
+>> bash -version
+
+>>> Basic variables and globbing
+>> mkdir globbing
+>> cd globbing
+>> ls -lrt
+>> touch file1 file2 file3
+>> ls
+>> ls -lrt
+>> ls *
+>> echo ls "*"
+>> ls "*"
+>> ls '*'
+>> ls *1  #display first file
+>> ls file[12] # it will display the file1 and file2
+>> ls file[0-9] #it is array format
+>> ls file[0-2]
+>> ls fil[a-z]
+>> ls fil[a-z][0-9]
+>> ls fil??
+>> ls fil?
+it won't work
+>> ls fil???
+it won't work
+
+>>> what are the dotfiles and hidden files
+>> cd
+>> ls -lrt
+>> cd globbing
+>> ls -lrt
+>> touch .file
+>> mkdir .dotfloder
+>> ls -lrt
+>> ls .*   (# to see the dotfiles and floders)
+>> ls -la  
+>> ls -lart
+it will show all dotfiles and floders
+>> cd ..
+>> cd ..
+
+>>> what are the pipes and redirects
+>> mkdir pipes
+>> cd pipes
+Redirects(>):-
+>> echo "trie tree tech"
+>> echo "trie tree tech" > trie
+>> cat trie
+>> cat trie | grep -c tree  (# to check the tree string)
+>> cat trie | grep -c treee
+>> vi trie
+tree
+trie
+>> cat trie
+>> cat trie | grep -c tree
+>> cat trie | grep -c trie
+>> cat trie | grep -c tech
+pipe is work as output of the first command will be input of the second command.
+
+>> cat tttr 2> errorfile
+standed error move to errorfile
+>> cat errorfile 
+>> cat errorfile | grep -c file
+>> echo "this is error file" > errorfile (##override the file)
+>> cat errorfile
+>> echo "this is error file" >> errorfile (## append the file or line)
+>> cat errorfile
+
+>>> How to substitute the commands
+>> hostname
+>> echo "my hostname is : hostname"
+>> echo "my hostname is : $(hostname)"
+>> echo "my hostname is : `hostname`"
+>> touch a b
+>> echo $(echo a $(echo b))
+>> echo `echo a` `echo b`
+>>
+----------------------------------------------------------
+>>>> Bash Scripting in Telugu -- Devops Month - Session 2
+
+>>scripting standards
+-> Nameing conventions
+-> file permissions
+-> script format,execution
+
+>> touch simplescript.sh
+>> ls -lrt simplescript.sh
+>> vi simplescript.sh
+#!/bin/bash
+# This script is to display simple output for subscribers
+# Purpose : To train on Bash scripting
+# Creation Date: 08 march 2022
+# Modified Date: 08 march 2022
+# Author : Devsec
+
+Trie="This is sample"
+echo $Trie
+
+date
+df -h
+:wq!
+>> pwd
+/root
+>> mkdir scripts
+>> mv simplescript.sh scripts/
+>> cd scripts/
+>> pwd
+/root/scripts
+>> ls -lrt
+>> cat simplescript.sh  (#Read the file)
+>> /root/scripts/simplescript.sh
+permissions denied
+>> ls -lrt /root/scripts/simplescript.sh
+>> chmod a+x /root/scripts/simplescript.sh
+###execute permissions to all users(owner,user,group).
+>> ls -lrt /root/scripts/simplescript.sh
+>> chmod 744 /root/scripts/simplescript.sh
+### only owner permissions ,remove the permissions to group and users. 
+>> /root/scripts/simplescript.sh (## absoult path)
+>> vi simplescript
+Trie="This is sample"
+echo
+echo $Trie
+echo
+date
+echo
+df -h
+:wq!
+>> ./simplescript.sh (## relative path)
+
+
+>> /root/scripts/simplescript.sh (## absoulute path)
+>> ./simplescript.sh (## relative path)
+
+
+>> vi basictasks.sh
+#!/bin/bash
+# purpose : To run basic tasks
+# Date : 08 march 2020
+# Author : Devsec
+
+echo
+echo " This script runs basic tasks "
+echo
+pwd
+echo
+ls
+echo
+whoami
+echo
+date
+echo
+cal
+echo
+touch a b c
+>> ./basictasks
+>> chmod 744 basictasks.sh
+>> ./basictasks
+>> ls -lrt
+>> 
+
+>>> Basic admin tasks
+>> vi admintasks.sh
+#!/bin/bash
+# Author : Devsec
+
+top
+df -h    #display the disc space.
+free -m  #memory space.
+uptime   #how many days of running your server.
+iostat   #disc input and output.
+
+:wq!
+
+>> chmod 744 admintasks.sh
+>> ./admintasks.sh
+>> vi admintasks.sh
+echo
+top | head -10
+echo
+df -h
+echo
+echo
+free -m
+echo
+echo
+uptime
+echo
+echo
+iostat
+
+:wq
+>> ./admintasks.sh
+
+
+>>> How to call variables
+>> vi variableexample.sh
+#!/bin/bash
+# Author: Devsec
+
+p=pwd
+l=ls
+wa=whoami
+
+echo "RUN TASKS"
+echo
+echo `$p`
+echo
+echo `$l`
+echo
+echo `$whoami`
+:wq!
+>> chmod 744 variableexample.sh
+>> ./variableexample.sh
+>> ls
+>> ls -lrt
+>> rm -rf a b c
+>> ls -lrt
+>> vi inopscript.sh
+#!/bin/bash
+# Author: Devsec
+
+echo "Hello subscribers This is Devsec!!!"
+echo
+echo " Hi subscriber, what is your name:- "
+read name
+echo "hello $name"
+echo 
+
+:wq!
+>> chmod 744 inopscript.sh
+>> ./inopscript.sh
+>> vi inopscript.sh
+#!/bin/bash
+host=`hostname`
+echo " My hostname is : $host "
+echo
+echo "What is your name"
+read name
+echo "hello $name"
+echo
+:wq!
+>> ./inopscript.sh
+
+>>> ifthen script
+>> vi ifthen.sh
+#!/bin/bash
+count=100
+if [ $count -eq 100 ]
+then
+echo "Count is 100"
+else
+echo "Count is not 100"
+fi
+>> chmod 744 ifthen.sh
+>> ./ifthen.sh
+>> vi ifthen.sh
+#!/bin/bash
+count=1000
+if [ $count -eq 100 ]
+then
+echo "Count is 100"
+else
+echo "Count is not 100"
+fi
+>> ./ifthen.sh
+>> vi ifthen1.sh
+#!/bin/bash
+clear
+if [ -e /root/scripts/error.sh ]
+then
+echo "This file exists"
+else
+echo "File does not exists"
+fi
+>> chmod 744 ifthen1.sh
+>> ./ifthen1.sh
+>> touch /root/scripts/error.sh
+>> ./ifthen1.sh
+
+>>> ioifthen script
+>> vi ioifthen.sh
+#!/bin/bash
+# Author : Devsec
+
+clear
+echo "Hi subscriber, What is your name?"
+read a
+echo "Hello $a "
+echo "How the bash scripting training is going on? do you like it(y/n)"
+read like
+
+if [ "$like" == y ]
+then
+echo "Thank You"
+elif [ "$like" == n ]
+then
+echo "Please send us your feedback"
+echo
+fi
+:wq!
+>> chmod 744 ioifthen.sh
+>> ./ioifthen.sh
+
+>>> case statements script
+>> vi casest.sh
+#!/bin/bash
+echo
+echo "Please choose options below"
+echo "a = display your system date"
+echo "b = list all files"
+echo "c = who logged into this system"
+echo "d = what is the uptime of this server"
+read choices
+case $choices in
+a) date;;
+b) ls;;
+c) who;;
+d) uptime;;
+*) echo "Invalid Training choice -- Thank you Bye"
+esac
+>> chmod 744 casest.sh
+>> ./casest.sh
+>> 
+
+>>> forloop script
+>> vi forloop.sh
+#!/bin/bash
+for i in 1 2 3 4 5
+do 
+echo "welcome $i subscribers"
+done
+>> chmod 744 forloop.sh
+>> ./forloop.sh
+>> vi fl.sh
+#!/bin/bash
+for j in liked subd shared commented
+do
+echo "Dev has $j"
+done
+>> chmod 744 fl.sh
+>> ./fl.sh
+
+>>> dowhile script
+>> vi dowhile.sh
+#!/bin/bash
+count=0
+num=10
+while [ $count -lt 10 ]
+do
+echo "$num seconds left to stop this $1"
+sleep 1
+num=`expr $num - 1`
+count=`expr $count + 1`
+done
+echo "$1 process is stopped!!!"
+
+>> chmod 744 dowhile.sh
+>> ./dowhile.sh
+>> ps -ef | grep -i dowhile.sh  (#process running or not)
+>> ./dowhile.sh &
+>> vi dw.sh
+#!/bin/bash
+c=1
+while [ $c -le 5 ]
+do
+echo " welcome $c times "
+((c++))
+done
+>> chmod 744 dw.sh
+>> ./dw.sh
+
+>>> exit and error codes
+>> ls -lrt
+>> echo $? (#to view the last command status)
+>> pkd
+>> echo $?
+command not executed properly
+>> 
+status of error codes:-
+0-ok
+1- general error
+2- misuse of shell
+126-- cannot execute
+127 -- no file found matching command
+128 -- invalid exit value
+>> vi exit.sh
+#!/bin/bash
+ls -l /root/scripts/exit.sh
+if [ $? -eq 0 ]
+then
+echo "file exists"
+else
+echo "nofile"
+fi
+:wq
+>> chmod 744 exit.sh
+>> ./exit.sh
+----------------------------------------------------------
+>>>> Bash Scripting in Telugu -- Real-Time Scripts -- Devops Month - Session 03 
+>>> Realtime scripts
+>> ls -lrt
+>> mkdir realtime-scripts
+>> cd realtime-scripts
+>> ls -lrt
+>> vi pullerrors.sh
+#!/bin/bash
+# Realtime Errors File
+# Author: Devsec
+grep -i error /var/log/messages
+>> chmod 744 pullerrors.sh
+>> ./pullerrors.sh
+>> cp /var/log/messages .
+>> ls -lrt
+>> pwd
+>> grep -i error /root/scripts/realtime-scripts/messages
+>> grep -i warn /root/scripts/realtime-scripts/messages
+>> grep -i fail /root/scripts/realtime-scripts/messages
+>> vi pullerrors.sh
+#!/bin/bash
+# Realtime Errors File
+# Author: Devsec
+grep -i error /root/scripts/realtime-scripts/messages
+grep -i warn /root/scripts/realtime-scripts/messages
+grep -i fail /root/scripts/realtime-scripts/messages
+>>./pullerrors.sh
+>> vi pullerrors.sh
+#!/bin/bash
+# Realtime Errors File
+# Author: Devsec
+grep -i error /root/scripts/realtime-scripts/messages > /root/scripts/realtime-scripts/error.out
+grep -i warn /root/scripts/realtime-scripts/messages > /root/scripts/realtime-scripts/warn.out
+grep -i fail /root/scripts/realtime-scripts/messages > /root/scripts/realtime-scripts/failed.out
+
+>> ./pullerrors.sh
+>> cat error.out
+>> cat warn.out
+>> cat failed.out
+
+>>> vi admincommands.sh
+#!/bin/bash
+date
+uptime
+df -h
+>> chmod 744 admincommands.sh
+>> ./admincommands.sh
+>> vi admincommands.sh
+#!/bin/bash
+date | awk '{print $1}'
+uptime | awk '{print $1}'
+df -h | grep -i root
+>> ./admincommands.sh
+>> vi admincommands.sh
+#!/bin/bash
+date | awk '{print $1}'
+uptime | awk '{print $1}'
+df -h | grep -i tmpfs
+>> ./admincommands.sh
+>> vi remoteservercheck.sh
+#!/bin/bash
+ping -c1 localhost
+if [ $? -eq 0 ]
+then
+echo " Ping works "
+else
+echo " Not able to ping "
+fi
+>> chmod 744 remoteservercheck.sh
+>> ./remoteservercheck.sh
+>> vi remoteservercheck.sh
+#!/bin/bash
+ping -c1 localhost &> /dev/null
+if [ $? -eq 0 ]
+then
+echo " Ping works "
+else
+echo " Not able to ping "
+fi
+>> ./remoteservercheck.sh 
+>> vi remoteservercheck.sh
+#!/bin/bash
+ping -c1 192.168.0.1 &> /dev/null
+if [ $? -eq 0 ]
+then
+echo " Ping works "
+else
+echo " Not able to ping "
+fi
+>> ./remoteservercheck.sh
+
+>> vi myhosts.sh
+localhost
+192.168.0.1
+192.168.0.2
+>> vi pinghost.sh
+#!/bin/bash
+hosts="/root/scripts/realtime-scripts/myhosts"
+for ip in  $(cat $hosts)
+do 
+        ping -c1 $ip &> /dev/null
+        if [ $? -eq 0 ]
+        then
+        echo "$ip is pinging"
+        else
+        echo "$ip is not working"
+        fi
+done
+>> chmod 744 pinghost.sh
+>> ./pinghost.sh
+>> 
+
+>>> schedule jobs and cron jobs
+>> vi schedule.sh
+>> date
+>> crontab -e
+04 13 * * * /root/scripts/realtime-scripts/pinghost.sh > ping.out
+
+04 13 * * * /root/scripts/realtime-scripts/pinghost.sh | mail -s "connection status " devsec@gmail.com
+
+###13 - hour
+   04 - mints
+   *  - every day of the month
+   *  - every month of the year
+   *  - every day of the week
+>> ls -lrt
+>> cd
+>> ls -lrt
+>> cat ping.out
+-------------------------------------------------------
+>>>> Bash Scripting in Telugu -- Hands-On Real-Time Scripts -- Devops Month - Session 04
+
+ >> pwd
+ /root/scripts/realtime-scripts
+ >> ls -lrt
+
+>>> how to remove old files in past 3 months. 
+>> date  (# first check the date)
+### create the old files
+>> touch -d "Mon 1 Mar 2020 12:30:00" marchfile
+>> touch -d "Mon 1 Mar 2020 12:30:00" marchfile1
+>> touch -d "Mon 1 Mar 2020 12:30:00" marchfile2
+>> touch -d "Mon 1 Mar 2020 12:30:00" marchfile3
+>> ls -lrt
+
+>>> How to find old files 
+>> find /root/scripts/realtime-scripts/ -mtime +90 -exec ls -l {} \;
+>> vi deleteoldfiles.sh
+#!/bin/bash
+find /root/scripts/realtime-scripts/ -mtime +90 -exec rm {} \;
+>> chmod 744 deleteoldfiles.sh
+>> ./deleteoldfiles.sh
+>> find /root/scripts/realtime-scripts/ -mtime +90 -exec ls -l {} \;
+>> ls -lrt
+### script using to remove all the oldfiles
+>> agin i create the old files
+>> touch -d "Mon 1 Mar 2020 12:30:00" marchfile3
+>> touch -d "Mon 1 Mar 2020 12:30:00" marchfile2
+>> touch -d "Mon 1 Mar 2020 12:30:00" marchfile1
+>> touch -d "Mon 1 Mar 2020 12:30:00" marchfile
+>> ls -lrt
+
+>>> How to rename old files
+>> vi renameoldfiles.sh
+#!/bin/bash
+find /root/scripts/realtime-scripts -mtime +90 -exec mv {} {}.old \;
+
+:wq
+>> chmod 744 renameoldfiles.sh
+>> ./renameoldfiles.sh
+>> ls -lrt
+>> ./deleteoldfiles.sh
+>> 
+
+>>> backup files
+>> vi backup.sh
+#!/bin/bash
+tar -cvf /tmp/backup.tar /etc /var
+gzip /tmp/backup.tar
+find /tmp/backup.tar.gz -mtime -1 -type f -print &> /dev/null
+if [ $? -eq 0 ]
+then
+echo "backup was created"
+echo
+echo "archieving backup"
+#scp /tmp/backup.tar.gz root@:ip:/path
+else
+echo "Backup Failed"
+fi
+:wq
+>> chmod 744 backup.sh
+>> ./backup.sh
+>> cd /tmp
+>> ls -lrt
+>> rm -rf backup.tar.gz
+>> cd
+>> 
+
+>>> Forloop script
+>> cd scripts
+>> cd realtime-scripts/
+>> vi count.sh
+#!/bin/bash
+for i in {1..10}
+do 
+echo $i
+sleep 1
+done
+:wq
+>> chmod 744 count.sh
+>> ./count.sh
+>> 
+
+>> vi createfiles.sh
+#!/bin/bash
+for i in {1..10}
+do 
+touch dev.$i
+done
+>> chmod 744 createfiles.sh
+>> ./createfiles.sh
+>> ls -lrt
+
+>> vi createuser-input.sh
+#!/bin/bash
+echo "how many files need to be created?"
+read t
+echo
+echo "Please enter starting name of the file"
+read n
+for j in $(seq 1 $t)
+do 
+touch $n.$j
+done
+>> chmod 744 createuser-input.sh
+>> ./createuser-input.sh
+>> rm -rf dev*
+>> rm -rf trie*
+>> ls -lrt
+
+>> vi permission.sh
+#!/bin/bash
+for j in Trie.*
+do 
+echo "Assign Permissions to $j"
+chmod a+x $j
+sleep
+done
+>> chmod 744 permission.sh
+>> ./permission.sh
+give the permissions to the files trie1,2,3
+>> ls -lrt
+
+>> vi permissiontime.sh
+#!/bin/bash
+total=`ls -l Trie* | wc -l`
+echo "It will take $total seconds, to complete"
+echo
+for i  in Trie.*
+do 
+echo "Assign write permissions to $i"
+chmod a+w $i
+sleep 1
+done
+:wq
+>> chmod 744 permissiontime.sh
+>> ./permissiontime.sh
+>> ls -lrt
+>> 
+
+>> vi renamefiles.sh
+#!/bin/bash
+for filename in *.sh
+do 
+mv $filename ${filename%.sh}.bash
+done
+>> chmod 744 renamefiles.sh
+>> ./renamefiles.sh
+>> ls -lrt
+
+>>> user directory script
+>> vi userdir.sh
+#!/bin/bash
+cd /home
+for DIR in *
+do
+CHK=$(grep -c "/home/$DIR" /etc/passwd)
+if [ $CHK -ge 1 ]
+then
+echo "$DIR is assigned to a user"
+else
+echo "$DIR not assigned"
+fi
+done
+>> chmod 744 userdir.sh 
+>> ./userdir.sh
+>> rm -rf /home/dev
+>> userdel telugu
+>> ./userdir.sh
+>> 
+
+>>> loggin users list script
+>> vi todayloggedusers.sh
+>> last  (## who're logged in last)
+>> last | grep Tue    (#tuesday login users list )
+>> date
+>> last | grep "Mon Aug 17"
+>> vi todayloggedusers.sh
+#!/bin/bash
+today=`date | awk '{print $1, $2, $3}'`
+last | grep "$today"
+:wq
+>> chmod 744 todayloggedusers.sh
+>> ./todayloggedusers.sh
+>> vi todayloggedusers.sh
+#!/bin/bash
+today=`date | awk '{print $1, $2, $3}'`
+last | grep "$today" | awk '{print $1}'
+:wq
+>> ./todayloggedusers.sh
+
+>> vi userlogindates.sh
+#!/bin/bash
+echo "Please enter Day(e.g Mon)"
+read day
+echo "Please enter Month(e.g Fed)"
+read month
+echo
+echo "Please enter date(e.g 10)"
+read date
+echo
+last | grep "$day $month $date"
+:wq
+>> chmod 744 userlogindates.sh
+>> ./userlogindates.sh
+>> vi userlogindates.sh
+#!/bin/bash
+echo "Please enter Day(e.g Mon)"
+read day
+echo "Please enter Month(e.g Fed)"
+read month
+echo
+echo "Please enter date(e.g 10)"
+read date
+echo
+last | grep "$day $month $date" | awk '{print $1}'
+:wq
+>> ./userlogindates.sh
+----------------------------------------------------------
+>>>> Bash Scripting in Telugu -- Live Real-Time Scripts -- Devops Month - Session 05
+
+>> pwd
+/root/scripts/realtime-scripts
+>> ls -lrt
+
+>>> user management script (how to add users)
+>> id
+>> vi /etc/passwd  (#check the users)
+>> id oxrt    (# check the userid)
+>> id <userid>
+>> vi useradd.sh
+#!/bin/bash
+# Author: Devsec
+echo "Please provide a username"
+read user
+echo
+useradd $user
+echo "User has been created"
+:wq
+>> chmod 744 useradd.sh
+>> ./useradd.sh
+Please provide a username
+dummyuser
+
+user has been created
+>> grep dummyuser /etc/passwd
+>> vi useradd.sh
+#!/bin/bash
+# Author: Devsec
+echo "Please provide a username"
+read user
+echo
+grep -q $user /etc/passwd
+if [ $? -eq 0 ]
+then
+echo "Error -- User $user already exists"
+echo "Please define another user"
+echo
+exit 0
+fi
+useradd $user
+echo "$user has been created successfully"
+:wq  
+>> ./useradd.sh
+dummyuser
+>> ./useradd.sh
+dummyuser1
+>> grep dummyuser1 /etc/passwd
+>> vi useradd.sh
+#!/bin/bash
+# Author: Devsec
+echo "Please provide a username"
+read user
+echo
+grep -q $user /etc/passwd
+if [ $? -eq 0 ]
+then
+echo "Error -- User $user already exists"
+echo "Please define another user"
+echo
+exit 0
+fi
+echo "Please add Description for the user"
+read desc
+echo
+useradd $user -c "$desc"
+echo "$user has been created successfully"
+:wq 
+>> ./useradd.sh
+dummyuser1
+>> ./useradd.sh
+dummyuser2
+This User added for Testing the useradd command
+>> grep dummyuser2 /etc/passwd
+>> vi useraddid.sh
+#!/bin/bash
+# Author : Devsec
+
+echo "Please Provide Username"
+read user
+echo
+grep -q $user /etc/passwd
+if [ $? -eq 0 ]
+then
+echo " Error -- this $user already exists"
+echo
+exit 0
+fi
+echo
+echo "Please Provide Description"
+read d
+echo "Do you want to specify User ID (y/n)?"
+read yn
+echo
+if [ $yn == y ]
+then
+echo " please enter user Id which is greater then 1001"
+read uid
+
+useradd $user -c "$d" -u $uid
+echo
+echo "$user account has been created successfully with user defined UID"
+elif [ $yn == n ]
+then
+echo "System defined UID will be created"
+useradd $user -c "$d"
+echo
+echo "$user account has been created successfully with system defined UID"
+>> chmod 744 useradd.sh
+>> ./useradd.sh
+>> grep dummyuser5 /etc/passwd
+>> grep dummyuser6 /etc/passwd
+>> vi errorthrough.sh
+grep -q $user /etc/passwd
+if [ $? -eq 0 ]
+then
+echo " Error -- this $user already exists"
+echo
+exit 0
+fi
+
+>>> how to disable in active users or remove inactive users
+>> grep dummyuser /etc/passwd 
+>> grep dummyuser /etc/shadow (#user active state)
+>> su dummyuser
+>> exit
+>> lastlog (#who are logged in lasttime)
+>> vi disableuser.sh
+#!/bin/bash
+# Author : Devsec
+
+a=`lastlog | grep -i "dummyuser" | awk '{print $1}'`
+for i in $a
+do
+usermod -L $i
+done
+:wq
+>> chmod 744 disableuser.sh
+>> ./disableuser.sh
+>> grep dummyuser /etc/shadow
+disable the dummyuser
+>> vi /etc/shadow    (#enable the user)
+remove ! symbol
+>> lastlog | grep -i "dummyuser" | awk '{print $1}' | xargs -I{} usermod -L {}
+>> grep dummyuser /etc/shadow
+>> vi disableuser.sh
+#!/bin/bash
+# Author : devsec
+lastlog | grep -i "dummyuser" | awk '{print $1}' | xargs -I{} usermod -L {}
+:wq
+>> ./disableuser.sh
+>> grep dummyuser /etc/shadow
+>> 
+
+>>> how to check the process and how to kill the process.
+>> ps -ef | grep -i kafka
+>> ps -ef | grep -i kafka | grep -v grep | awk '{print $2}'
+>> ps -ef | grep -i kafka | grep 11799
+>> vi killprocess.sh
+#!/bin/bash
+ps -ef | grep -i kafka | grep -v grep | awk '{print $2}' | xargs -I{} kill {}
+echo "all kafka processes are killed"
+>> chmod 744 killprocess.sh
+>> ./killprocess.sh
+>> ps -ef | grep kafka
+>> ps -ef | grep kafka | grep -v grep | awk '{print $2}'
+>> vi killprocess.sh
+#!/bin/bash
+ps -ef | grep -i kafka | grep -v grep | awk '{print $2}' | xargs -I{} kill -9 {}
+echo "all kafka processes are killed"
+>> ./killprocess.sh
+>> ps -ef | grep -i kafka | grep -v grep | awk '{print $2}'
+
+>>> disk space script
+>> df -h
+>> df -h | egrep -v "tmpfs|devtmpfs"| tail -n+2
+>> df -h | egrep -v "tmpfs|devtmpfs|overlay"| tail -n+2
+>> df -h | egrep -v "tmpfs|devtmpfs|overlay"| tail -n+2 | awk '{print $5}'
+>> $5 means 5th columns
+>> df -h | egrep -v "tmpfs|devtmpfs|overlay"| tail -n+2 | awk '{print $5}' | cut -d'%' -f1
+>> vi diskspace.sh
+#!/bin/bash
+a=`df -h | egrep -v "tmpfs|devtmpfs|overlay"| tail -n+2 | awk '{print $5}' | cut -d'%' -f1`
+for i in $a
+do 
+if [ $i -ge 10 ]
+then
+echo "check disk space $i which had reached threshold"
+fi
+done
+>> chmod 744 diskspace.sh
+>> ./diskspace.sh
+>> 
+
+>> pwd
+/root/scripts/realtime-scripts
+>> touch database
+>> vi inventory.sh
+#!/bin/bash
+echo "Please enter hostname"
+read host
+echo
+grep -q $host /root/scripts/realtime-scripts/database
+if [ $? -eq 0 ]
+echo "Error -- $host already exists in the Database"
+echo
+exit 0
+fi
+echo "Please enter IP"
+read ip
+echo
+grep -q $ip /root/scripts/realtime-scripts/database
+if [ $? -eq 0 ]
+echo "Error -- $ip already exists in the Database"
+echo
+exit 0
+fi
+echo "Please enter Description"
+read desc
+echo
+echo "$host $ip $desc" >> /root/scripts/realtime-scripts/database
+echo "Records added to database"
+echo
+>> ./inventory.sh
+please enter hostname
+Redhat1
+please enter description
+This is app server 01
+>> ./invenroty.sh
+please enter hostname
+Redhat1
+>> ./invenroty.sh
+please enter hostname
+Redhat2
+please enter IP
+192.168.0.2
+Please enter Description
+app server 02
+>> cat database
+>> vi deleteinventory.sh
+#!/bin/bash
+echo "Please enter Host or IP"
+read hostip
+echo
+grep -q $hostip /root/scripts/realtime-scripts/database
+if [ $? -eq 0 ]
+then
+echo
+sed -i '/'$hostip'/d' /root/scripts/realtime-scripts/database
+echo "$hostip is removed from database"
+else
+echo "No host available in the database"
+fi
+:wq
+>> vi deleteinventory.sh
+>> chmod 744 deleteinventory.sh
+>> ./deleteinventory.sh
+Please enter host or IP
+Redhat1
+>> ./deleteinventory.sh
+Please enter host or IP
+Redhat3
+>> cat database
+>> vi inventoryserver.sh
+#!/bin/bash
+clear
+echo
+echo "Select one of the below option for your database entry"
+echo 'a=Add a Record'
+echo 'a=Delete a Record'
+echo
+        read choice
+        case $choice in
+a) /root/scripts/realtime-scripts/inventory.sh;;
+d) /root/scripts/realtime-scripts/deleteinventory.sh;;
+*) echo "Invalid Option -- Please choose correct record -- Thank You"
+esac
+:wq        
+>> chmod 744 inventoryserver.sh
+>> ./inventoryserver.sh
+a
+please enter hostname
+Redhat3
+please enter IP
+192.168.0.5
+please enter Description
+Application Server for Development
+>> cat database
+>> ./inventoryserver.sh
+d
+please enter host or IP
+Redhat3
+>> cat database
+>> ./inventoryserver.sh
+r
+>>
+--------------------------------------------------------
+>>>> Linux Basic Admin tasks Using Bash Scripting
+>> vi admintasks.sh
+#!/bin/bash
+# Author : Devsec
+echo
+top | head -10
+echo
+df -h
+echo
+echo
+free -m
+echo
+echo
+uptime
+echo
+echo
+iostat
+>> chmod 744 admintasks.sh
+>> ./admintasks.sh
+>> 
+------------------------------------------------------
+>>>> Defining Variable in Linux bash Scripting
+>> vi variableexample.sh
+#!/bin/bash
+# Author : Devsec
+
+p=pwd
+l=ls
+wa=whoami
+
+echo "RUN TASKS"
+echo
+echo `$p`
+echo
+echo `$l`
+echo
+echo `$wa`
+:wq
+>> chmod 744 variableexample.sh
+>> ./variableexample.sh
+>> vi inopscript.sh
+#!/bin/bash
+# Author : devsec
+echo "Hello this is devops environment"
+echo
+echo " Hello Devops world, what is your name:"
+read name
+echo "hello $name"
+echo
+:wq
+>> chmod 744 inopscript.sh
+>> ./inopscript.sh
+>> vi inopscript.sh 
+#!/bin/bash
+# Author : devsec
+host = `hostname`
+echo "My hostname is: $host"
+echo
+echo "what is your name:"
+read name
+echo "hello $name"
+echo
+:wq
+>> ./inopscript.sh
+----------------------------------------------------------
+>>>> Linux Remote server connectivity and CronJob using Bash Scripting 
+>> vi remoteservercheck.sh
+#!/bin/bash
+# Author: Devsec
+ping -c1 localhost &> /dev/null
+if [ $? -eq 0 ]
+then
+echo " Ping works "
+else
+echo " Not able to ping"
+fi
+:wq!
+>> chmod 744 remoteservercheck.sh
+>> ./remoteservercheck.sh
+>> vi remoteservercheck.sh
+#!/bin/bash
+# Author: Devsec
+ping -c1 localhost &> /dev/null
+if [ $? -eq 0 ]
+then
+echo " Ping works "
+else
+echo " Not able to ping"
+fi
+:wq!
+>> ./remoteservercheck.sh
+>> vi myhosts.sh
+#!/bin/bash
+localhost
+192.1682.0.1
+192.1682.0.2
+:wq
+>> vi pinghost.sh
+#!/bin/bash
+# Author : Devsec
+hosts="/root/scripts/realtime-scripts/myhosts"
+for ip in $(cat $hosts)
+do 
+        ping -c1 $ip &> /dev/null
+        if [ $? -eq 0 ]
+        then
+        echo "$ip is pinging"
+        else
+        echo "$ip is not working"
+        fi
+done
+>> chmod 744 pinghost.sh
+>> ./pinghost.sh
+>> vi schedule.sh
+>> date  (#check the date first)
+>> crontab -e
+04 13 * * * /root/scripts/realtime-scripts/pinghost.sh > ping.out
+>> # 04=minutes, 13=hours
+>> ls -lrt
+>> cat ping.out
+>> 
+---------------------------------------------------------
+>>>> Bash Scripting for File System backup and Delete Old Files. 
+
+>>> How to delete the old files.
+>> date
+>> touch -d "Mon 1 Mar 2020 12:30:00" marchfile
+>> touch -d "Mon 1 Mar 2020 12:30:00" marchfile1
+>> touch -d "Mon 1 Mar 2020 12:30:00" marchfile2
+>> touch -d "Mon 1 Mar 2020 12:30:00" marchfile3
+
+>>> How to check old files 
+>> find /root/scripts/realtime-scripts/ -mtime +90 -exec ls -l {} \;
+
+>>> Delete old files  
+>> vi deleteoldfiles.sh
+#!/bin/bash
+# Author : Devsec
+
+find /root/scripts/realtime-scripts/ -mtime +90 -exec rm {} \;
+
+:wq!
+
+>> chmod 744 deleteoldfiles.sh
+>> ./deleteoldfiles.sh
+>> ls -lrt
+>> touch -d "Mon 1 Mar 2020 12:30:00" marchfile
+>> touch -d "Mon 1 Mar 2020 12:30:00" marchfile1
+>> touch -d "Mon 1 Mar 2020 12:30:00" marchfile2
+>> touch -d "Mon 1 Mar 2020 12:30:00" marchfile3
+>> vi renameoldfiles.sh
+#!/bin/bash
+find /root/scripts/realtime-scripts -mtime +90 -exec mv {} {}.old \;
+:wq!
+>> chmod 744 renameoldfiles.sh
+>> ./renameoldfiles.sh
+>> ls -lrt
+>> ./deleteoldfiles.sh
+>> ls -lrt
+
+>>> backup files
+>> vi backup.sh
+#!/bin/bash
+tar -cvf /tmp/backup.tar /etc /var
+gzip /tmp/backup.tar
+find /tmp/backup.tar.gz -mtime -1 -type f -print &> /dev/null
+if [ $? -eq 0 ]
+then
+echo "backup was created"
+echo
+echo "archieving backup"
+#scp /tmp/backup.tar.gz root@:ip:/path
+else
+echo "Backup Failed"
+fi
+:wq
+>> chmod 744 backup.sh
+>> ./backup.sh
+>> cd /tmp
+>> ls -lrt
+>> rm -rf backup.tar.gz
+>> 
+--------------------------------------------------------
+>>>> Find Who logged in when in Linux Server using Bash
+>> last         (#who is logged in last time)
+>> last | grep Tue
+>> date
+>> last | grep "Mon Aug 17"
+>> vi todayloggedusers.sh
+#!/bin/bash
+today=`date | awk '{print $1, $2, $3}'`
+last | grep "$today"
+:wq!
+>> chmod 744 todayloggedusers.sh
+>> ./todayloggedusers.sh
+>> vi todayloggedusers.sh
+#!/bin/bash
+today=`date | awk '{print $1, $2, $3}'`
+last | grep "$today" | awk '{print $1}'
+:wq!
+>> ./todayloggedusers.sh
+>> vi userlogindates.sh
+#!/bin/bash
+echo "Please enter Day (e.g Mon)"
+read day
+echo "Please enter Month (e.g Aug)"
+read month
+echo
+echo "Please enter date (e.g 17)"
+read date
+echo
+last | grep "$day $month $date" | awk '{print $1}'
+:wq!
+>> chmod 744 userlogindates.sh
+>> ./userlogindates.sh
+--------------------------------------------------------
+>>>> Disk Monitoring using Bash Script 
+>>> Disk space
+>> df -h
+>> df -h | egrep -v "tmpfs|devtmpfs"| tail -n+2
+>> df -h | egrep -v "tmpfs|devtmpfs|overlay"| tail -n+2 (#skip this disks and remaing others will be show)
+>> df -h | egrep -v "tmpfs|devtmpfs|overlay"| tail -n+2 | awk '{print $5}' 
+(###here 5 means=5th column)
+>> df -h | egrep -v "tmpfs|devtmpfs|overlay"| tail -n+2 | awk '{print $5}' | cut -d'%' -f1
+>> vi diskspace.sh
+#!/bin/bash
+a=`df -h | egrep -v "tmpfs|devtmpfs|overlay"| tail -n+2 | awk '{print $5}' | cut -d'%' -f1`
+for i in $a
+do
+if [ $i -ge 10 ]  (#10 means=10%)
+then
+echo "check disk space $i which had reached threshold "
+fi
+done
+>> chmod 744 diskspace.sh
+>> ./diskspace.sh
+
+
+----------------------------------------------------------
+>>>> Write Your Own Bash Scripts for Automation [Tutorial]
+>> which bash
+>> vi bash.sh
+#!/bin/bash
+STRING="Null Byte"
+echo "Hackers love to learn on $STRING"
+:wq!
+>> bash bash.sh
+>> sh bash.sh
+>> 

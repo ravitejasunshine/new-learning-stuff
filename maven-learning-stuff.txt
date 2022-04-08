@@ -1,0 +1,178 @@
+DevOps Master Program | Week 04 | Maven for DevOps
+-------------------------------------------------------------
+		>>>> Maven for Devops
+>> maven download
+
+goto terminal add
+>> useradd maven
+>> passwd maven
+
+>> sudo su maven
+
+>> wget <mavencopylink>
+>> ls -lrt
+>> tar -xvf apache-maven-3.8.1-bin.tar.gz
+>> cd apache-maven-3.8.1/
+>> ls -lrt
+>> cd bin/
+>> ls
+>> ls -lrt
+>> ls -la
+>> vi .profile
+
+>> check the java
+>> which java
+>> yum install java
+		or
+   apt install java
+>> ls -lrta
+>> .profile
+:q!
+>> ls
+>> ls -lrt
+>> mv apache-maven-3.8.1 maven  (#rename)
+>> ls -lrt
+>> cd maven/bin/
+>> pwd
+>> vi .profile
+export M2_HOME=/root/maven
+export PATH=$PATH:$M2_HOME/bin
+
+>> cd maven/bin/
+>> ls -lrt
+
+>> ./mvn archetype:generate
+>> ./mvn archetype:generate -Dfilter=org.apache.maven.archetypes:
+>> 9
+>> 8 
+group id>> com.devsec.com
+artifactid> myapp
+Y >> Y
+>> cd
+>> cd /root/maven/bin/myapp
+>> ls -lrt
+>> cd src
+>> ls -lrt
+>> cd ..
+>> cd /root/maven/bin/myapp
+>> mvn package
+>> cd /root/Maven/maven/bin/myapp/target
+>> ls -lrt
+>> cd ..
+>> cd ..
+>> cd ..
+>> cd myapp
+>> mvn clean
+>> mvn test
+>> mvn compile
+>> mvn test-compile
+
+>>> maven invocation mode
+>> mvn complie
+>> mvn package
+>> mvn clean
+>> mvn archetype:generate
+>> mvn install  (# create mvn repository)
+
+>> vi pom.xml
+>> mvn install
+
+>> https://maven.apache.org/pom.html
+>> what is pom and super pom?
+
+>> cd ~/.m2/repository/com/trietreetech/demo/myapp/1.0-SNAPSHOT
+>> vi myapp-1.0-SNAPSHOT.pom
+>> mvn --version
+>> cd /usr/share/maven
+>> ls -lrt
+>> cd lib
+>> ls -lrt
+>> cd ../../java/maven3-model-builder.jar
+>> vi ../../java/maven3-model-builder.jar
+>> cd
+>> cd Maven/
+>> cd maven
+>> cd bin/
+>> mvn help:effective-pom
+>> cd myapp
+>> mvn help:effective-pom
+
+		>>> Build life cycle
+>> cd ~/Maven/maven/bin/myapp
+>> mvn clean
+>> mvn compile
+>> mvn test-compile
+
+		>>> how to create a simple dependency
+>> vi pom.xml
+>> cd ~/.m2/repository
+>> ls -lrt
+>> cd commons-lang
+>> ls -lrt
+>> cd commons-lang
+>> ls
+>> cd /root/Maven/maven/bin/myapp/
+>> ls -lrt
+>> vi pom.xml
+<dependencies>
+  <dependency>
+    <groupId>common-lang</groupId>
+    <artifactId>common-lang</artifactId>
+    <version>2.6</version>
+  </dependency>
+  
+>> mvn compile
+>> cd ~/.m2/repository/
+>> ls -lrt
+>> cd commons-lang/commons-lang/2.6
+>> ls -lrt
+
+     >>> complex dependency
+>> mvn archetype:generate -Dfilter=org.apache.maven.archetypes:
+>> 14
+>> 7
+groupid>> com.devsec.webappdemo
+artifactid>> webappdemo
+Y = Y
+>> ls -lrt
+>> cd ..
+>> cd ~/Maven/maven/bin
+>> mvn archetype:generate -Dfilter=org.apache.maven.archetypes:
+>> 14
+>> 7
+groupid>> com.devsec.webappdemo
+artifactid>> webappdemo
+Y = Y
+>> ls -lrt
+>> vi pom.xml
+
+>> https://search.maven.org
+search-> spring-web
+org.springframework:spring-web:5.3.8
+
+>> vi pom.xml
+<dependencies>
+  <dependency>
+     <groupId>org.springframework</groupId>
+     <artifactId>spring-web</artifactId>
+     <version>5.3.8</version>
+  </dependency>
+>> mvn package
+>> ls -lrt
+>> jar tvf target/demoweb.war
+>> mvn dependency:tree (# check dependencies)
+
+>>https://search.maven.org/classic
+search -> log4j
+
+>> cd ~/.m2/repository/
+>> ls -lrt
+>> 
+
+    >>> maven plugins
+>> maven plugins
+>> surefire plugin 
+it is using for integration testing
+>> 
+
+

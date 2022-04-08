@@ -1,0 +1,3051 @@
+212 Bash Scripting Examples
+------------------------------------------------------------
+1) Simple Hello World Script
+>> touch firstscript.sh
+#!/bin/bash
+# Author : Devsec
+
+echo "Hello World"
+:wq!
+>> chmod 744 firstscript.sh
+>> ./firstscript.sh
+
+2)Echo command without new lines
+>> vi firstscript.sh
+#!/bin/bash
+
+echo -n "Hello"
+echo "World"
+
+echo -n "No"
+
+echo "NewLines"
+
+:wq
+
+>> vi firstscript.sh
+#!/bin/bash
+
+echo "Hello"
+echo "World"
+
+echo "No"
+
+echo "NewLines"
+
+:wq
+
+3) String Concatenation with Echo
+>> vi concat.sh
+#!/bin/bash
+echo "one" "two" "three"
+
+4) String Continuation Character
+>> vi continuechar.sh
+#!/bin/bash
+
+echo "one" "two" "three" \
+                 "four" "five"
+>> chmod 744 continuechar.sh
+>> ./continuechar.sh
+
+5) Echo with Tab Characters
+>> vi tabchar.sh
+#!/bin/bash
+echo -e "one\ttwo\tthree\tfour"
+:wq
+>> chmod 744 tabchar.sh
+>> ./tabchar.sh
+
+6) Echo with Newline Characters
+\t = tab
+\n = newline
+>> vi newlinechar.sh
+#!/bin/bash
+echo -e "one\ntwo\nthree\nfour"
+>> chmod 744 newlinechar.sh
+>> ./newlinechar.sh
+
+7) Echo with -x to display all commands
+>> vi xdisplay.sh
+#!/bin/bash -x
+# Purpose : Echo with -x to display all commands
+# Author : Devsec
+
+echo "one"
+echo "two"
+echo "three"
+
+8) Printing Strings that contain single quotes
+>> vi singlequote.sh
+#!/bin/bash
+echo "Welcome to Devsec's world"
+>> chmod 744 singlequote.sh
+>> ./singlequote.sh
+
+9) Printing Strings that contain double quotes
+>> vi doublequotes.sh
+#!/bin/bash
+echo "My favorite movie is "limitless""
+>> chmod 744 doublequotes.sh
+>> ./doublequotes.sh
+>> vi doublequotes.sh
+#!/bin/bash
+echo "My favorite movie is \"Limitless\""
+>> ./doublequotes.sh
+
+10) Write a file from inside a script
+>> vi fileinsidescript.sh
+#!/bin/bash
+# Author : Devsec
+# Purpose : Write a file from inside a script
+
+echo "My favorite movie is \"Limitless\"" > ./file.txt
+>> chmod 744 fileinsidescript.sh
+>> ./fileinsidescript.sh 
+>> ls
+>> vi file.txt
+
+11) Overwrite to a file from inside a script.
+>> vi overwritefile.sh
+#!/bin/bash
+# purpose : Overwrite to a file from inside a script.
+echo "My favorite movie is \"Limitless\"" > ./file.txt
+echo "My favorite book is think and grow rich" > ./file.txt
+>> chmod 744 overwritefile.sh
+>> ./overwritefile.sh
+
+12) Append to File inside Script
+>> vi appendfile.sh
+#!/bin/bash
+echo "My favorite movie is \"Limitless\"" > ./file.txt
+echo "My favorite book is think and grow rich" >> ./file.txt
+echo "My Favorite suv is range rover" >> ./file.txt
+>> chmod 744 appendfile.sh
+>> ./appendfile.sh
+
+13) Single line comments
+>> vi singlelinecomts.sh
+#!/bin/bash
+echo "My favorite movie is \"Limitless\"" > ./file.txt
+#echo "My favorite book is think and grow rich" >> ./file.txt
+echo "My Favorite suv is range rover" >> ./file.txt
+>> chmod 744 singlelinecomts.sh
+>> ./singlelinecomts.sh
+
+14) Comments from middle of the line
+>> vi middlelinecomts.sh
+#!/bin/bash
+echo "My favorite movie is \"Limitless\"" > ./file.txt
+echo "My favorite book is think and grow rich" # >> ./file.txt
+echo "My Favorite suv is range rover" >> ./file.txt
+
+>> chmod 744 middlelinecomts.sh
+>> ./middlelinecomts.sh
+
+15) Multi line comments using heredocs
+>> vi multilinecomts.sh
+#!/bin/bash
+<<Devsec_message
+echo "My favorite movie is \"Limitless\"" > ./file.txt
+
+this is a comment
+echo "My favorite book is think and grow rich" # >> ./file.txt
+
+Devsec_message
+echo "My Favorite suv is range rover" >> ./file.txt
+
+or
+#!/bin/bash
+<<Devsec_message
+echo "My favorite movie is \"Limitless\"" > ./file.txt
+
+this is a comment
+echo "My favorite book is think and grow rich" # >> ./file.txt
+
+Devsec_message
+echo "My Favorite suv is range rover" > ./file.txt
+
+16) Simple Variable Usage
+>> vi variable.sh
+#!/bin/bash
+# Purpose : Simple Variable Usage
+# Author : Devsec
+
+VAR="Hello World!"
+echo $VAR
+>> chmod 744 variable.sh
+>> ./variable.sh
+
+17) Multi word variables combinations with quotes
+>> vi multiwordvariables.sh
+#!/bin/bash
+# Purpose : Multi word variables combinations with quotes
+# Author : Devsec
+
+a='this is a car'
+b='this is a mercedese'
+
+c="${a} ${b}"
+
+echo "${c}"
+>> chmod 744 multiwordvariables.sh
+>> ./multiwordvariables.sh  
+
+18) HOME variable
+>> vi homevariable.sh
+#!/bin/bash
+# Autor : Devsec
+# purpose : HOME variable
+
+VAR_PATH=$HOME
+echo "$VAR_PATH"
+
+ls "$VAR_PATH"
+>> chmod 744 homevariable.sh
+>> ./homevariable.sh
+
+19) USER variable
+>> vi uservariable.sh
+#!/bin/bash
+# Purpose : USER variable
+# Author : Devsec
+
+VAR=$USER
+echo "$VAR"
+>> chmod 744 uservariable.sh
+>> ./uservariable.sh
+
+20) HOSTNAME variable
+>> vi hostnamevariable.sh
+#!/bin/bash
+# purpose : HOSTNAME variable
+# Author : Devsec
+
+
+VAR=$HOSTNAME
+echo "$VAR"
+>> chmod 744 hostnamevariable.sh
+>> ./hostnamevariable.sh
+
+21) Echo $HOME with Escape to Avoid Expansion
+>> vi avoidexpansion.sh
+#!/bin/bash
+# purpose : Echo $HOME with Escape to Avoid Expansion
+# Author : Devsec
+echo "\$HOME"
+>> chmod 744 avoidexpansion.sh
+>> ./avoidexpansion.sh
+
+22) Writing to file in Home directory using $HOME Environment Variables.
+>> vi environmentvariables.sh
+#!/bin/bash
+# purpose : Writing to file in Home directory using $HOME Environment Variables.
+# Author : Devsec
+
+cd $HOME
+
+echo "I like Range Rover" > test.txt
+
+cat test.txt
+>> chmod 744 environmentvariables.sh
+>> ./environmentvariables.sh
+>> ls $HOME
+>> cd $HOME
+>> cat test.txt
+
+23) Simple touch command
+>> vi touchcommand.sh
+#!/bin/bash
+# purpose : Simple touch command
+# Author : Devsec
+
+touch filetouch.txt
+ls
+>> chmod 744 touchcommand.sh
+>> ./touchcommand.sh
+>> cd Desktop
+>> ls
+
+
+24) Create a symbol link, write to linked file, cat link file
+>> vi symbollink.sh
+#!/bin/bash
+# purpose : Create a symbol link, write to linked file, cat link file
+# Author : Devsec
+
+ln -s file.txt link1
+ls
+
+echo "Now I am writing inside the link1" >> link1
+
+cat link1
+
+>> chmod 744 symbollink.sh
+>> ./symbollink.sh
+
+25) Chmod command, Make Executable
+>> touch script1.sh
+>> ls -al
+>> vi chmodmake.sh
+#!/bin/bash
+# purpose : Chmod command, Make Executable
+# Author : Devsec
+
+chmod +x script1.sh
+>> chmod 744 chmodmake.sh
+>> ./chmodmake.sh
+
+26) Chmod command, make not-writeable, try to write in it.
+>> vi file.txt
+helloworld
+>> ls -la
+>> vi chmod.sh
+#!/bin/bash
+# purpose : Chmod command, make not-writeable, try to write in it.
+
+chmod -w file.txt
+>> chmod 744 chmod.sh
+>> ./chmod.sh
+>> ls -la
+
+27) Chown file to different user, run ls before and after.
+>> ls -la
+>> sudo adduser devsec
+>> sudo adduser kali
+>> sudo adduser bob
+>> vi differentuser.sh
+#!/bin/bash
+# purpose : Chown file to different user, run ls before and after.
+sudo chown devsec file.txt
+>> chmod 744 differentuser.sh
+>> ./differentuser.sh
+
+28) underscore variable, touch file,use underscore variable to append to it.
+>> vi underscorevariable.sh
+#!/bin/bash
+# purpose : underscore variable, touch file,use underscore variable to append to it.
+
+UND_VAR="Hello linux world"
+touch new.txt
+echo "UND_VAR" >> new.txt
+cat new.txt
+>> chmod 744 underscorevariable.sh
+>> ./underscorevariable.sh
+
+29) Let command Arithmetic
+>> vi arithmetic.sh
+#!/bin/bash
+# purpose : Let command Arithmetic
+let a=3 b=7 c=a+b
+echo "$a $b $c"
+>> chmod 744 arithmetic.sh
+>> ./arithmetic.sh
+
+30) 4 Basic operators, Add ,Subtract,Multiply,Divide.
+>> vi basicoperators.sh
+#!/bin/bash
+# purpose : 4 Basic operators, Add ,Subtract,Multiply,Divide.
+
+num1=10
+num2=2
+
+expr $num1 + $num2
+expr $num1 - $num2
+expr $num1 \* $num2
+expr $num1 / $num2
+
+>> chmod 744 basicoperators.sh
+>> ./basicoperators.sh
+
+31) Increment a variable 3 times with increment operator
+>> vi incrementvariable.sh
+#!/bin/bash
+# purpose : Increment a variable 3 times with increment operator
+
+VAR=1
+
+echo  "$VAR"
+
+VAR=$((VAR+=1))
+echo "$VAR"
+
+VAR=$((VAR+=1))
+echo "$VAR"
+
+VAR=$((VAR+=1))
+echo "$VAR"
+
+
+>> chmod 744 incrementvariable.sh
+>> ./incrementvariable.sh
+
+32) Decrement a variable 3 times with Decrement operator
+>> vi decrementvariable.sh
+#!/bin/bash
+# purpose : Decrement a variable 3 times with Decrement operator.
+
+VAR=5
+
+echo  "$VAR"
+
+VAR=$((VAR-=1))
+echo "$VAR"
+
+VAR=$((VAR-=1))
+echo "$VAR"
+
+VAR=$((VAR-=1))
+echo "$VAR"
+
+>> chmod 744 decrementvariable.sh
+>> ./decrementvariable.sh
+
+
+33) Echo Number Modulus Second Number
+>> vi echonumber.sh
+#!/bin/bash
+num1=4
+num2=2
+
+echo "$(($num1 % $num2))"
+
+          or 
+
+#!/bin/bash
+num1=4
+num2=2
+
+echo "$(($num1 % $num2))"          
+>> chmod 744 echonumber.sh
+>> ./echonumber.sh
+
+34) Echo Number to exponent of second number
+>> vi exponent.sh
+#!/bin/bash
+
+var=$((8**2))
+echo "$var"
+
+>> chmod 744 exponent.sh
+>> ./exponent.sh
+
+35) 5 mathematical expressions using expr
+>> vi mathexpr.sh
+#!/bin/bash
+
+num1=25
+num2=5
+
+expr $num1 + $num2
+expr $num1 - $num2
+expr $num1 \* $num2
+expr $num1 / $num2
+expr $num1 % $num2
+
+>> chmod mathexpr.sh
+>> ./mathexpr.sh
+
+36) 5 mathematical expressions using paranthesis
+>> vi paranthesisexpr.sh
+#!/bin/bash
+
+num1=100
+num2=10
+
+echo "$(($num1 + $num2))"
+echo "$(($num1 - $num2))"
+echo "$(($num1 * $num2))"  #echo "$(($num1 \* $num2))"
+echo "$(($num1 / $num2))"
+echo "$(($num1 % $num2))"
+
+>> chmod 744 paranthesisexpr.sh
+>> ./paranthesisexpr.sh
+
+37) Double paranthesis with dollar operator to assign to variable
+>> vi doubleparanthesis.sh
+#!/bin/bash
+# purpose : Double paranthesis with dollar operator to assign to variable.
+
+num1=100
+
+VAR=$((num1+10))
+
+echo "$VAR"
+
+>> chmod 744 doubleparanthesis.sh
+>> ./doubleparanthesis.sh
+
+38) Multiplication has precedence over addition regardless of the order.
+>> vi multiplication.sh
+#!/bin/bash
+# purpose : Multiplication has precedence over addition regardless of the order.
+
+VAR=$((3*(2+1)))
+echo "$VAR"
+
+NEW=$(((2+1)*3))
+echo "$NEW"
+
+>> chmod 744 multiplication.sh
+>> ./multiplication.sh
+
+39) Combine two strings in one line with variables.
+>> vi twostrings.sh
+#!/bin/bash
+# purpose : Combine two strings in one line with variables.
+
+VAR1="Hello World"
+VAR2="Let's concatenate"
+
+VAR3="${VAR1} ${VAR2}"
+
+echo "$VAR3"
+>> chmod 744 twostrings.sh
+>> ./twostrings.sh
+
+40) Combine three strings in one line with variables.
+>> vi threestrings.sh
+#!/bin/bash
+# purpose : Combine three strings in one line with variables.
+
+VAR1="Hello World"
+VAR2="Let's concatenate"
+VAR3="Let's do it again"
+VAR4="${VAR1} ${VAR2} ${VAR3}"
+
+echo "$VAR4"
+>> chmod 744 threestrings.sh
+>> ./threestrings.sh
+
+41) Plus equal operator combine strings.
+>> vi plusequaloperator.sh
+#!/bin/bash
+# purpose : Plus equal operator combine strings.
+
+VAR1="Hello world"
+VAR2="Let's concatenate"
+
+VAR1+="$VAR"
+echo "$VAR1"
+            or
+VAR1="Hello world"
+VAR2="Let's concatenate"
+
+VAR1+="$VAR2"
+echo "$VAR1"
+
+>> chmod 744 plusequaloperator.sh
+>> ./plusequaloperator.sh
+
+42) Create Multi-Line String Variable with HEREDOC
+>> vi multiline.sh
+#!/bin/bash
+# purpose : Create Multi-Line String Variable with HEREDOC.
+
+VAR=$(cat<<'END_HEREDOC'
+Here we could
+write
+multi line string
+using heredoc
+END_HEREDOC
+)
+
+echo "$VAR"
+
+>> chmod 744 multiline.sh
+>> ./multiline.sh
+
+43) cat Multi-line HEREDOC text.
+>> vi multiline.sh
+#!/bin/bash
+# Purpose : cat Multi-line HEREDOC text.
+
+cat<<DEVSEC
+The current working directory is: $PWD
+You are logged in as: $(whoami)
+DEVSEC
+>> chmod 744 multiline.sh
+>> ./multiline.sh
+
+44) If conditional statement
+>> vi conditionalstate.sh
+#!/bin/bash
+#purpose : If conditional statement
+
+VAR=8
+if [ $VAR -gt 5 ]
+then
+    echo "good"
+fi
+
+>> chmod 744 conditionalstate.sh
+>> ./conditionalstate.sh
+
+45) Logical AND in conditional statement
+>> vi logical.sh
+#!/bin/bash
+# Purpose : Logical AND in conditional statement
+
+VAR=4
+if [[ $VAR -gt 2 ]] && [[ $VAR -lt 8 ]];
+then
+    echo "$VAR is between 2 and 8"
+fi
+
+>> chmod 744 logical.sh
+>> ./logical.sh
+
+46) Logical OR in conditional statement.
+>> vi conditional.sh
+#!/bin/bash
+# Purpose : Logical OR in conditional statement.
+
+VAR=16
+if [[ $VAR -gt 18 ]] || [[ $VAR -lt 20 ]];
+then
+    echo "one condition or both are true"
+fi    
+                    
+                   or
+                   
+VAR=16
+if [[ $VAR -gt 22 ]] || [[ $VAR -lt 8 ]];
+then
+    echo "one condition or both are true"
+fi    
+##both conditions are flase.
+>> chmod 744 conditional.sh
+>> ./conditional.sh 
+
+47) If Elif Else Conditional Statement
+>> vi elseconditional.sh
+#!/bin/bash
+# purose : If Elif Else Conditional Statement
+
+MARKS=65
+if [ $MARKS -ge 90 ]
+then
+    echo "Excellent"
+elif [ $MARKS -ge 60 ]
+then
+    echo "Good"
+elif [ $MARKS -ge 50 ]
+then
+    echo "Just Satisfactory"
+else
+    echo "Not OK, FAIL!"
+fi
+    or                 
+
+MARKS=95
+if [ $MARKS -ge 90 ]
+then
+    echo "Excellent"
+elif [ $MARKS -ge 60 ]
+then
+    echo "Good"
+elif [ $MARKS -ge 50 ]
+then
+    echo "Just Satisfactory"
+else
+    echo "Not OK, FAIL!"
+fi
+        or
+
+MARKS=50
+if [ $MARKS -ge 90 ]
+then
+    echo "Excellent"
+elif [ $MARKS -ge 60 ]
+then
+    echo "Good"
+elif [ $MARKS -ge 50 ]
+then
+    echo "Just Satisfactory"
+else
+    echo "Not OK, FAIL!"
+fi
+       
+       or
+MARKS=25
+if [ $MARKS -ge 90 ]
+then
+    echo "Excellent"
+elif [ $MARKS -ge 60 ]
+then
+    echo "Good"
+elif [ $MARKS -ge 50 ]
+then
+    echo "Just Satisfactory"
+else
+    echo "Not OK, FAIL!"
+fi
+
+
+>> Chmod 744 elseconditional.sh
+>> ./elseconditional.sh
+
+48) Nesting if condition
+>> vi nesting.sh
+#!/bin/bash
+# Purpose : Nesting if condition
+VAR=6
+if [ "$VAR" -gt 1 ]
+then
+        if [ "$VAR" -lt 10 ]
+        then
+                echo "The number lies between 1 to 10"
+        fi
+fi
+
+>> chmod 744 nesting.sh
+>> ./nesting.sh
+
+49) Equal vs double equal operator
+>> vi doubleequal.sh
+#!/bin/bash
+# Purpose : Equal vs double equal operator
+
+VAR='Hello'
+RAV='world'
+if [ $VAR = $RAV ]
+then
+        if [ $VAR == $RAV ]
+        then
+                echo "Both equal and double equal operators are same"
+        fi
+else
+        echo "Both equal and double equal operators are not same"
+fi
+
+>> chmod 744 doubleequal.sh
+>> ./doubleequal.sh
+
+
+50) Test Not Equal strings
+>> vi equalstrings.sh
+#!/bin/bash
+# purpose : Test Not Equal strings
+
+VAR='Hello'
+RAV='World'
+
+if [[ $VAR != $RAV ]]
+then
+    echo "Both strings are not same"
+else
+    echo "Both strings are same"
+fi
+
+>> chmod 744 equalstrings.sh
+>> ./equalstrings.sh
+
+51) Test Two strings Before or After Alphabetically
+>> vi testtwostrings.sh
+#!/bin/bash
+# purpose : Test Two strings Before or After Alphabetically.
+
+VAR='Hello'
+RAV='Hello'
+
+if [[ $VAR == $RAV ]]
+then
+    echo "Both strings are same alphabetically"
+else
+    echo "Both strings are not same alphabetically"
+fi
+
+>> chmod 744 testtwostrings.sh
+>> ./testtwostrings.sh
+
+52) Test String is Null
+>> vi nullstring.sh
+#!/bin/bash
+# purpose : Test String is Null
+
+VAR=''
+
+if [[ $VAR = '' ]]
+then
+    echo "The string is null"
+else
+    echo "The string is not null"
+fi
+
+>> chmod 744 nullstring.sh
+>> ./nullstring.sh
+
+53) Test string is Not Null.
+>> vi notnull.sh
+#!/bin/bash
+# purpose : Test string is Not Null.
+
+VAR='Hello'
+
+if [[ $VAR = '' ]]
+then
+    echo "The string is null"
+else
+    echo "The string is not null"
+fi
+
+>> chmod 744 notnull.sh
+>> ./notnull.sh
+
+54) Test Numerical Comparisons Greater then,Less then
+>> vi numericalcomp.sh
+#!/bin/bash
+# purpose : Test Numerical Comparisons Greater then,Less then
+
+VAR=15
+
+if [ "$VAR" -gt 10 ] && [ "$VAR" -lt 20 ]
+  then 
+    echo "$VAR lies somewhere between 10 and 20."
+fi
+
+>> chmod 744 numericalcomp.sh
+>> ./numericalcomp.sh
+
+55) Test Numerical compare Greater Then or Equal,Less Than or Equal.
+>> vi numericalcompare.sh
+#!/bin/bash
+# purpose : Test Numerical compare Greater Then or Equal,Less Than or Equal.
+
+VAR=25
+
+if (( $VAR >= 20 )) && (($VAR <= 30))
+then
+    echo "$VAR lies somewhere between 20 and 30."
+fi
+
+>> chmod 744 numericalcompare.sh
+>> ./numericalcompare.sh
+
+56) Test compare Numbers are Equal
+>> vi comparenumbers.sh
+#!/bin/bash
+# purpose : Test compare Numbers are Equal
+
+VAR=50
+VAR1=50
+if (( $VAR == $VAR1 ))
+then
+    echo "compared variables are equal"
+    else
+    echo "compared variables are not equal"
+fi 
+        or 
+
+VAR=50
+VAR1=50
+if (( $VAR == $VAR1 ))
+then
+    echo "compared variables are equal"
+    else
+    echo "compared variables are not equal"
+fi    
+
+
+>> chmod 744 comparenumbers.sh
+>> ./comparenumbers.sh
+
+58) Test File Exists
+>> vi fileexists.sh
+#!/bin/bash
+# purpose : Test File Exists
+
+FILE=file.txt
+if [ -f "$FILE" ]
+then
+    echo "$FILE exists"
+else
+    echo "$FILE doesn't exist"
+fi
+
+>> chmod 744 fileexists.sh
+>> ./fileexists.sh
+>> touch file.txt
+>> ./fileexists.sh
+
+59) Test File Is Not Zero size
+>> vi fileisnotzerosize.sh
+#!/bin/bash
+# Purpose : Test File Is Not Zero size
+
+FILE=file.txt
+
+if [ -s "$FILE" ]
+then
+         echo "file is not of zero size or not empty"
+else
+        echo "file is of zero size or empty"
+fi
+
+>> chmod 744 fileisnotzerosize.sh
+>> ./fileisnotzerosize.sh
+>> echo hello this is file > file.txt
+>> ./fileisnotzerosize.sh
+
+60) Test File Is A Directory
+>> vi directory.sh
+#!/bin/bash
+# purpose : Test File Is A Directory
+
+PATH=dir
+if [[ -d $PATH ]]
+then
+   echo "$PATH is a directory and not file"
+elif [[ -f $PATH ]]
+then
+   echo "$PATH is a file and not a directory"
+else
+   echo "$PATH is not valid"
+fi
+
+>> chmod 744 directory.sh
+>> ./directory.sh
+>> mkdir dir
+>> ./directory.sh
+
+61) File is a Symbolic Link
+>> vi symboliclink.sh
+#!/bin/bash
+# purpose : File is a Symbolic Link
+
+FILE=link1
+if [[ -L "$FILE" ]]
+then
+    echo "$FILE is a symbolic link"
+   else
+   echo "$FILE is not a symbolic link" 
+fi
+
+>> chmod 744 symboliclink.sh
+>> ./symboliclink.sh
+
+
+62) Test File Has Read Permission
+>> vi readpermission.sh
+#!/bin/bash
+# purpose : Test File Has Read Permission.
+
+FILE=file.txt
+if [ -r $FILE ]
+then
+     echo "$FILE has read permission"
+else
+     echo "$FILE doesn't have read permission"
+fi
+
+>> chmod 744 readpermission.sh
+>> ./readpermission.sh
+
+63) Test File Has Write Permission
+>> vi writeperimission.sh
+#!/bin/bash
+# purpose : Test File Has Write Permission.
+
+FILE=file.txt
+if [ -w $FILE ]
+then
+     echo "$FILE has write permission"
+else
+     echo "$FILE doesn't have write permission"
+fi
+
+>> chmod 744 writeperimission.sh
+>> ./writeperimission.sh
+>> chmod -w file.txt
+>> ./writeperimission.sh
+>> chmod +w file.txt
+>> ./writeperimission.sh
+
+64) Test File Has Execute Permission
+>> vi executepermission.sh
+#!/bin/bash
+# purpose : Test File Has Execute Permission
+
+FILE=file.txt
+if [ -x $FILE ]
+then
+      echo "$FILE has execute permission"
+else
+      echo "$FILE doesn't have execute permission"
+fi
+
+>> chmod 744 executepermission.sh
+>> ./executepermission.sh
+>> chmod +x file.txt
+>> ./executepermission.sh
+>> ls -al
+>> ./executepermission.sh
+
+65) Case conditional Statement with numbers
+>> vi conditionalstate.sh
+#!/bin/bash
+# purpose : Case conditional Statement with numbers
+
+VAR=10
+case $VAR in
+     10)
+          echo "it's 10"
+          ;;
+     20)
+          echo "it's 20"
+          ;;
+     30)
+          echo "it's 30"
+          ;;
+     *)
+          echo "number is not 10 or 20 or 30, its something else"
+          ;;      
+esac
+
+>> chmod 744 conditionalstate.sh
+>> ./conditionalstate.sh
+
+66) Case conditional statement with strings
+>> vi conditionalstate.sh
+#!/bin/bash
+# purpose : Case conditional statement with strings
+
+CAR="BMW"
+case $CAR in
+     Toyota)
+          echo "It's Toyota"
+          ;;
+     Honda)
+          echo "It's Honda"
+          ;;
+     BMW)
+          echo "It's BMW"
+          ;;
+     *)
+          echo "Hmm, seems like another car."
+          ;;
+          
+esac
+
+>> chmod 744 conditionalstate.sh
+>> ./conditionalstate.sh
+
+67) Case conditional statement with wildcards
+>> vi wildcards.sh
+#!/bin/bash
+# purpose : Case conditional statement with wildcards
+
+case $1 in
+    req*)
+         echo "it's requirement or request"
+         ;;
+    meet*)
+         echo "it's meeting"
+         ;;
+    *)
+         echo "This is default statement"
+esac              
+
+>> chmod 744 wildcards.sh
+>> ./wildcards.sh
+
+68) Execute a command with backticks
+>> vi backticks.sh
+#!/bin/bash
+# purpose : Execute a command with backticks
+
+chown test \dir
+
+        or
+
+chown test1 \dir
+
+>> chmod 744 backticks.sh
+>> ./backticks.sh
+
+69) Execute a command in a Dollar parenthesis variable.
+>> vi dollarparenthesis.sh
+#!/bin/bash
+# purpose : Execute a command in a Dollar parenthesis variable.
+
+VAR=$(cat file.txt)
+echo "$VAR"
+>> vi file.txt
+hello and welcome,this is bash example.
+>> chmod 744 dollarparenthesis.sh
+>> ./dollarparenthesis.sh
+
+70) Execute a command and capture STDOUT
+>> vi stdout.sh
+#!/bin/bash
+# purpose : Execute a command and capture STDOUT
+
+VAR=$(cat file.txt)
+echo "$VAR" > output.txt
+
+>> chmod 744 stdout.sh
+>> ./stdout.sh
+
+71) Execute a command And capture STDERR
+>> vi stderr.sh
+#!/bin/bash
+# purpose : Execute a command And capture STDERR
+
+VAR=$(cat file.txt)
+$VAR > stderr.txt
+
+>> chmod 744 stderr.sh
+>> ./stderr.sh
+
+72) Execute a command And Capture Return Code
+>> vi returncode.sh
+#!/bin/bash
+# purpose : Execute a command And Capture Return Code.
+
+VAR=$(cat file.txt)
+echo  "$VAR"
+echo $? > returcode.txt
+
+>> chmod 744 returncode.sh
+>> ./returncode.sh
+
+73) Bash Exec command Hello world
+>> vi bashexec.sh
+#!/bin/bash
+# purpose : Bash Exec command Hello world
+
+exec > tmp
+echo "Hello world"
+
+>> chmod 744 bashexec.sh
+>> ./bashexec.sh
+
+74) Eval command
+>> vi eval.sh
+#!/bin/bash
+# purpose : Eval command
+
+eval echo "Hello world"
+
+>> chmod 744 eval.sh
+>> ./eval.sh
+
+75) For loop list of values
+>> vi forloop.sh
+#!/bin/bash
+# purpose : For loop list of values
+
+for i in 1 2 3 4 5; do
+   echo "this is the value: $i"
+done
+
+>> chmod 744 forloop.sh
+>> ./forloop.sh
+
+76) For loop on range of numbers
+>> vi forrangenum.sh
+#!/bin/bash
+# purpose : For loop on range of numbers
+
+for i in {10..20}; do
+   echo "this is the value: $i"
+done
+
+>> chmod 744 forrangenum.sh
+>> ./forrangenum.sh
+
+77) For loop output of command
+>> vi file.txt
+writing something in file
+we have it here
+
+>> vi forloopoutput.sh
+#!/bin/bash
+# purpose : For loop output of command
+
+for i in $(cat file.txt); do
+   echo "$i"
+done
+
+>> chmod 744 forloopoutput.sh
+>> ./forloopoutput.sh
+
+78) For loop files in directory
+>> vi loopdir.sh
+#!/bin/bash
+# purpose : For loop files in directory
+
+for i in ./*.txt; do
+  echo  "$i"
+done  
+
+>> chmod 744 loopdir.sh
+>> ./loopdir.sh
+
+79) For loop with conditional break
+>> vi conditionalbreak.sh
+#!/bin/bash
+# purpose : For loop with conditional break
+
+for i in {1..10}; do
+  if  (( $i < 5 )); then
+      echo $i;
+  else
+      break;
+  fi
+done
+
+>> chmod 744 conditionalbreak.sh
+>> ./conditionalbreak.sh
+
+80) For loop with conditional continue
+>> vi loopcontinue.sh
+#!/bin/bash
+# purpose : For loop with conditional continue
+
+for i in {1..10}; do
+  if  (( $i == 5 )); then
+      continue;
+  else
+     echo $i;
+  fi
+done
+
+>> chmod 744 loopcontinue.sh
+>> ./loopcontinue.sh
+
+81) while loop 
+>> vi whileloop.sh
+#!/bin/bash
+# purpose : while loop 
+
+i=0
+
+while (( ++i <=5 )); do
+  echo "counter is at $i"
+done
+
+>> chmod 744 whileloop.sh
+>> ./whileloop.sh
+
+
+82) until loop based on file size
+>> vi loopbasedfile.sh
+#!/bin/bash
+# purpose : until loop based on file size
+
+FILENAME=`basename "$0"`
+echo FILENAME
+TMP_FILE="./tmp1"
+TARGET_FILE="./target"
+cat $FILENAME > $TARGET_FILE
+FILESIZE=0
+
+until [ $FILESIZE-gt 2048 ]; do
+  cp $TARGET_FILE $TMP_FILE
+  cat $TMP_FILE >> $TARGET_FILE
+
+  FILESIZE=`du $TARGET_FILE | awk '{print $1}'`
+  echo "size of file: $FILESIZE Bytes"
+  sleep 1
+done
+
+echo "new size of file exceeded target of 2KB+"
+
+>> chmod 744 loopbasedfile.sh
+>> ./loopbasedfile.sh
+
+83) create an array variable access by index
+>> vi arrayindex.sh
+#!/bin/bash
+# purpose : create an array variable access by index
+
+car=('BMW' 'TOYOTA' 'Mercedes' 'Honda')
+
+echo "${car[2]}"
+
+>> chmod 744 arrayindex.sh
+>> ./arrayindex.sh
+
+84) Create an associative array variable access by index.
+>> vi associativearray.sh
+#!/bin/bash
+# purpose : Create an associative array variable access by index.
+
+declare -A car
+
+car[BMW]=i8
+car[Toyota]=corolla
+car[Honda]=Civic
+car[Mercedes]=Benz 
+
+echo "${car[Honda]}"
+
+>> chmod 744 associativearray.sh
+>> ./associativearray.sh
+
+85) Accessing array members with loop
+>> vi arraymembers.sh
+#!/bin/bash
+# purpose : Accessing array members with loop
+
+car=('BMW' 'Toyota' 'Honda')
+
+for i in "${car[@]}"; do
+  echo "$i"
+done
+
+>> chmod 744 arraymembers.sh
+>> ./arraymembers.sh
+
+86) Time command
+>> vi timecommand.sh
+#!/bin/bash
+# purpose : Time command
+
+car=('BMW' 'Toyota' 'Honda')
+
+for i in "${car[@]}"; do
+  echo "$i"
+done
+
+>> chmod 744 timecommand.sh
+>> time ./timecommand.sh
+
+87) print Date
+>> vi printdate.sh
+#!/bin/bash
+# purpose : print Date
+
+VAR=$(date)
+
+echo "$VAR"
+
+
+>> chmod 744 printdate.sh
+>> ./printdate.sh
+
+88) print Date with Different formats
+>> vi printdate.sh
+#!/bin/bash
+# purpose : print Date with Different formats
+
+VAR=$(date +%F)
+echo "$VAR"
+
+VAR=$(date +%D)
+echo "$VAR1"
+
+VAR=$(date +%Y)
+echo "$VAR2"
+
+
+>> chmod 744 printdate.sh
+>> ./printdate.sh
+
+89) Print Seconds Elapsed for Block of Code 
+>> vi printsecondelapsed.sh
+#!/bin/bash
+# purpose : Print Seconds Elapsed for Block of Code
+
+TIMEFORMAT="It takes %R seconds to complete this task..."
+time{
+  for i in 1 2 3; do
+    echo "writing code in curly braces to calculate time"
+  done     
+}
+
+>> chmod 744 printsecondelapsed.sh
+>> ./printsecondelapsed.sh
+
+90) Read Text From File and Print it to Screen 
+>> vi file.txt
+writing something here
+and here it is
+Hi this is Devsec
+This is the fourth line
+>> vi readtextfile.sh
+#!/bin/bash
+# purpose : Read Text From File and Print it to Screen
+
+FILE='file.txt'
+n=1
+while read line; do
+  echo "Line-$n : $line"
+  n=$((n+1))
+done < $FILE
+
+>> chmod 744 readtextfile.sh
+>> ./readtextfile.sh 
+
+91)Read Text From File Using If Condition Print to Screen 
+>> vi readtext.sh
+#!/bin/bash
+# purpose : Read Text From File Using If Condition Print to Screen
+
+FILE='file.txt'
+n=1
+while read line; do
+  echo "Line-$n : $line"
+  n=$((n+1))
+  if ((n>2)); then
+    break;
+  fi
+done < $FILE
+
+>> chmod 744 readtext.sh
+>> ./readtext.sh
+
+92) Basic Read Command 
+>> vi readcommand.sh
+#!/bin/bash
+# purpose : Basic Read Command
+
+echo "please enter 3 words followed by ENTER:"
+read first middle final
+echo "Hello $first $middle $final"
+
+>> chmod 744 readcommand.sh
+>> ./readcommand.sh
+
+93) Read Command Into Array 
+>> vi readarray.sh
+#!/bin/bash
+# purpose : Read Command Into Array
+
+echo "Give input to enter into array"
+read -a arrayVar
+
+echo "The given input array member are as follows:"
+for i in ${arrayVar[@]}; do
+  echo "$i"
+done
+
+>> chmod 744 readarray.sh
+>> ./readarray.sh
+Give input to enter into array
+Toyata BMW Honda KIA
+
+
+94)Read Command with Delimiter 
+>> vi decimiter.sh
+#!/bin/bash
+# purpose : Read Command with Delimiter
+
+echo "Enter car name and its model:"
+IFS='|' read car model <<< 'BMW | i8'
+echo "Hello, car is $car and model is $model"
+
+>> chmod 744 decimiter.sh
+>> ./decimiter.sh
+
+95) Read Command with Timeout
+>> vi timeout.sh
+#!/bin/bash
+# purpose : Read Command with Timeout
+
+date
+read -t 14 -p "Press Enter Key or wait for 14 seconds"
+date
+
+>> chmod 744 timeout.sh
+>> ./timeout.sh
+
+96) Menu Option with Select Command
+>> vi selectcommand.sh
+#!/bin/bash
+# purpose : Menu Option with Select Command
+
+PS3='Please choose a car company:'
+
+cars=("BMW" "Toyota" "Honda" "Quit")
+
+select car in "${cars[@]}"
+do 
+  case $car in
+    "BMW")
+      echo "You choose BMW"
+      ;;
+    "Toyota"
+      echo "You choose Toyota"
+      ;;
+     "Honda"
+      echo "You choose Honda"
+      ;;
+     "Quit"
+       break
+       ;;
+   *)  echo "invalid option $REPLY";;
+ esac
+done
+
+>> chmod 744 selectcommand.sh
+>> ./selectcommand.sh
+97) Menu Option With Select Command From Array Variable 
+>> vi arrayvariable.sh
+#!/bin/bash
+# purpose : Menu Option With Select Command From Array Variable
+
+PS3='Select any of the car company: '
+menu_from_array ()
+{
+   select item; do
+   if  [ l -le "$REPLY" ] && [ "$REPLY" -le $# ]; then
+      echo "The selected car company is $item"
+      break;
+    else
+      echo "Wrong selection: Select any number from l-$#"
+    fi
+  done      
+}
+
+cars=('BMW' 'Toyota' 'Honda')
+
+menu_from_array  "${cars[@]}"
+
+
+>> chmod 744 arrayvariable.sh
+>> ./arrayvariable.sh  
+
+98) Split String By Space
+>> vi splitstring.sh
+#!/bin/bash
+# purpose : Split String By Space
+
+line = "this is a line which would have spaces"
+for word in $line; do
+  echo  "$word"
+done  
+
+>> chmod 744 splitstring.sh
+>> ./splitstring.sh
+
+99) Split String By Custom Delimiter
+>> vi customdelimiter.sh
+#!/bin/bash
+# purpose : Split String By Custom Delimiter
+
+line="this!is!a!line!which!would!have!spaces"
+delimiter=!
+s=$line$delimiter
+array=();
+while  [[ $s ]]; do
+  echo  "${s%%"$delomiter"*}"
+  s=${s#*"$delimiter"}
+done;
+
+>> chmod 744 customdelimiter.sh
+>> ./customdelimiter.sh
+
+
+100) Split String into Array Variable 
+>> vi splitarray.sh
+#!/bin/bash
+# purpose : Split String into Array Variable
+
+line="this,is,a,line,which,would,have,spaces"
+IFS=','
+
+read -ra ADDR <<< "$line"
+for i in "${ADDR[@]}"; do
+  echo  "$i"
+done
+
+IFS= ' '
+
+>> chmod 744 splitarray.sh
+>> ./splitarray.sh
+
+101) Split String by Multi-Byte Delimiter
+>> vi multibytedeli.sh
+#!/bin/bash
+# purpose : Split String by Multi-Byte Delimiter
+
+line="WeXYZareXYZhereXYZtoXYZsplitXYZtheXYZstring"
+delimiter="XYZ"
+lineLen=${#line}
+do=${#delimiter}
+i=0
+Len=0
+P=0
+mArr=()
+while [$i -lt $lineLen ]; do
+  if [ $delimiter == ${line:$i:$d} ]; then
+    mArr+=(${line:P:$Len})
+    P=$(( i + d ))
+    Len=0
+    i=$(( i +d ))
+  fi
+  i=$(( i + 1 ))
+  Len=$(( Len + 1 ))
+done
+mArr+=(${line:P:$Len})
+declare -p mArr
+
+>> chmod 744 multibytedeli.sh
+>> ./multibytedeli.sh
+
+102) Parse Command Line Options with Position
+>> vi parsecommand.sh
+#!/bin/bash
+# purpose : Parse Command Line Options with Position
+
+>> chmod 744 parsecommand.sh
+>> ./parsecommand.sh
+
+103) Parse Command Line Options With POSITIONS (Shift Command)
+>> vi optwithpos.sh
+#!/bin/bash
+# purpose : Parse Command Line Options With POSITIONS
+
+echo $1 $2 
+
+>> chmod 744 optwithpos.sh
+>> ./optwithpos.sh John Doe
+
+104) Parse Command Line Using GetOpt 
+>> vi parsecommand.sh
+#!/bin/bash
+# purpose : Parse Command Line Using GetOpt
+
+shift 0
+echo 0= $0
+echo 1= $1
+echo 2= $2
+echo 3= $3
+
+
+>> chmod 744 parsecommand.sh
+>> ./parsecommand.sh BMW Honda Toyota
+
+105) Parse command line options with shift command
+>> vi parsecommand.sh
+#!/bin/bash
+# purpose: Parse command line options with shift command
+
+while getopts 'xyz:'  OPTION; do
+  case "$OPTION" in
+    x)
+      echo  "this is x"
+      ;;
+    y)
+      echo  "this is y"
+      ;;
+    z)
+      z="$OPTARG"
+      echo  "The value provided is $z"
+      ;;
+    ?)
+      echo "script usage: $(basename $0) [-x] [-y] [-z]" >&2
+      ;;
+    esac
+  done
+  shift "$(($OPTIND -l))"
+
+
+>> chmod 744 parsecommand.sh
+>> ./parsecommand.sh -x
+>> ./parsecommand.sh -y
+>> ./parsecommand.sh -z John
+>> ./parsecommand.sh -a
+
+106)Read Password from Stdin, Without Printing it .
+>> vi readpasswd.sh
+#!/bin/bash
+# purpose : Read Password from Stdin, Without Printing it .
+
+echo -n "Type a Password:"
+read -s password
+echo " "
+echo "Thanks for putting in your password which is: $password"
+
+
+>> chmod 744 readpasswd.sh
+>> ./readpasswd.sh
+
+106)Pipe Command Example
+>> vi car.txt
+BMW
+TOYOTA
+HONDA
+KIA
+MERCEDESE
+
+>> vi pipe.sh
+#!/bin/bash
+# purpose : Pipe Command Example
+
+cat car.txt | sort
+  or
+cat car.txt | wc -w
+
+>> chmod 744 pipe.sh
+>> ./pipe.sh 
+
+107) Bash script to read from stdin send data with pipe.
+>> vi senddatawithpipe.sh
+#!/bin/bash
+# purpose : Bash script to read from stdin send data with pipe.
+
+cat car.txt | while read x ; do
+echo $x ; done | cat > new.txt
+
+>> chmod 744 senddatawithpipe.sh
+>> ./senddatawithpipe.sh
+
+
+108) echo to bc Command for Math Expression Simple 
+>> vi mathexpression.sh
+#!/bin/bash
+# purpose : echo to bc Command for Math Expression Simple
+
+Var1=50
+Var2=10
+echo $Var1 + $Var2 |bc
+echo $Var1 - $Var2 |bc
+echo $Var1 \* $Var2 |bc
+echo $Var1 / $Var2 |bc
+echo $Var1 % $Var2 |bc
+
+>> chmod 744 mathexpression.sh
+>> ./mathexpression.sh
+
+109) echo to bc Command for Math Expression More Complex. 
+>> vi morecomplex.sh
+#!/bin/bash
+# purpose : echo to bc Command for Math Expression More Complex.
+
+echo 'ibase=16; B42K' | bc
+echo 'ibase=16; 7J72+F39F' | bc
+echo 'ibase=16; M42E' | bc
+echo 'ibase=16; 8N72+T39K' | bc
+echo '7-4.15' | bc
+
+
+>> chmod morecomplex.sh
+>> ./morecomplex.sh
+
+110) Function Prints Common Text, Call Multiple Times.
+>> vi function.sh
+#!/bin/bash
+# purpose : Function Prints Common Text, Call Multiple Times.
+
+function func()
+{
+   echo 'hello,this is a text' 
+}
+
+#calling function multiple times
+func
+func
+func
+
+>> chmod 744 function.sh
+>> ./function.sh
+
+111) Function Returns a String 
+>> vi returnstring.sh
+#!/bin/bash
+# purpose : Function Returns a String
+
+function func()
+{
+  retstr='hello, this is a text'  
+}
+
+retstr='bash is excellent'
+echo $retstr
+
+func
+echo $retstr
+
+
+>> chmod 744 returnstring.sh
+>> ./returnstring.sh
+
+112) Function Takes Params, Returns Sum 
+>> vi params.sh
+#!/bin/bash
+# purpose : Function Takes Params, Returns Sum
+
+function func()
+{
+  sum=$(($1 + $2))
+  echo "sum is: $sum"  
+}
+
+func 5 4
+
+>> chmod 744 params.sh
+>> ./params.sh
+
+113) Tput Command to Print String 
+>> vi tput.sh
+#!/bin/bash
+# purpose : Tput Command to Print String
+
+tput bold
+echo "This is the tput command to print string in bold"
+
+>> chmod 744 tput.sh
+>> ./tput.sh
+
+114) Tput Command to Print Number
+>> vi printnumber.sh
+#!/bin/bash
+# purpose : Tput Command to Print Number
+
+tput cols
+
+>> chmod 744 printnumber.sh
+>> ./printnumber.sh
+
+115) Tput to move cursor in terminal to arbitrary location.
+>> vi arbitrary.sh
+#!/bin/bash
+# purpose : Tput to move cursor in terminal to arbitrary location.
+
+tput cup 10 10
+
+
+>> chmod 744 arbitrary.sh
+>> ./arbitrary.sh
+
+
+116)Tput to Clear Terminal 
+>> vi clearterminal.sh
+#!/bin/bash
+
+tput clear
+
+>> chmod 744 clearterminal.sh
+>> ./clearterminal.sh
+
+
+117) Tput to Print Attributes of Terminal Simple
+>> vi attributesterminal.sh
+#!/bin/bash
+# purpose : Tput to Print Attributes of Terminal Simple
+
+tput longname
+tput -V
+
+
+>> chmod 744 attributesterminal.sh
+>> ./attributesterminal.sh
+
+118) Tput to Print Attributes of Terminal More Complex 
+>> vi morecomplex.sh
+#!/bin/bash
+# purpose : Tput to Print Attributes of Terminal More Complex
+
+tput longname
+tput -V
+tput lines 
+tput cols
+tput colors
+
+>> chmod 744 morecomplex.sh
+>> ./morecomplex.sh
+
+119) Assign String Variable with Declare 
+>> vi assignstring.sh
+#!/bin/bash
+# purpose : Assign String Variable with Declare.
+
+declare var="string variable with declare"
+echo $var
+
+>> chmod 744 assignstring.sh
+>> ./assignstring.sh
+
+119) Check If Variable Created with Declare or not
+>> vi declareornot.sh
+#!/bin/bash
+# purpose : Check If Variable Created with Declare or not
+
+declare var="string variable with declare"
+echo $var
+if [ -z ${var+a} ]; then
+  echo "var is not declared"
+else
+  echo "var is declared and set to '$var'"
+fi
+
+
+>> chmod 744 declareornot.sh
+>> ./declareornot.sh
+
+
+120) n Option for Declare to Nameref Alias 
+>> vi numeref.sh
+#!/bin/bash
+# purpose : n Option for Declare to Nameref Alias
+
+bar=a
+declare -n foo=bar
+echo ${foo} ${bar}
+foo=b
+echo ${foo} ${bar}
+true
+
+
+>> chmod 744 numeref.sh
+>> ./numeref.sh
+
+
+121) Forcing Variable to Integer with Declare
+>> vi intdeclare.sh
+#!/bin/bash
+# purpose : Forcing Variable to Integer with Declare.
+
+str=2
+declare -i str=$((${str#0}+1))
+echo $str
+
+>> chmod 744 intdeclare.sh
+>> ./intdeclare.sh
+
+122) Forcing Case with Declare
+>> vi forceing.sh
+#!/bin/bash
+# purpose : Forcing Case with Declare
+
+number=array
+
+case $number in
+  array)
+    declare -i n[0]=4
+    declare -i n[0]=6
+esac
+
+echo ${n[0]}
+
+
+>> chmod 744 forceing.sh
+>> ./forceing.sh
+
+123) Readonly Variables with Declare 
+>> vi readonly.sh
+#!/bin/bash
+# purpose : Readonly Variables with Declare
+
+declare -r author="devsec"
+author="someone else"
+echo $author
+
+>> chmod 744 readonly.sh
+>> ./readonly.sh
+124) Indexed Arrays with Declare
+>> vi index.sh
+#!/bin/bash
+# purpose : Indexed Arrays with Declare
+
+declare -a my_array
+my_array=(linux ubuntu devsec)
+
+echo ${my_array[0]}
+echo ${my_array[@]}
+
+
+>> chmod 744 index.sh
+>> ./index.sh 
+
+125) Associative Arrays with Declare
+>> vi associativearray.sh
+#!/bin/bash
+# purpose : Associative Arrays with Declare
+
+declare -A assoc_Array
+assoc_Array=([website]=Youtube [channel]=Devsec)
+
+echo ${assoc_Array[website]}
+echo ${assoc_Array[channel]}
+
+
+>> chmod 744 associativearray.sh
+>> ./associativearray.sh
+
+
+126) Automatically Answer Question with yes Command.
+>> vi yescommand.sh
+#!/bin/bash
+# purpose : Automatically Answer Question with yes Command.
+
+yes | cp -i file.txt new.txt
+
+
+>> chmod 744 yescommand.sh
+>> ./yescommand.sh
+
+127) Use And Operator to Run Second Command Only if First Succeeds
+>> vi andoperator.sh
+#!/bin/bash
+# purpose : Use And Operator to Run Second Command Only if First Succeeds
+
+s1=4
+s2=2
+
+if [[ ($s1 -gt $s2) && ($s1 -eq 3) ]]; then
+  echo "Condition Passed"
+else
+  echo "Condition Failed"
+fi
+
+
+>> chmod 744 andoperator.sh
+>> ./andoperator.sh
+
+128) Use Or Operator to Run Second Command Only if First Fails 
+>> vi firstfails.sh
+#!/bin/bash
+# purpose : Use Or Operator to Run Second Command Only if First Fails.
+
+s1=3
+s2=4
+
+if [[ ($s1 -gt $s2) || ($s1 -eq 3) ]]; then
+  echo "Condition Passed"
+else
+  echo "Condition Failed"
+fi
+
+
+>> chmod 744 firstfails.sh
+>> ./firstfails.sh
+
+
+ 
+129) xargs to operate on all files in directory
+>> vi filesdirectory.sh
+#!/bin/bash
+# purpose : xargs to operate on all files in directory
+
+ls *file* | xargs wc
+
+
+>> chmod 744 filesdirectory.sh
+>> ./filesdirectory.sh
+
+130) Wait For Another Command to Complete 
+>> vi complete.sh
+#!/bin/bash
+# purpose : Wait For Another Command to Complete
+
+echo "testing wait command 1" &
+process_id=$!
+echo "testing wait command 2" &
+wait $process_id
+echo "command 1 is completed"
+echo "command 2 is completed"
+
+
+>> chmod 744 complete.sh
+>> ./complete.sh
+
+131) Combine Kill and Wait Commands
+>> vi killcommand.sh
+#!/bin/bash
+# purpose : Combine Kill and Wait Commands
+echo "testing wait command"
+sleep 30 &
+pid=$!
+kill $pid
+wait $pid
+echo "$pid was terminated"
+
+>> chmod 744 killcommand.sh
+>> ./killcommand.sh
+
+
+132) Star Wildcard on File Selection
+>> vi file1.txt
+>> vi file2.txt
+>> vi fileZ.txt
+>> vi wildcard.sh
+#!/bin/bash
+# purpose : Star Wildcard on File Selection
+
+ls -l file*
+
+>> chmod 744 wildcard.sh
+>> ./wildcard.sh
+
+133) Question Mark Wildcard on File Selection
+>> vi questionmark.sh
+#!/bin/bash
+# purpose : Question Mark Wildcard on File Selection
+
+ls -l fil?Z
+
+>> chmod 744 questionmark.sh
+>> ./questionmark.sh
+
+134) Square Bracket on File Selection
+>> vi squrebracket.sh
+#!/bin/bash
+# purpose : Square Bracket on File Selection
+
+ls -l file[12]
+
+
+>> chmod 744 squrebracket.sh
+>> ./squrebracket.sh
+
+135) Parenthesis and Pipe for File Selection Options
+>> vi pipeselection.sh
+#!/bin/bash
+# purpose : Parenthesis and Pipe for File Selection Options
+
+ls -l [f-Z]* | wc -l
+
+or
+
+ls -l [f-h]* | wc -l
+
+>> chmod 744 pipeselection.sh
+>> ./pipeselection.sh
+
+136) Brace Expansion Comma Seperated List 
+>> vi seperatedlist.sh
+#!/bin/bash
+# purpose : Brace Expansion Comma Seperated List
+
+echo Linux{1,2,3} | tr ' ' ,
+echo Linux{A,B,C} | tr ' ' ,
+
+>> chmod 744 seperatedlist.sh
+>> ./seperatedlist.sh
+
+137) Brace Expansion Range(rate)
+>> vi expansionrate.sh
+#!/bin/bash
+# purpose : Brace Expansion Range(rate)
+
+echo {A..E}
+echo {M..Z}{1..12}
+
+>> chmod 744 expansionrate.sh
+>> ./expansionrate.sh
+
+138) Brace Expansion with Preamble
+>> vi preamble.sh
+#!/bin/bash
+# purpose : Brace Expansion with Preamble
+
+echo {file1,file2}\ {\ A," B"," C"}
+
+>> chmod 744 preamble.sh
+>> ./preamble.sh
+
+139) Operating on List of Files with Brace Expansion.
+>> vi braceexpansion.sh
+#!/bin/bash
+# purpose : Operating on List of Files with Brace Expansion.
+
+mkdir "dir"{4,5,6}
+ls
+
+>> chmod 744 braceexpansion.sh
+>> ./braceexpansion.sh
+
+140) Reference Home Directory with Tilde
+>> vi Tilde.sh
+#!/bin/bash
+# purpose : Reference Home Directory with Tilde
+
+echo ~
+
+
+>> chmod 744 Tilde.sh
+>> ./Tilde.sh
+
+
+141) Parameter Expansion for Printing Constant or Variable if Unset 
+>> vi parameterexpansion.sh
+#!/bin/bash
+# purpose : Parameter Expansion for Printing Constant or Variable if Unset
+
+echo "${checkVar:-unset}"
+
+>> chmod 744 parameterexpansion.sh
+>> ./parameterexpansion.sh
+
+142) Substring Expansion for Printing Part of String
+>> vi substringexpansion.sh
+#!/bin/bash
+# purpose : Substring Expansion for Printing Part of String
+
+starvar="United States of America"
+echo $starvar
+echo "${starvar:0:6}"
+
+
+
+>> chmod 744 substringexpansion.sh
+>> ./substringexpansion.sh
+
+143) Parameter Expansion for Assigning Constant to Variable if Unset 
+>> vi parameterexpansion.sh
+#!/bin/bash
+# purpose : Parameter Expansion for Assigning Constant to Variable if Unset
+
+echo "${checkVar:-unset}"
+echo "lets assign it a value"
+echo "${checkVar:=bash}"
+
+
+
+
+>> chmod 744 parameterexpansion.sh
+>> ./parameterexpansion.sh
+
+
+144) Check If File Executable, Set If Not
+>> vi fileexecutable.sh
+#!/bin/bash
+# purpose : Check If File Executable, Set If Not
+
+file="file1"
+
+if [[ -x "$file" ]]; then
+   echo "File is executable"
+else
+  echo "File is not executable"
+  chmod +x $file
+  echo "File is executable now"
+fi
+
+
+
+>> chmod 744 fileexecutable.sh
+>> ./fileexecutable.sh
+
+
+145) Check If File Is Owned By User, Set If Not
+>> vi checkiffile.sh
+#!/bin/bash
+# purpose : Check If File Is Owned By User, Set If Not
+
+file="file1"
+
+if [[ -0 "$file" ]]; then
+   echo "File is owned by the currently login user"
+else
+  echo "File is not owned by the currently login user"
+  chmod chown linuxuser $file
+  echo "File is owned by the currently login user now"
+fi
+
+
+>> chmod 744 checkiffile.sh
+>> ./checkiffile.sh
+
+146) wc To Count Files In A File
+>> vi countlines.sh
+#!/bin/bash
+# purpose : wc To Count Files In A File
+
+echo "The number of lines in the file are: "
+wc -l file.txt
+
+
+
+>> chmod 744 countlines.sh
+>> ./countlines.sh
+
+147) wc to Count Characters in a File
+>> vi countcharacters.sh
+#!/bin/bash
+# purpose : wc to Count Characters in a File
+
+echo "The number of characters in the file are: "
+wc -c file.txt
+
+
+>> chmod 744 countcharacters.sh
+>> ./countcharacters.sh
+
+148) Head Command With Default Args 
+>> vi headcommand.sh
+#!/bin/bash
+# purpose : Head Command With Default Args
+
+file="file.txt"
+sudo head $file
+
+
+>> chmod 744 headcommand.sh
+>> ./headcommand.sh
+
+149) Ls pipe and wc to count files in a directory
+>> vi lspipe.sh
+#!/bin/bash
+# purpose : Ls pipe and wc to count files in a directory
+
+echo "The number of files in the directories are: "
+ls | wc -l
+
+>> chmod 744 lspipe.sh
+>> ./lspipe.sh
+
+
+150) Head Command to Print First 100 Lines
+>> vi first100lines.sh
+#!/bin/bash
+# purpose : Head Command to Print First 100 Lines
+
+file="file.txt"
+sudo head -n 2 $file
+
+>> chmod 744 first100lines.sh
+>> ./first100lines.sh
+
+151) Tail Command With Default Args
+>> vi defaultargs.sh
+#!/bin/bash
+# purpose : Tail Command With Default Args
+
+file="file.txt"
+tail $file
+
+
+>> chmod 744 defaultargs.sh
+>> ./defaultargs.sh
+
+152) Tail Command to Print Last Lines
+>> vi printlastlines.sh
+#!/bin/bash
+# purpose : Tail Command to Print Last Lines
+
+file="file.txt"
+tail -n 2 $file
+
+
+>> chmod 744 printlastlines.sh
+>> ./printlastlines.sh
+
+153) Find Command to Locate Matching Pattern Files
+>> vi patternfiles.sh
+#!/bin/bash
+# purpose : Find Command to Locate Matching Pattern Files
+
+find . -name file.txt -print
+
+or
+
+find . -name fi*.txt -print
+
+or 
+
+find . -name *le.txt -print
+
+or
+
+find . -name *i*.txt -print
+
+
+>> chmod 744 patternfiles.sh
+>> ./patternfiles.sh
+
+154) Find Command to Locate Files Based on Date
+>> vi locatefiles.sh
+#!/bin/bash
+# purpose : Find Command to Locate Files Based on Date
+
+find . -name file1 -type f -ls | grep 'Oct 28'
+
+
+>> chmod 744 locatefiles.sh
+>> ./locatefiles.sh
+
+155) cut Command to Parse Delimited Columns of Data
+>> vi file.txt
+writing        something    here
+and     here   it      is 
+Hi      this   is      Devsec
+This    is     the     fourth  line
+>> vi delimited.sh
+#!/bin/bash
+# purpose : cut Command to Parse Delimited Columns of Data
+
+cut -f 4 file.txt
+or
+cut -f 2-3 file.txt
+
+
+>> chmod 744 delimited.sh
+>> ./delimited.sh
+
+156) grep Command to Search for Pattern
+>> cat file.txt
+>> grep some file.txt
+>> vi grepcommand.sh
+#!/bin/bash
+# purpose : grep Command to Search for Pattern
+
+>> cat file.txt
+>> grep some file.txt
+
+
+>> chmod 744 grepcommand.sh
+>> ./grepcommand.sh
+
+157) grep Command to Search for Lack of Pattern
+>> grep -v is file.txt
+>> vi lackofpattern.sh
+#!/bin/bash
+# purpose : grep Command to Search for Lack of Pattern
+
+>> grep -v is file.txt
+
+>> chmod 744 lackofpattern.sh
+>> ./lackofpattern.sh
+
+158) grep Command to Search for Case Insensitve Pattern
+>> grep -i devsec file.txt
+>> vi Insensitvepattern.sh
+#!/bin/bash
+# purpose : grep Command to Search for Case Insensitve Pattern 
+
+>> grep -i devsec file.txt
+
+>> chmod 744 Insensitvepattern.sh
+>> ./Insensitvepattern.sh
+
+159) grep Command with Wild Cards
+>> vi file.txt
+>> grep thi* file.txt
+
+
+160) grep Command to Search All Files in Directory Recursive
+>> vi file.txt
+>> vi new.txt
+Writing something here
+and here it is
+Hi this is Devsec
+This is the fourth line
+>> grep -r thi*
+
+
+
+161) grep Command to Search for File in a Directory Recursively 
+>> grep -rl thi*
+
+
+162) AWK with Variables
+
+>> awk 'BEGIN{ site="Devsec"; print site}'
+
+
+163) awk Split On Whitespace
+>> vi file.txt
+>> vi whitespace.sh
+#!/bin/bash
+awk '{ print $2 $3 }' file.txt
+
+164) awk Print Last Field in Each Line
+>> vi file.txt
+>> vi awkprint.sh
+#!/bin/bash
+
+awk '{ print $NF }' file.txt
+
+>> chmod 744 awkprint.sh
+>> ./awkprint.sh
+
+165) awk with custom delimeter
+>> vi delimeter.sh
+#!/bin/bash
+awk '$l=$l' FS=" " OFS="-" file.txt
+
+>> chmod 744 delimeter.sh
+>> ./delimeter.sh
+
+166) awk Print Only Match of Regex
+>> vi file.txt
+>> vi regex.sh
+awk '/here/' file.txt
+
+>> chmod 744 regex.sh
+>> ./regex.sh
+
+167) awk With If Else Condition
+>> vi file.txt
+>> vi elseconditon.sh
+
+awk '{
+  if($1 == "Writing")
+  {
+    print "Yes, it is.", "\n"
+  }
+  else
+  {
+    print "No, it is not.", "\n"
+  }
+  
+}' file.txt
+
+>> chmod 744 elseconditon.sh
+>> ./elseconditon.sh
+
+
+168) awk With Ternary Operator
+>> vi ternaryoperator.sh
+#!/bin/bash
+# purpose : awk With Ternary Operator
+
+awk '{
+  print ($l == "writing") ? "Yes, it is." : "No, it is not."
+}' file.txt
+
+>> chmod 744 ternaryoperator.sh
+>> ./ternaryoperator.sh
+
+169) sed To Replace Matching Text
+>> vi sed.txt
+#!/bin/bash
+# purpose : sed To Replace Matching Text
+
+sed 's/here/where/' file.txt
+
+>> chmod 744 sed.txt
+>> ./sed.txt
+
+170) sed To Replace Second Instance of Matching Text on Line 
+>> vi file.txt
+>> vi replace.txt
+#!/bin/bash
+# purpose : sed To Replace Second Instance of Matching Text on Line 
+
+sed 's/is/where/2' file.txt
+
+>> chmod 744 replace.txt
+>> ./replace.txt
+
+171) sed to Delete Specific Lines
+>> vi delete.sh
+#!/bin/bash
+# purpose : sed to Delete Specific Lines
+
+sed '2d' file.txt
+
+>> chmod 744 delete.sh
+>> ./delete.sh
+
+172) sed to Add a Line Before Matched Line
+>> vi matchedline.sh
+#!/bin/bash
+# purpose : sed to Add a Line Before Matched Line
+
+sed '/^Writing*./i Before' file.txt
+
+>> chmod 744 matchedline.sh
+>> ./matchedline.sh
+
+173) sed to Add a Line After Matched Line
+>> vi matchedline.sh
+#!/bin/bash
+# purpose : sed to Add a Line After Matched Line
+
+sed '/^Writing*./a After' file.txt
+
+>> chmod 744 matchedline.sh
+>> ./matchedline.sh
+
+174) Sort Data in File with sort Command 
+>> vi car.txt
+BMW
+TOYOTA
+HONDA
+KIA
+MERCEDESE
+
+>> vi sortcommand.sh
+#!/bin/bash
+# purpose : Sort Data in File with sort Command
+
+sort car.txt
+
+ 
+>> chmod 744 sortcommand.sh
+>> ./sortcommand.sh
+
+175) Sort Data Ignore Case
+>> vi case.txt
+apple
+Banana
+grapes
+Oranges
+Almond
+>> vi ignorecase.sh
+#!/bin/bash
+# purpose : Sort Data Ignore Case
+
+sort -f case.txt
+
+>> chmod 744 ignorecase.sh
+>> ./ignorecase.sh
+
+
+176) Sort Data numerically 
+>> vi case.txt
+134
+53
+72
+11
+653
+38
+
+>> vi datanumerically.sh
+#!/bin/bash
+# purpose : Sort Data numerically
+
+sort -n case.txt
+
+>> chmod 744 datanumerically.sh
+>> ./datanumerically.sh
+
+177) Print Unique Data with uniq Command
+>> vi file.txt
+>> vi uniqcommand.txt
+#!/bin/bash
+# purpose : Print Unique Data with uniq Command
+
+uniq file.txt
+
+ or
+
+uniq -c file.txt
+or
+uniq -cd file.txt
+
+>> chmod 744 uniqcommand.txt
+>> ./uniqcommand.txt
+
+178) Count Unique Lines in File with Sort, Uniq, and wc 
+>> vi uniquelines.sh
+#!/bin/bash
+# purpose : Count Unique Lines in File with Sort, Uniq, and wc
+
+echo "Enter filename"
+read filename
+if [[ -f "$filename" ]]
+    then
+       sort $filename | uniq -c | sort -bgr
+else
+       echo "$filename does not exists."
+fi
+
+
+>> chmod 744 uniquelines.sh
+>> ./uniquelines.sh
+
+179) Convert Data to Uppercase with tr
+>> vi file.txt
+hello
+welcome
+linuxhint
+linuxhint
+linuxhint
+bmw
+audi
+suzuki
+
+>> vi uppercasetr.sh
+#!/bin/bash
+# purpose : Convert Data to Uppercase with tr
+
+
+echo "Enter filename"
+read filename
+if  [[ -f "$filename" ]]
+     then
+         tr '[a-z]' '[A-Z]' < $fileName
+else
+        echo "$fileName does not exists."
+fi
+
+>> chmod 744 uppercasetr.sh
+>> ./uppercasetr.sh
+
+180) Convert Data to Lowercase with tr 
+>> vi lowercase.sh
+#!/bin/bash
+# purpose : Convert Data to Lowercase with tr
+
+echo "Enter filename"
+read filename
+if  [[ -f "$filename" ]]
+     then
+         tr '[A-Z]' '[a-z]' < $fileName
+else
+        echo "$fileName does not exists."
+fi
+
+
+>> chmod 744 lowercase.sh
+>> ./lowercase.sh
+
+
+181) Create a tar File
+>> vi tarfile.sh
+#!/bin/bash
+# purpose : Create a tar File
+
+echo "Enter filename"
+read fileName
+if [[ -f "$fileName" ]]
+    then
+            tar -cvzf $fileName.tar $fileName --remove-files
+else
+        echo "$fileName not found"
+fi
+
+>> chmod 744 tarfile.sh
+>> ./tarfile.sh
+
+182) Create a Zipped Tar File
+>> vi tarfile.sh
+#!/bin/bash
+# purpose : Create a Zipped Tar File
+
+echo "Enter filename"
+read fileName
+if [[ -f "$fileName" ]]
+    then
+            tar -cvzf $fileName.tar.gz $fileName --remove-files
+else
+        echo "$fileName not found"
+fi
+
+
+>> chmod 744 tarfile.sh
+>> ./tarfile.sh
+>> ./tarfile.sh
+enter filename
+output.txt
+output.txt
+
+
+183) Unzip a Compressed Tar File
+>> vi unzip.sh
+#!/bin/bash
+# purpose : Unzip a Compressed Tar File
+
+echo "Enter filename"
+read fileName
+if [[ -f "$fileName" ]]
+    then
+            tar -xzf $fileName
+else
+        echo "$fileName not found"
+fi
+
+>> chmod 744 unzip.sh
+>> ./unzip.sh
+Enter filename
+code.txt.tar
+
+
+184) Parse JSON File with jq
+>> vi jsonfile.sh
+#!/bin/bash
+# purpose : Parse JSON File with jq
+
+echo "Enter filename"
+read fileName
+if [[ -f "$fileName" ]]
+    then
+            cat $fileName  | jq '.'
+
+else
+        echo "$fileName not found"
+fi
+
+
+>> chmod 744 jsonfile.sh
+>> ./jsonfile.sh
+Enter filename
+example.json
+>> sudo apt-get install jq
+
+
+185) Print Specific Field in JSON with jq
+>> vi jsonwithjq.sh
+#!/bin/bash
+# purpose : Print Specific Field in JSON with jq
+
+echo "Enter filename"
+read filename
+if [[ -f "$fileName" ]]
+    then 
+
+            jq '.quiz.sport.q1.question' $fileName
+
+else
+        echo "$fileName not found"
+fi
+
+>> chmod 744 jsonwithjq.sh
+>> ./jsonwithjq.sh
+Enter filename
+example.json
+
+
+186) Print Cpu Info With Pseudo Filesystem
+>> vi pseudofilesystem.sh
+#!/bin/bash
+# purpose : Print Cpu Info With Pseudo Filesystem
+
+cat /proc/cpuinfo
+
+>> chmod 744 pseudofilesystem.sh
+>> ./pseudofilesystem.sh
+
+187) Print Mem Info With Psuedo Filesystem
+>> vi printmeminfo.sh
+#!/bin/bash
+# purpose : Print Mem Info With Psuedo Filesystem
+
+cat /proc/meminfo
+
+
+>> chmod 744 printmeminfo.sh
+>> ./printmeminfo.sh
+
+188) Print Mounts With Psuedo Filesystem
+>> vi printmounts.sh
+#!/bin/bash
+# purpose : Print Mounts With Psuedo Filesystem
+
+cat /proc/mounts
+
+
+>> chmod 744 printmounts.sh
+>> ./printmounts.sh
+
+189) Print Network Stats With Psuedo Filesystem
+>> cd /proc/net
+>> ls
+>> netstat
+>> vi networkstats.sh
+#!/bin/bash
+# purpose : Print Network Stats With Psuedo Filesystem
+
+cat /proc/net/netstat
+
+
+>> chmod 744 networkstats.sh
+>> ./networkstats.sh
+
+190) Print Disk Usage with du
+>> vi diskusage.sh
+#!/bin/bash
+# purpose : Print Disk Usage with du
+
+du /home/devsec/Documents/
+
+or 
+
+du /home/devsec/
+
+>> chmod 744 diskusage.sh
+>> ./diskusage.sh
+
+191) Print Disk Usage Human Readable with du
+
+#!/bin/bash
+du -h /home/devsec/Documents/
+
+
+192) Create File of Specified Size with dd
+
+#!/bin/bash
+dd if=/dev/zero of=myfile.txt count=1 bs=1024
+
+or
+dd if=/dev/zero of=myfile.txt count=1 bs=2048
+
+193) Time Disk Writing with dd and time
+>> vi timedisk.sh
+#!/bin/bash
+dd if=/dev/zero of=file2.txt count=1 bs=2048 oflag=dsync
+>> chmod 744 timedisk.sh
+>> ./timedisk.sh
+
+194) Send a Mail with mail Program
+>> sudo apt-get install ssmtp
+>> sudo gedit /etc/ssmtp.conf
+root=devsec@gmail.com
+mailhub=smtp.gmail.com:587
+AuthUser=devsec@gmail.com
+AuthPass=enter your password
+UseSTARTTLS=yes
+
+
+>> vi mailprogram.sh
+#!/bin/bash
+# purpose : Send a Mail with mail Program
+
+ssmtp devsec@gmail.com
+
+>> chmod 744 mailprogram.sh
+>> ./mailprogram.sh
+To: devsec@gmail.com
+From: devsec@gmail.com
+HELLO this is a sample email
+
+goto gmail account-> security -> less secure app access on.
+
+195) Send a Mail with mail Program Change Subject
+>> vi changesubject.sh
+#!/bin/bash
+# purpose : Send a Mail with mail Program Change Subject
+
+ssmtp devsec@gmail.com
+
+>> chmod 744 changesubject.sh
+>> ./changesubject.sh
+To: devsec@gmail.com
+From: devsec@gmail.com
+Subject: Sample email
+Hello i am sending a sample email.
+
+
+196) Send a Mail with mail Program to Multiple Recipients
+>> vi multiplerecipients.sh
+#!/bin/bash
+# purpose : Send a Mail with mail Program to Multiple Recipients.
+
+ssmtp devsec@gmail.com
+
+>> chmod 744 multiplerecipients.sh
+>> ./multiplerecipients.sh
+To: devsec@gmail.com hello@gmail.com
+From: devsec@gmail.com
+Subject: hello
+hello
+
+
+197) Send a Mail with mail Program to CC and BCC list
+>> vi sendmail.sh
+#!/bin/bash
+# purpose : Send a Mail with mail Program to CC and BCC list
+
+ssmtp devsec@gmail.com
+
+>> chmod 744 sendmail.sh
+>> ./sendmail.sh
+To: devsec@gmail.com
+From: devsec@gmail.com
+Subject: hello
+Cc: devsec@gmail.com
+Bcc: devsec@gmail.com
+hello
+
+
+198) Print Mounts Usage with df 
+>> vi mountsdf.sh
+#!/bin/bash
+# purpose : Print Mounts Usage with df 
+
+df
+or
+df -a
+
+>> chmod 744 mountsdf.sh
+>> ./mountsdf.sh
+
+199) Send a Mail with mail Program with Encoded Attachment 
+>> sudo apt-get install mutt
+>> vi attachment.sh
+#!/bin/bash
+# purpose : Send a Mail with mail Program with Encoded Attachment
+
+echo "This is the message body" | mutt -a "file.txt" -s "File Attachment" -- devsec@gmail.com
+echo "Email sent successfully"
+ 
+ or
+echo "This is the message body 2" | mutt -a "file.txt" -s "again File Attachment" -- devsec@gmail.com
+echo "Email sent successfully"
+
+
+>> chmod 744 attachment.sh
+>> ./attachment.sh
+
+200) Download Webpage with Curl
+>> vi downloadwebpage.sh
+#!/bin/bash
+# purpose : Download Webpage with Curl
+
+sudo apt-get install curl
+curl https://www.google.com --output file.txt
+        or
+curl https://www.linuxhint.com --output file.txt        
+
+>> chmod 744 downloadwebpage.sh
+>> ./downloadwebpage.sh
+
+201) Post to HTTP with Curl
+>> vi posthttp.sh
+#!/bin/bash
+# purpose : Post to HTTP with Curl
+
+curl -X POST -d @file.txt http://www.google.com
+
+>> chmod 744 posthttp.sh
+>> ./posthttp.sh
+
+202) Put Command in Background
+>> vi putcommand.sh
+#!/bin/bash
+# purpose: Put Command in Background
+
+sudo apt update &
+
+
+>> chmod 744 putcommand.sh
+>> ./putcommand.sh
+
+203) Resume Command From Background
+>> vi resumecommand.sh
+#!/bin/bash
+# purpose : Resume Command From Background
+
+sudo apt-get update &
+
+fg
+
+>> chmod 744 resumecommand.sh
+>> ./resumecommand.sh
+
+204) Execute Last Command Again with Bang Bang
+>> vi lastcommand.sh
+#!/bin/bash
+# purpose : Execute Last Command Again with Bang Bang
+
+sudo apt update
+
+!!
+
+
+>> chmod 744 lastcommand.sh
+>> ./lastcommand.sh
+
+205) tee Command to Print to File and Screen
+>> vi teecommand.sh
+#!/bin/bash
+# purpose : tee Command to Print to File and Screen
+
+tee -a file.txt
+
+>> chmod 744 teecommand.sh
+>> ./teecommand.sh
+hello world
+
+devsec
+
+>> https://linuxhint.com/
+-----------------------End-------------------------------

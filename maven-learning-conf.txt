@@ -1,0 +1,35 @@
+maven conf
+--------
+git
+https://github.com/ravitejasunshine/SimpleMavenProject.git
+
+-----------------------------------------------
+install java
+
+>> yum install java-1.8.0-openjdk
+>> alternatives --config java
+>> vim /etc/profile
+export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.322.b06-2.el8_5.x86_64
+export PATH=$JAVA_HOME/bin:$PATH
+
+>> install jenkins and steps
+>> yum install wget
+>>  sudo wget -O /etc/yum.repos.d/jenkins.repo \
+    https://pkg.jenkins.io/redhat-stable/jenkins.repo
+>> sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+>> sudo yum upgrade
+# Add required dependencies for the jenkins package
+>> sudo yum install java-11-openjdk
+>> sudo yum install jenkins
+>> sudo systemctl daemon-reload
+
+>> systemctl start jenkins
+>> systemctl status jenkins
+goto browser and <yourjenkins-ip>:8080
+
+>> unlock jenkins
+>> cat /var/lib/jenkins/secrets/initialAdminPassword
+
+++++++++++setup complete++++++++++++
+
+

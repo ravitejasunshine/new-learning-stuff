@@ -1,0 +1,34 @@
+learning path:-
+------------------------------------
+1) advanced git
+https://www.youtube.com/watch?v=qsTthZi23VE
+
+2) git for professionals
+https://www.youtube.com/watch?v=Uszj_k0DGsg
+
+3) django
+https://www.youtube.com/watch?v=o0XbHvKxw7Y
+
+4) git branches
+https://www.youtube.com/watch?v=e2IbNHi4uCI
+
+5) learn docker- Devops with Node.js & Express
+https://www.youtube.com/watch?v=9zUHg7xjIqQ
+
+6) Django projects
+https://www.youtube.com/watch?v=qPtScmB8CgA
+
+7) 12 beginner python projects
+https://www.youtube.com/watch?v=8ext9G7xspg
+
+8) reddis
+https://www.youtube.com/watch?v=XCsS_NVAa1g
+
+9) How to Build an E-commerce Website with Django and Python
+https://www.youtube.com/watch?v=YZvRrldjf1Y
+
+10) Django restapi
+https://www.youtube.com/watch?v=JIFqqdRxmVo
+
+11) git and github
+https://www.youtube.com/watch?v=vR-y_2zWrIE&list=PLWKjhJtqVAbkFiqHnNaxpOPhh9tSWMXIF

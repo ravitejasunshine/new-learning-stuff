@@ -1,0 +1,115 @@
+>>>>> DevOps Master Program | Week 01 | Why Devops | What is Devops | Devops Tools | What is Agile ?
+-------------------------------------------------------------
+
+>> scripting language
+python,ruby.go,nodejs,bash scripting.
+python integrate with mysql ans casendra
+>> Git and github
+>> k8s
+>> jenkins
+>> monitoring tools like prometheous,ngios
+>> IAC -> Terraform 
+>> configuration tool-> ansible
+>> linux,networking basics ->ubuntu
+>> aws -> cloud platform
+>> containers -> Docker
+
+Devops Lifecycle:-
+------------------
+SDLC:- software development life cycle
+Requirement analysis-> Design->Development-> Testing-> Maintainence.
+
+>> waterfall model
+Requirement analysis-> Design->Development-> Testing-> Maintainence.
+>> Agile methodology
+Reguirement define-> UI design-> Development-> QA-> UAT-> Client feedback 
+           |   |
+           yes No
+           |    |
+        Relese   -> requriment define
+
+ UAT(client side)
+ QA(project side)
+
+ >>> Project:-
+ application,Database,networking,servers.
+
+ Development        +    Operations
+ Development phase
+ 1.version control   2.Continuous integration
+ sharing of code       integration testing
+ Track changes         automatic builds
+ code audit            code validation
+Operations phase
+3.Release management   4.monitoring,HA(High availability)
+testing                 performance
+review                  High availability
+staging                 disaster recovery
+deployment              
+production
+
+
+>> Devops lifecycle
+
+business need(App,website)->software development team(eclipse,vs code)-> s/w checkin(Git)-> Automated software build(jenkins)->Testing->Automated deployment(Ansible)->monitoring(Nagios)->
+
+>> Devops def:-
+> communication of both software developers and it profionals.
+Devops-> Dev(developers team)+ops(application team,n/w team,db team)                                                 
+> devops means part of development and part of operations team.
+
+Developer->version control->Build,testing-> automated acceptance testing-> UAT-> Release
+
+>>>> what is Agile and Scrum overview 
+>> diff b/w waterfall and agile
+>> diff b/w waterfall and scrum
+>> agilekb.com
+>> agile have 3 pillors
+Transparency->inspection->adaption
+
+>>>> Docker 
+>> what is container and vm
+>> diff b/w container and vm
+>> what is docker
+>> what is docker container
+>> what is docker image
+>> what are registries
+>> what are containers
+>> what is dockerhub
+>> how containers does work
+>> what is namespace
+>> what is networking
+>> how to check pids
+>> how to check net
+>> how to check mount
+>> how to check uts
+>> how to check ipc
+>> how to check user
+>> how to create image and how its work
+>> what is docker architechure
+>> what is client
+>> what is docker host
+>> what is docker registry
+>> what is cli to docker engine
+>> what is local docker engine
+>> what is remote docker engine
+>> how it uses restful apis
+>> how it host containers
+>> how to run docker engine
+>> how docker host stores images locally
+>> what is docker image
+>> what are the layers
+>> what is union mounts
+>> docker history
+>> what are the major challenges in docker
+>> what is docker swarm
+>> 
+
+>>> k8s
+>> what is kubectl
+>> what is architecture
+>> what is microservices
+>> 
+
+>>> Terraform
+>>

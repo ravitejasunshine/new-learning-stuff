@@ -1,0 +1,49 @@
+Introduction to AWK Programming 
+-------------------------------------------------------------
+>>>> what is AWK?
+> Awk is a programming language which allows easy manipulation of structured data and the generation of formatted reports.
+> Awk stands for the names of its authors "Aho, Weinberger, and Kernighan"
+> Awk is mostly used for pattern scanning and processing.It searches one or more files to see if they contain lines that matches with the specified patterns and then perform associated actions
+
+>> How Awk works:-
+> Awk reads from a file or from its standard input, and outputs to its standard output.Awk does not get along with no-text files.
+> Awk reads the input files one line at a time.
+> For each line,it matches with given pattern in the given order, if matches performs the corresponding action.
+> If no pattern matches,no action will be performed.
+
+>> Features of Awk programming
+> Views a text file as records and fields
+> Just like common programming language,it has variables, conditionals and loops
+> Has arithmetic and string operators
+> Can generate formatted reports
+> Single quotes around program is to avoid shell not to interpret any of its special characters.
+
+Practical:-
+-----------
+>> vi emprpt.txt
+100 Thomas Manager   Sales     55,000
+200 Jason  Developer IT        55,000
+300 Sanjay Sysadmin  IT        57,000
+400 Nisha  Manager   Marketing 95,500
+500 Randy  DBA       IT        65,000
+>> cat emprpt.txt
+>> awk '{print;}' emprpt.txt
+>> awk '/Nisha/' emprpt.txt
+>> awk '/Manager/' emprpt.txt
+>> awk '/IT/' emprpt.txt
+>> awk '{print $2,$5}' emprpt.txt
+### print only employee name and salary.
+>> awk '{print $1,$2,$5}' emprpt.txt
+>> awk '{print $2,$NF}' emprpt.txt
+>> awk '$1 >300' emprpt.txt
+>> awk '$4 ~/Sales/' emprpt.txt
+>> awk '{if($4 == "Sales")print $0;}' emprpt.txt
+>> cat /etc/passwd
+>> awk -F:  '{print $1,$2}' /etc/passwd
+>> awk -F:  /kumar/'{print $1,$2}' /etc/passwd
+>> awk 'BEGIN {OFS=":"}  {print $2,$5}' emprpt.txt
+>> awk 'BEGIN {OFS=","}  {print $2,$5}' emprpt.txt
+>> how many records have
+>> awk  'END  {print NR}' emprpt.txt
+>> awk 'END {print NR}'  /etc/passwd
+>> 

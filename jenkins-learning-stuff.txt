@@ -1,0 +1,2647 @@
+>>>> jenkins
+jenkins-part-1
+https://www.guru99.com/jenkins-tutorial.html
+----------------------------
+https://www.guru99.com/jenkin-continuous-integration.html
+>> what is jenkins
+Jenkins is a self-contained, open source automation server which can be used to automate all sorts of tasks related to building, testing, and delivering or deploying software.
+
+Jenkins can be installed through native system packages, Docker, or even run standalone by any machine with a Java Runtime Environment (JRE) installed.
+
+>> what is continuous integration
+Continuous Integration is a process of integrating code changes from multiple developers in a single project many times. The software is tested immediately after a code commit. With each code commit, code is built and tested. If the test is passed, the build is tested for deployment. If the deployment is successful, the code is pushed to production.
+
+This commit, build, test, and deploy is a continuous process and hence the name continuous integration/deployment.
+>> what is continuous delivery
+>> what is continuous deployment
+>> how to install jenkins
+>> what are the ways to install jenkins
+>> how to create reverse proxy to jenkins
+----------------------------------------------
+
+>> jenkins: 
+1) jenkins is a open source java application tool.
+2) jenkins used for continuous integration and deployment.
+
+>> Development stages(Dev):
+
+		DevBranch
+			|
+		Feature branch
+		    |
+		modified
+		    |
+		  build          	
+            |
+           test  
+
+>> what is continuous integration,deployment,delivery
+CI:- 
+commit code                             (changes)
+|-----|---------->vcs(github)---------->trigger(automaticly)
+| DEV |<--------------------------------jenkins->Deploy
+|-----|          Build failed
+
+main advantage:- CI is errors and problems to detect early.
+
+
+>> continuous delivery:-
+1) code is moved to deployble state.
+2) code quality is good.
+3) very low risk of failures.
+
+>> continuous deployment:-
+1) it is the process of automating release to the production.
+
+>> prerequests:-
+Git->Github->Jenkinserver->storage->JRE
+
+		>>> go to Ec2 redhat box
+>> yum -y install git
+>> ping localhost
+
+goto gihub.com and login
+>> ssh-keygen
+>> cd .ssh
+>> ll
+>> cat id_rsa.pub (#public certificate)
+>> copy the public certificate
+-> goto github and settings
+-> goto SSH and GPG keys
+-> create new ssh keys
+title: jenkins
+key: paste the public certificate key.
+click the Add ssh key.
+
+>> df -h
+>> ping localhost
+>> Goto aws console -> goto instances -> Elastic Block store -> Volumes -> Create Volume -> add volumes ->
+create volume -> goto actions -> attach volume -> attach
+>> fdisk -l
+>> mkfs.ext4 /dev/xvdf
+>> mkdir -p /var/lib/jenkins
+>> vi /etc/fstab
+/dev/xvdf /var/lib/jenkins ext4 defaults 0 0
+wq!
+>> mount /var/lib/jenkins
+>> df -h
+>> cd /var/lib/jenkins
+>> ls
+
+Install java
+>> yum -y install java-1.8.0-openjdk
+>> ping localhost
+>> goto jenkins download
+>> goto redhat download link
+>> yum install wget
+>> follow the jenkins install steps
+>> ls -ld /var/lib/jenkins
+>> systemctl start jenkins
+>> systemctl status jenkins
+>> ps -ef | grep -i jenkins
+>> ls -l /var/lib/jenkins
+>> netstat -ntlp
+
+goto browser
+ip:8080
+
+>>> install jar jenkins
+>> wget https://get.jenkins.io/war-stable/2.289.2/jenkins.war
+>> ls -lrt
+>> java -jar jenkins.war
+
+>>>> install jenkins on docker
+>> sudo yum install -y yum-utils
+>> follow the docker through jenkins commands
+>> https://docs.docker.com/engine/install/centos/
+>> https://hub.docker.com/r/jenkins/jenkins
+>> sudo systemctl start docker
+>> docker pull jenkins/jenkins:lts-jdk11
+>> docker images
+>> https://github.com/jenkinsci/docker/blob/master/README.md
+>> docker run -d -v jenkins_home:/var/jenkins_home -p 8080:8080 -p 50000:50000 jenkins/jenkins:lts-jdkll
+>>ip:8080
+my jenkins from container
+
+>>> how to configure reverse proxy
+-- install nginx
+-- first install epel
+-- https://fedoraproject.org/wiki/EPEL
+-- install epel8
+>> yum install nginx -y
+>> vi /etc/nginx/nginx.conf
+remove the server thing
+server{
+	
+}
+remove and save
+wq!
+
+>> vi /etc/nginx/conf.d/jenkins.conf
+server_name: devsec
+>> systemctl start nginx
+>> systemctl status jenkins
+goto browser jenkins.devsec 
+>> vi /etc/nginx/conf.d/jenkins.conf
+>> vi /var/log/nginx/jenkins.error.log
+issue: here permission denied
+>> getenforce
+>> setenforce Permissive
+>> getenforce
+>> systemctl status nginx
+>> systemctl stop nginx
+>> systemctl start nginx
+>> 
+completed jenkins setup
+-----------------------------------------------------
+jenkins-part-2
+
+first create the sample project
+> python-project (without git)
+> python-project (with git)
+> https://github.com/JaiTrieTree/Python-Project
+> goto https and copy the link
+> paste the link
+> goto build -> execute shell
+python3 *test.py
+apply and save
+buildnow
+
+>> maven
+>> if you run the maven project you have pom.xml
+>> mvn test
+>> mvn complile
+>> mvn install
+>> 
+
+>> ls -lrt
+>> cd target
+>> 
+
+>> goto jenkins and create a maven project
+-> MavenProject (#create a maven project)
+-> create freestyle project
+-> goto source code management
+https://github.com/JaiTrieTree/SimpelMavenProject.git
+-> goto build
+-> Invoketop-level Maven targets
+clean
+test
+complile
+install
+>> Build Now
+>> cd /var/lib/jenkins/.m2/repository/SimpleMavenProject/SimpleMavenProject/0.0.1-SNAPSHOT
+
+created the jar files.
+------------------------------------------------------
+jenkins-part-03-
+
+>>> Jenkins HA setup
+
+goto google jenkins ha setup
+
+Reference: https://newtglobal.com/jenkins-high-availability-and-resuming-pipeline-job/
+
+https://skalable.net/blogs/technology/jenkins_ha.html
+
+https://opcitotechnologies.medium.com/how-to-configure-jenkins-with-high-availability-34e24bfa789a
+
+>> goto aws ec2 instance
+>> create three redhat instances
+customtcp tcp 8080 anywhere
+http      tcp 80   anywhere 
+
+here i have 2masters and 1 ha proxy     
+
+i have create two jenkins servers(masters) 
+example ips:- 13.235.18.193:8080
+			  3.108.228.233:8080
+
+>> goto jenkins dashbord
+>> goto manage jenkins->manage credentials
+if you add any credentials 
+goto->jenkins->Global credentials->Add credentials->
+go with the-> ssh username with private key
+
+master master setup you need to give similar id(sameid).
+
+Id-> jenkinsha
+username->jenkins
+privatekey-> add private key
+## goto jenkins master server1
+>> cd .ssh
+>> cat id_rsa (#private key)
+>> copy and paste into add private key section
+
+>>>goto second jenkins master server2
+>> goto jenkins dashboard
+manage jenkins-> manage credentials->global credentials->add credentials->ssh username with private key
+
+ID-> jenkinsha
+username->jenkins
+add the privatekey
+
+goto second jenkins master server
+>> cd .ssh
+>> cat id_rsa
+copy that paste into privatekey add section
+
+i have done two master jenkins server boxes
+
+>> we need have nfs
+create the efs
+>> i'll goto aws->services->
+we need to go for->efs(manage file storage)
+
+create filesystem->
+Name->jenkins
+select->Regional->create
+
+creating the jenkins
+click on jenkins(efs)
+click on attach
+
+>>> goto jenkins server master 1
+>> yum install nfs-utils -y
+>> df -h
+goto ec2 instance security group
+nfs TCP 2049
+goto efs and add the security group to network section. 
+copy the nfsclient
+>> sudo mount -t nfs4 ............efs.ap-south-1.amazonaws.com:/ /var/lib/jenkins/jobs
+>> cd /var/lib/jenkins
+>> ls -lrt
+>> chown -R jenkins:jenkins /var/lib/jenkins/jobs/
+>> ls -lrt
+>> systemctl start jenkins
+
+
+>>> goto jenkins server master 2
+>> yum install nfs-utils -y
+>> df -h
+>> cd /var/libs/jenkins/
+>> ls -lrt
+>> systemctl status nfs-server
+>> systemctl start nfs-server
+>> systemctl status jenkins (#stop jenkins using nfs)
+>> systemctl stop jenkins
+>> systemctl status jenkins
+>> systemctl status nfs-server
+>> goto nfs and copy the nfs client mount id
+ sudo mount -t nfs4 -o ..............ap.south-1.amazon.com:/ /var/lib/jenkins/jobs
+
+ >> df -h
+ >> systemctl start jenkins
+
+
+ goto jenkins dashboard
+ login jenkins master1 and jenkins master2
+
+ >> goto jenkins master1
+create-> job
+python-project->freestyle
+execute shell -> echo "helloworld"
+buildnow
+
+goto terminal 
+>> ls -lrt
+>> cd jobs
+>> ls -lrt
+python-project
+
+>> goto jenkins master2 terminal
+>> ls -lrt
+>> cd jobs
+python-projects
+ 
+ ### same data available in two masters
+
+ goto second jenkins master2 dashboard
+
+ second jenkins box restart
+ >> systemctl restart jenkins
+
+ enter username and password
+
+ >> using api calls to setup the autoreload jenkins process
+
+>> crumb id to  reload the jenkins
+>> curl -s 'http://localhost:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)' -u admin:admin
+>> crumb_id=$(curl -s 'http://localhost:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)' -u admin:admin)
+>> systemctl status jenkins
+>> curl -s -XPOST 'http://localhost:8080/stop' -u admin:admin -H "$crumb_id"
+>> it doesn't work 
+goto jenkins dashboard-> manage jenkins->configure global security->enable csrf protection->save
+
+>> i make a script
+>> vi reload.sh
+#!/bin/bash
+crumb_id=$(curl -s 'http://localhost:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)' -u admin:admin)
+curl -s -XPOST 'http://localhost:8080/reload' -u admin:admin -H "$crumb_id"
+
+:wq!
+>> this script run as cronjob
+>> chmod +x reload.sh
+>> vi /etc/cron.d/jenkinsreload
+*/1 * * * * root /bin/bash /root/reload.sh
+:wq!
+>> pwd
+/root
+>> systemctl status crond
+>> 
+
+goto third jenkins server
+>> sudo su -
+>> yum install haproxy -y
+>> vi /etc/haproxy/haproxy.cfg
+>> goto defaults
+i will remove all the defaults lines
+paste the jenkins defaults
+
+defaults
+  log  global
+  maxconn  2000
+  mode  http
+  option  redispatch
+  option  forwardfor
+  option  http-server-close
+  retries  3
+  timeout  http-request 10s
+  timeout  queue 1m
+  timeout  connect 10s
+  timeout  client 1m
+  timeout  server 1m
+  timeout  check 10s
+
+frontend ft_jenkins
+  bind *:80
+  default_backend  bk_jenkins
+  reqadd  X-Forwarded-Proto:\ http
+
+backend bk_jenkins
+  server ip-172-31-46-14.ap-south-1.compute.internal 172.31.45.33:8080 check
+  server ip-172-31-33-159.ap-south-1.compute.internal 172.31.33.85:8080 check backup
+
+:wq!
+>> systemctl start haproxy
+>> systemctl status haproxy
+
+## goto aws and copy the haproxy public ip
+## paste the ip into browser 
+ip:80
+login jenkins 
+username and password
+
+goto jenkins master1
+>> systemctl stop jenkins
+
+down the jenkins master1
+second box is running
+---------------
+HA Proxy:
+######################
+
+defaults
+  log  global
+  maxconn  2000
+  mode  http
+  option  redispatch
+  option  forwardfor
+  option  http-server-close
+  retries  3
+  timeout  http-request 10s
+  timeout  queue 1m
+  timeout  connect 10s
+  timeout  client 1m
+  timeout  server 1m
+  timeout  check 10s
+
+frontend ft_jenkins
+  bind *:80
+  default_backend  bk_jenkins
+  reqadd  X-Forwarded-Proto:\ http
+
+backend bk_jenkins
+  server jenkins1 172.31.45.33:8080 check
+  server jenkins2 172.31.33.85:8080 check backup
+
+
+Crumb code: 
+################################
+#!/bin/bash
+crumb_id=$(curl -s 'http://localhost:8080/crumbIssuer/api...,":",//crumb)' -u admin:admin)
+curl -s -XPOST 'http://localhost:8080/reload' -u admin:admin -H "$crumb_id"
+---------------------------------------------------------
+part-4 Jenkins full backup and restore
+
+goto jenkins dashboard
+
+manage jenkins->manage plugins->goto available->periodic backup(#to install)
+
+goto first jenkins master1 box
+>> mkdir /opt/backupdir-jen
+>> chown -R jenkins:jenkins /opt/backupdir-jen/
+
+goto manage jenkins -> search periodic backup manager
+->click here to configure it.
+
+Temporary Directory -> /tmp
+backup schedule(cron) -> 0 1 * * *
+maximum backups in location-> 20
+store no older than (days)-> 10
+File management strategy-> FullBackup
+storage strategy -> TarGzStorage
+Backup Location -> /opt/backupdir-jen
+enable location and validating path
+save the settings
+
+>>Backup Now
+
+goto jenkins dashboard and delete the python-project 
+
+recovery the deleted project
+
+goto manage jenkines->periodic backup manager->restore.
+select Fullbackup
+restore selected backup
+
+goto jenkins dashbord and refresh the page.
+---------------------------------------------------------
+part-5 jenkins security and jenkins security with LDAP
+
+>> best practices security in jenkins
+
+>> goto jenkins dashboard->manage jenkins->manage nodes and clouds->master->configure
+
+>> enable the csrf protection
+manage jenkins->configure global security->enable csrf protection
+agent->controller security->enable
+
+>> install a plugin
+goto manage jenkins -> manage plugins-> available->Role-based authoriztion strategy(install)
+
+create a new project->
+new item->python->free style project
+enable project-based security
+
+just for security purposes
+
+>>goto manage jenkins->configure Global security
+
+
+>> install ldap server
+phpLDAPadmin
+>> howtoforge.com/how-to-install-and-configure-openldap-phpldap-on-ubuntu-2004/
+>> https://www.howtoforge.com/how-to-install-and-configure-openldap-phpldapadmin-on-ubuntu-2004/
+
+after installation
+>> goto ldap server
+click groups->create a child entry->Generic:posix Group
+Group-> admins->commit
+
+again i'll do one more group
+groups->create a child entry->Generic:posix group
+Group ->Devops->create object->commit
+
+again i'll do one more group
+groups->create a child entry->Generic:posix group
+Group ->Developers->create object->commit
+
+
+goto people->create a child entry->Generic: user account
+
+common name->Rakesh Adiyala
+Firstname -> Rakesh
+Gid number -> admins
+last name -> Adiyala
+home directory -> /home/users/radiyala
+Login shell -> /bin/sh
+userid -> radiyala
+commit
+
+create one more user
+goto people->create a child entry->Generic: user account
+
+common name-> Narendra
+Firstname -> Narendra
+Gid number -> Devops
+last name -> modi
+home directory -> /home/users/nmodi
+Login shell -> /bin/sh
+password -> *****
+userid -> nmodi
+create object->commit
+
+create one more user
+goto people->create a child entry->Generic: user account
+
+common name-> mahatma
+Firstname -> mahatma
+Gid number -> Developers
+last name -> Gandhi
+home directory -> /home/users/mgandhi
+Login shell -> /bin/sh
+password -> *****
+userid -> mgandhi
+create object->commit
+
+
+goto admins group section->add new attribute->
+memberuid->radiyala->update object
+
+goto developers section->add new attribute->
+memberuid->mgandhi->update object
+
+goto Devops section->add new attribute->
+memberuid->nmodi->update object
+
+>> goto jenkins dashboard
+managejenkins->configure global security
+
+goto security realm
+ldap->ldap ip(#172.31.43.210:389)
+server -> 172.31.43.210:389
+goto advanced server configuration
+root DN -> dc=example.dc=com
+user search base -> ou=people
+Group search base -> ou=groups
+search for LDAP groups containing user->
+(| (member={0}) (uniqueMember={0}) (memberUid={1}))
+
+manager DN -> cn=admin,dc=example,dc=com
+manager password -> **********
+Display Name LDAP attribute -> cn
+Advanced configuration -> Disable Ldap Email Resolver
+Test LDAP settings 
+user -> radiyala
+pwd -> ******
+test
+apply and save
+
+
+goto configure global security 
+Authorization -> Role-Based strategy
+apply and save
+
+goto security
+manage and assign roles ->manage roles 
+Role to add -> admins -> add
+            -> Developers-> add
+            -> DevOps -> add
+
+apply and save
+
+goto security
+Assign roles 
+user/group to add 
+admins->add
+Developers->add
+DevOps -> add
+
+apply and save
+logout jenkins
+
+login jenkins -> admin role
+usr: radiyala
+pwd: ******
+
+login jenkins -> Developer role
+usr: nmodi
+pwd: ******
+
+login jenkins -> DevOps role
+usr: mgandhi
+pwd: ******
+
+>> manage your access by integrating with ldap
+
+>>
+####don't do that just for practice purpose
+>> vi /var/lib/jenkins/config.xml
+<useSecurity>false</useSecurity>
+-----------------------------------------------------------
+part -6 Jenkins slave nodes vm,Ec2&Docker as a slave
+
+>> How to add slave nodes
+>> how to configure slave node
+>> how to setup slave node
+
+>> goto slave node and install openjdk (172-31-39-63)
+>> sudo su -
+>> yum search openjdk
+>> yum install git
+>> yum install java-1.8.0-openjdk.x86_64 
+>> useradd jenkins
+>> ls -l /home/jenkins/
+
+
+>> goto master node (172-31-34-164)
+>> ssh-keygen
+>> mkdir -p /opt/.jenkins
+>> ls -la
+>> cd .ssh/
+>> ls
+>> cp id_rsa /opt/.jenkins/
+>> cp id_rsa /opt/.jenkins/jenkins_slave
+>> cd /opt/.jenkins/
+>> ls
+id_rsa jenkins_slave
+>> rm -rf id_rsa
+>> cd
+>> cd /opt/.jenkins/
+>> chown -R jenkins:jenkins /opt/.jenkins/
+>> chmod 400 jenkins_slave
+>> ls -lrt
+>> cd 
+>> cd .ssh/
+>> ls
+>> vi id_rsa (#private key)
+>> cat id_rsa.pub (#public key)
+public key copy into master to slave node
+
+
+>>> goto slave node (172-31-39-63)
+>> su - jenkins
+>> mkdir .ssh
+>> chmod 700 .ssh/
+>> vi .ssh/authorized_keys
+public key paste here(master node public key)
+>> chmod 600 .ssh/authorized_keys
+>> exit
+>> cd /opt/
+
+###download the agent.jar file
+>> wget http://172.31.34.164:8080/jnlpJars/agent.jar (#8:29)
+>> ls -lrt
+
+
+
+>> goto jenkins box
+>> manage jenkins -> configure global security
+Agents->Fixed 50000
+apply and save
+
+goto manage nodes and clouds
+goto newnode
+node name -> jenkins-slave
+permanent Agent
+ok
+
+name -> jenkins-slave
+number of executors -> 2
+remote root directory -> /home/jenkins
+labels -> jenkins-ssh-slave
+usage -> only build jobs with label expressions matching this node
+launch method -> launch agent via execution of command on the controller
+lauch command ->
+ssh -o StrictHostKeyChecking=no -i /opt/.jenkins/jenkins_slave jenkins@172.31.39.63 java -jar /opt/agent.jar
+save
+
+
+check the logs 
+
+run on the pipeline on slave node
+
+goto jenkins dashboard 
+goto python project
+configure -> general
+enable -> Restrict where this project can be run Label Expression->jenkins-ssh-slave
+>> apply and save
+build now and check the console output
+
+all the process in the slave node
+this is  not running in the master only slave node
+
+
+### how to slave nodes add in aws ec2
+goto aws dashboard 
+search for IAM
+goto usergroups
+create group
+user group name-> jenkins
+access -> amazon ec2 full access->create group
+
+i have created a group
+
+goto users
+add users 
+user name -> jenkins
+access type -> programmatic access -> next -> enable jenkins
+->next->next->create user 
+
+download .csv
+
+
+goto ec2 dashboard
+goto network & security inside -> key pairs
+create a key pair -> 
+name-> jenkins
+private key file format -> .pem -> create key pair
+
+
+keypair open with notepad
+
+now i will goto jenkins box
+manage jenkins -> manage plugins -> available 
+-> amazon ec2 -> install
+
+goto manage jenkins -> manage credentials ->
+
+goto stores scoped to jenkins
+jenkins -> global credentials-> add credentials
+
+kind -> AWS Credentials
+Access Key ID -> hdsdjsfeuygfdsjhdhd
+Secret Access Key ->  **************
+ok
+
+goto jenkins dashboard 
+manage jenkins -> manage nodes and clouds ->configure clouds
+-> amazon ec2 
+name -> aws-jenkins
+region -> ap-south-1
+ec2 keypair's Private Key -> add
+kind -> ssh username with private key
+copy the jenkins.pem.txt (#copy the private key)
+private key -> Enter directly -> add -> paste the private key-> add
+click testconnection
+save
+
+
+goto ec2 dashboard and launch instance
+
+https://omnios.org/setup/aws
+
+goto website  and copy the ami id
+
+ap-south-1  Asia Pacific(Mumbai)   ami-07539529fd98896eb
+
+goto manage nodes and clouds-> configure clouds 
+click advanced 
+goto amis
+amiid -> jdsjjjdsajds->check ami
+description -> aws-jenkins-slave
+instance type -> T2micro
+security group names -> default
+Remote FS root -> /home/redhat
+Remote user -> redhat
+amitype -> unix
+Root command prefix -> sudo
+Labels -> aws-jenkins-slave
+usage -> Only build jobs with label expressions matching this node
+Idle termination time -> 1
+Number of executors -> 2
+
+enable-> Delete root device on instance termination
+Encrypt EBS root volume -> Based on AMI
+enable -> Associate Public IP
+Connection Strategy
+enable-> Connect by SSH process
+
+init script->
+#!/bin/bash
+yum -y install java-1.8.0-openjdk.x86_64 git
+apply and save
+
+goto jenkins dashboard
+goto jenkins project -> configure-> 
+enable->Restrict where this project can be run
+label expression->aws-jenkins-slave
+
+apply and save
+build now
+
+
+goto python project section 
+already launched aws t2.micro
+goto manage jenkins-> manage nodes and clouds
+if go and check logs
+change the private ip to public ip
+goto dashboard->configure clouds
+connection strategy->public ip
+enable-> connect by ssh process
+apply and save
+Remote Fs root ->/home/ec2-user
+Remote user -> ec2-user
+apply and save
+
+goto jenkins dashboard -> pyhton project
+build now
+
+launch the instace and connect with public ip or ssh
+>> sudo su -
+>> service sshd status
+>> exit
+>> build successful and goto console output
+
+
+#### install Docker plugin
+goto manage jenkins -> manage plugins -> docker pipeline
+install the plugins
+
+create the docker slave box
+>> vi /lib/systemd/system/docker.service
+#ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock
+
+### note open the 4243 port in security group
+>> systemctl daemon-reload
+>> systemctl start docker
+>> systemctl status docker
+>> docker ps
+>> curl http://localhost:4243/version
+>> curl http://65.2.11.16:4243/version
+>> docker ps
+>> ping localhost
+>> 
+goto jenkins box
+goto manage jenkins-> manage nodes and clouds -> configure clouds -> add a new cloud -> Docker-> docker cloud details
+
+goto docker slave box -> copy the public ip(### tcp://65.2.11.16:4243)
+
+test connection
+enable -> Enabled
+
+goto docker template
+name -> docker-slave
+
+############
+docker image
+jnlp connection works here 
+goto google.com jnlp jenkins image
+############
+
+Docker Image -> jenkins/jnlp-slave:latest
+usage -> only build jobs with label expressions matching this node.
+connect method -> Connect with JNLP
+jenkins URL -> http://15.207.85.82:8080
+apply and save
+
+goto jenkins dash board 
+goto python project -> configure
+General -> enable Restrict where this project can be run->
+docker-slave
+
+enable jnlp 50000 into aws slave-group 
+goto edit inbound rules and add the 50000 port number
+
+go and build the project
+
+>> docker ps
+>> docker ps -a
+
+This way to run the slave nodes
+-----------------------------------------------------------
+part - 7 Jenkins git integration maven_pipeline jobs
+
+>> How to create pipeline jobs
+
+>> goto jenkins dashboard
+>> create a new project
+>>goto create a new item -> Basic-Project -> Freestyle project -> ok
+-----------------------------------------
+interview question:- how you rotate your builds
+ans:- goto jenkins project -> general -> enable old builds
+-> Days to keep builds = 10 
+note: if 11 build start ,discard the 1 build
+ex: 11 = 1 deleted
+    12 = 2 deleted
+    13 = 3 deleted
+    14 = 4 deleted
+    15 = 5 deleted
+--------------------------------
+
+Build-> Execute shell
+echo "Hello subscribers"
+ls -lrt /etc
+cd
+
+>> apply and save
+build now (### first build)
+
+second build
+echo "Hello subscribers"
+ls -lrt /etc
+cdd
+build now
+apply and save
+5  times build
+
+
+6th build
+echo "Hello subscribers"
+ls -lrt /etc
+cd
+build now
+apply and save
+
+>>> Trigger builds remotely
+goto jenkins dashboard -> Basic-Project -> source code management -> Build Triggers -> enable Trigger builds remotely->dsjhbfsjhjhsjhsjhjhj
+
+copy the jenkins token url
+apply and save
+
+goto browser and paste the token url
+it does work remotely to build the project
+
+goto jenkins project dashboard -> basic-Project
+->Build Environment -> post build actions -> Build other projects
+
+give the projectname -> trigger only build is stable
+apply and save
+
+
+>>> Git Integration with jenkins
+Two ways to integrate the jenkins
+1) pollscm
+if i want to check every one minute
+2) webhooks
+
+goto jenkins dashboard
+create newitem -> Python-Project -> Free style project ->ok
+
+goto Python-Project->configure
+General -> Description
+Building Python Project with Git integration
+
+Github project -> project url
+https://github.com/JaiTrieTree/PythonJenkins
+
+Source code management -> Git -> Repository URL
+git@github.com:JaiTrieTree/PythonJenkins.git
+add git credential
+
+Build -> Execute shell
+python3 account.py
+apply and save
+
+Buildnow
+
+goto configure -> Build Triggers -> Poll SCM
+* * * * *
+apply and save
+
+nobuilds 
+
+goto github and modify the python project
+add dummyfile 
+
+nothing in it. Checking for Git poll scm.
+
+commit newfile -> Create poll scm test -> commit new file
+
+automatically trigger the build 
+
+check the console output
+
+goto github and the delete the dummyfile
+commit changes -> Delete Dummy -> Commit changes
+
+check the console output
+
+>>>> webhooks
+>> how to configure webhooks
+
+goto github and python project
+goto settings -> webhooks -> addwebhook
+payload url -> http://jenkinsbrowserurl:8080/github-webhook/
+content type-> application/json
+
+add webhook
+
+goto jenkins dashboard-> Python-Project -> configure
+disable-> poll SCM
+enable-> Github hook trigger for GITScm polling
+apply and save
+
+goto gihub and Pythonjenkins project -> create new file
+webhooktest
+checking webhook for jenkins
+commit new file -> WebHookTest -> commit new file
+
+goto jenkins dashboard -> Python-Project
+buildnow
+
+check the console output
+
+goto github and delete the webhooktest file.
+commit changes
+Delete Webhooktest
+Commit changes
+
+back to jenkins project
+goto console output
+
+>> comparision between postscm and webhooks
+
+>>>>> Maven Integration with Jenkins
+>> How to integrate maven 
+
+goto manage jenkins->manage plugins-> install maven integration
+
+goto manage jenkins -> Global configuration tool
+add jdk -> install automatically -> add oracle credentials
+
+maven ->
+name -> MavenBuild -> install automatically
+version->3.8.1
+apply and save
+
+>> create a new project
+create new item ->MavenProject ->Mavenproject(project type)
+
+https://github.com/JaiTrieTree/SampleMavenProject
+
+General -> Github project
+project url -> https://github.com/JaiTrieTree/SimpleMavenProject/
+
+source code management
+Git->
+Repository URL -> git@github.com:JaiTrieTree/SimpelMavenProject.git
+Credentials -> git -> add credentials
+
+Build Tiggers
+enable -> Build whenever a SNAPSHOT dependency is built
+
+Build Environment
+enable -> Delete workspace before build starts
+
+Build
+Root POM -> pom.xml
+Goals and options -> clean test package
+
+apply and save
+Build Now
+
+>>>> Jenkins Jobs with pipeline
+
+https://github.com/ravitejasunshine/jenkins-Pipeline-Scripts-
+https://github.com/JaiTrieTree/jenkins_pipeline
+
+
+goto jenkins dashbord -> create a new item -> PythonPipeline -> Pipeline -> ok
+
+pipeline ->
+pipeline script ->
+pipeline{
+    agent any
+    stages{
+        stage("Build"){
+            steps{
+                echo "Hello World"
+            }
+        }
+    }
+}
+
+pipeline syntax ->
+steps
+sampel step -> 
+build: Build a job
+project to build -> project name (#your previous project)
+Generate Pipeline Script
+
+apply and save
+Buildnow
+check the console output
+
+
+agin another project
+
+goto https://github.com/JaiTrieTree/PythonJenkins
+
+this project runs using pipeline
+
+goto jenkins pythonPipeline project -> pipeline
+pipeline syntax ->
+steps:-
+sample steps -> checkout: Check out from version control
+Repository URL -> git@github.com:JaiTrieTree/PythonJenkins.git
+credentials -> git -> add
+Generate pipeline script
+copy the checkout script
+
+https://github.com/JaiTrieTree/jenkins_pipeline/blob/master/pythonpipelinescript
+
+copy and paste into pipeline and paste the checkout(checkout script)
+
+paste into pipeline
+apply and save
+Buildnow
+check the console output
+
+abort the project
+
+goto pythonpipeline ->pipeline
+remove the code
+agent {
+  node {
+    label 'docker-jenkins'
+  }	
+} 
+
+add code ->
+agent any
+
+apply and save
+buildnow
+
+change python to python3 in pipeline section
+
+google search jenkins pipeline
+
+
+create a new project -> maven-pipeline ->pipeline ->ok
+pipeline-> pipeline script->
+pipeline {
+	agent any
+	tools {
+	    maven 'MavenBuild'
+	}
+	stages {
+	    stage('Example'){
+	        steps {
+	            sh 'mvn --version'
+	        }
+	    }
+	}
+}
+apply and save
+Buildnow
+---------------------------------------------
+part - 8 Jenkins Declarative Pipeline Scripts 
+
+>>> goto jenkins dashboard
+create a new project -> Pipeline1 -> pipeline ->ok
+
+goto github and find the helloworld pipeline script
+
+Pipeline -> Pipeline script
+pipeline{
+	agent any
+	stages{
+	    stage("Build"){
+	        steps{
+	            echo "Hello World"
+	        }
+	    }
+	}
+}
+apply and save
+Buildnow
+
+>>> goto jenkins dashboard (Pipeline stages-steps) 
+create a new project-> Pipeline2 ->Pipeline ->ok
+pipeline -> Pipeline script
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+			
+				script{
+				
+					def name = "trietree"
+					
+					if(name == "trietree")
+						println("hi ${name}")
+					else
+						println("hi Subscribers")				
+												
+					sleep 2	
+					echo "end of script"
+				}
+            }
+        }
+    }
+}
+apply and save
+Buildnow
+
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+			
+				script{
+				
+					def name = "trietree"
+					
+					if(name == "trietree1")
+						println("hi ${name}")
+					else
+						println("hi Subscribers")				
+												
+					sleep 2	
+					echo "end of script"
+				}
+            }
+        }
+    }
+}
+buildnow
+
+>>> goto jenkins dashboard (error retry pipeline script)
+create a new project -> Pipeline3 -> pipeline
+pipeline -> 
+pipeline script 
+
+retry
+-----
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                retry(3) {
+					echo "before throwing error"
+                    //error "error in retry"
+                }
+                
+                echo "after retry(3)"
+            }
+        }
+    }
+}
+apply and save
+buildnow
+
+
+retry
+-----
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                retry(3) {
+					echo "before throwing error"
+                    //error "error in retry"
+                    error "error"
+                }
+                
+                echo "after retry(3)"
+            }
+        }
+    }
+}
+Buildnow
+check console output
+
+
+>>> timeouts pipeline scripts
+>>> goto jenkins dashboard -> pipeline
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                timeout(time: 1, unit: 'SECONDS') //DAYS,HOURS,MICROSECONDS ,MILLISECONDS ,MINUTES ,NANOSECONDS ,SECONDS 
+				{
+                    echo "sleeping in timeout"
+                    sleep 2
+                }
+            }
+        }
+    }
+}
+buildnow
+apply and save
+
+>>> pipeline tools script
+
+goto jenkins dashboard -> Pipeline 4 -> Pipeline ->ok
+pipeline
+pipeline script
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+		    tools {
+				maven 'MavenBuild' 
+				//maven 'maven3_0_5' 
+			}
+            steps {
+                sh 'mvn --version'
+            }
+        }
+    }
+}
+apply and save
+buildnow
+
+>>> stage-options-error-retry pipeline
+goto create a new project -> Pipeline5 -> pipeline ->ok
+pipeline 
+pipeline script
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+		    tools {
+				maven 'maven3_5_2' 
+				//maven 'maven3_0_5' 
+			}
+            steps {
+                sh 'mvn --version'
+            }
+        }
+    }
+}
+apply and save
+Buildnow
+
+pipeline{
+    agent any
+    stages{
+        stage("Build"){
+
+            steps{
+                echo "Before error statement"
+                error "Error statement just got executed"
+                echo "After error statement"
+            }
+        }
+    }
+}
+
+apply and save
+Buildnow
+
+
+pipeline{
+    agent any
+    stages{
+        stage("Build"){
+			options{
+				retry(2)
+			}
+            steps{
+                echo "Before error statement"
+                error "Error statement just got executed"
+                echo "After error statement"
+            }
+        }
+    }
+}
+
+>>> stage -option -timeout pipeline
+goto jenkins dashboard -> create a new project -> Pipeline6
+->pipeline -> ok
+pipeline
+pipeline script
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+		    options {
+				timeout(time: 1, unit: 'SECONDS')  //values: NANOSECONDS, MICROSECONDS, MILLISECONDS, SECONDS, MINUTES, HOURS, DAYS
+			}
+            steps {
+                echo 'Hello World'
+				sleep 2
+            }
+        }
+    }
+}
+
+apply and save
+Buildnow
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+		    options {
+				timeout(time: 10, unit: 'SECONDS')  //values: NANOSECONDS, MICROSECONDS, MILLISECONDS, SECONDS, MINUTES, HOURS, DAYS
+			}
+            steps {
+                echo 'Hello World'
+				sleep 2
+            }
+        }
+    }
+}
+
+apply and save
+Buildnow
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+		    options {
+				timeout(time: 10, unit: 'SECONDS')  //values: NANOSECONDS, MICROSECONDS, MILLISECONDS, SECONDS, MINUTES, HOURS, DAYS
+			}
+            steps {
+                echo 'Hello World'
+				sleep 11
+            }
+        }
+    }
+}
+
+apply and save
+Buildnow
+
+>> Environment creds in pipeline
+goto jenkins dashboard and create a new project -> Pipeline7 -> pipeline -> ok
+pipeline
+pipeline script
+
+pipeline {
+    agent any
+    environment { 
+        name1 = "Jeff"
+		name2 = "John"
+    }
+    stages {
+        stage('Build') {
+            environment { 
+                name3 = "Jamie"
+
+            }
+            steps {
+                echo "name1 ${name1}"
+                echo "name2 ${name2}"
+                echo "name3 ${name3}"
+            }
+        }
+    }
+}
+apply and save
+Buildnow
+
+pipeline script
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            environment { 
+                SOME_USERNAME_PASSWORD = credentials('some_username_password') 
+                SOME_SECRET = credentials('some_secret') 
+            }
+            steps {
+				echo "SOME_USERNAME_PASSWORD ${SOME_USERNAME_PASSWORD}" //SOME_USERNAME_PASSWORD is in the format of username:password
+                echo "SOME_USERNAME_PASSWORD_USR ${SOME_USERNAME_PASSWORD_USR}"
+                echo "SOME_USERNAME_PASSWORD_PSW ${SOME_USERNAME_PASSWORD_PSW}"
+                echo "SOME_SECRET ${SOME_SECRET}"
+            }
+        }
+    }
+}
+apply and save
+Buildnow 
+
+goto manage jenkins -> manage credentials -> stored scope to jenkins -> jenkins -> global credentials -> add credentials -> 
+username -> pipeline
+password -> ********
+ID -> some_username_password ->ok
+
+one more add credentials ->
+kind -> Secret text
+Secret -> *******
+ID -> some_secret
+ok
+Build now
+
+>>> stage - when pipeline
+goto jenkins dashboard -> create a new project ->Pipeline8->pipeline ->ok
+pipeline
+pipeline script
+
+pipeline {
+    agent any
+	environment{
+		DEPLOY_TO='production'
+	}
+    stages {
+        stage('Build') {
+            when {
+                environment name: 'DEPLOY_TO', value: 'production'
+            }
+
+            steps {
+                echo 'Deploying'
+            }
+        }
+    }
+}
+apply and save
+Buildnow
+
+pipeline {
+    agent any
+	environment{
+		DEPLOY_TO='dev'
+	}
+    stages {
+        stage('Build') {
+            when {
+                environment name: 'DEPLOY_TO', value: 'production'
+            }
+
+            steps {
+                echo 'Deploying'
+            }
+        }
+    }
+}
+
+apply and save
+buildnow
+
+>> pipeline-stage-when-allof
+pipeline {
+    agent any
+	environment{
+		version="1.0"
+		some_name="jeff"
+	}
+    stages {
+        stage("Build") {
+            when {
+                allOf { 
+					environment name: "version", value: "1.0"
+					environment name: "some_name", value: "jeff"
+				}
+            }
+            steps {
+                echo "Building allOf ${version} ${some_name}"
+            }
+        }
+    }
+} 
+apply and save
+Buildnow
+
+pipeline {
+    agent any
+	environment{
+		version="1.0"
+		some_name="hello"
+	}
+    stages {
+        stage("Build") {
+            when {
+                allOf { 
+					environment name: "version", value: "1.0"
+					environment name: "some_name", value: "jeff"
+				}
+            }
+            steps {
+                echo "Building allOf ${version} ${some_name}"
+            }
+        }
+    }
+}
+apply and save
+Build now
+## note:- Build skipped due to when conditional
+
+>>> pipeline-stage-when-anyOf
+
+pipeline {
+    agent any
+	environment{
+		version="2.0"
+		some_name="hello"
+	}
+    stages {
+        stage("Build") {
+            when {
+                anyOf { 
+					environment name: "version", value: "1.0"
+					environment name: "some_name", value: "jeff"
+				}
+            }
+            steps {
+                echo "Building anyOf ${version} ${some_name}"
+            }
+        }
+    }
+}
+apply and save
+Buildnow
+
+>>>> multibranch pipeline
+create a new project -> multipipeline1 -> Multi-configuration project ->ok
+Branch sources -> Git
+https://github.com/JaiTrieTree/pipeline-stage-when-branch
+add git credentials ->add
+Build configuration -> by jenkinsfile
+apply and save
+goto github create a new branch -> dev (#master and dev branches)
+
+>>>> input pipeline
+
+goto jenkins dashboard -> create a new project -> Pipeline9
+-> Multiconfiguration project -> ok
+manage jenkins -> manage users -> create user 
+username -> trietreetech
+password -> *******
+confirm pwd -> *****
+Full name -> Trie Tree tech
+E-mail -> trietreetech@gmail.com
+create user
+goto pipeline9 ->configure -> pipeline 
+pipeline script
+
+pipeline{			
+    agent any
+
+    stages{
+        stage('Build'){	
+			input{
+                    message "Please specify environment:"			
+                    ok "OK"
+					submitter "trietreetech,admin"
+					submitterParameter "whoIsSubmitter"
+                    parameters {
+						string(name: 'environment', defaultValue: 'Dev', description: 'Environment to build for (Valid values: Dev, Test, Prod)')
+						string(name: 'version', defaultValue: '1.0', description: 'Version number to build for')
+						booleanParam(name: 'to_deploy_to_environment', defaultValue: true, description: '')
+						choice(choices: 'US-EAST-1\nUS-WEST-2', description: 'What AWS region?', name: 'region')
+						text(name:'myText', defaultValue:'myTextValue', description:'myText')
+						password(name:'myPassword', defaultValue:'myPasswordValue', description:'myDescription')
+						file(name:'myFile', description:'fileDescription')
+						credentials(name:'myCredentials', description:'myCredentailsDesc', required:true)
+                    }
+                }			
+            			
+            steps{			
+				echo "We are building for ${environment}, ${version}, and we are deploying to environment: ${to_deploy_to_environment}"
+				echo "region:${region}, myText: ${myText}, myPassword: ${myPassword}, and myFile: ${myFile}"
+				echo "submitter is: ${whoIsSubmitter}"
+				echo "selected credentials is: ${myCredentials}"
+			}
+        }			
+    }			
+}	
+apply and save
+Buildnow ->please redirect to approve -> mycredentials ->jenkins -> add -> ok
+
+mytext ->This is test script for inputs ->ok
+
+>>>> Build discarder pipeline (#only one biuld ruuning)
+create a new project -> Pipeline10 ->Pipeline -> ok
+pipeline 
+pipeline script
+
+pipeline {
+    agent any
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '1')) 
+    }
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Hello World'
+            }
+        }
+    }
+}
+apply and save
+Buildnow
+run again (# previous build deleted)
+Build now 
+
+>>> parameters in pipeline script
+goto jenkins dashboard -> create new project -> Pipeline11
+-> Pipeline -> ok
+pipeline
+pipeline script
+
+pipeline {							
+    agent any							
+    parameters {							
+        string(name: 'environment', defaultValue: 'Dev', description: 'Environment to build for (Valid values: Dev, Test, Prod)')
+		string(name: 'version', defaultValue: '1.0', description: 'Version number to build for')
+		booleanParam(name: 'to_deploy_to_environment', defaultValue: true, description: '')
+		choice(choices: 'US-EAST-1\nUS-WEST-2', description: 'What AWS region?', name: 'region')
+		text(name:'myText', defaultValue:'myTextValue', description:'myText')
+		password(name:'myPassword', defaultValue:'myPasswordValue', description:'myDescription')
+		file(name:'myFile', description:'fileDescription')
+		credentials(name:'myCredentials', description:'myCredentailsDesc', required:true)					
+    }							
+    stages {							
+        stage('Example') {							
+            steps {							
+                echo "We are building for ${params.environment}, ${params.version}, and we are deploying to environment: ${params.to_deploy_to_environment}"
+				echo "region:${params.region}, myText: ${params.myText}, myPassword: ${params.myPassword}, and myFile: ${params.myFile}"
+				echo "selected credentials is: ${params.myCredentials}"
+            }							
+        }							
+    }							
+}	
+apply and save
+Buildnow
+Build with parameters
+
+>>> Triggers --cron pipeline script
+goto jenkins dashboard -> Pipeline12 ->pipeline->ok
+pipeline 
+pipeline script
+
+pipeline {		
+    agent any		
+    triggers {		
+		//minute, hour, day of month, month, and day of week (0 and 7 are sundays)
+        cron('0 1 2 3 1-7')
+		
+		//cron('H */2 1-3 1,3 2-4')
+		
+		//@yearly, @annually, @monthly, @weekly, @daily, @midnight, @hourly
+		//cron('@daily')
+		
+		//cron('TZ=Europe/London\n0 1 * * 1-7')
+    }		
+    stages {		
+        stage('Build') {		
+            steps {		
+                echo 'Hello World'		
+            }		
+        }		
+    }		
+}
+apply and save
+Buildnow
+
+pipeline {		
+    agent any		
+    triggers {		
+		//minute, hour, day of month, month, and day of week (0 and 7 are sundays)
+        cron('* * * * *')
+		
+		//cron('H */2 1-3 1,3 2-4')
+		
+		//@yearly, @annually, @monthly, @weekly, @daily, @midnight, @hourly
+		//cron('@daily')
+		
+		//cron('TZ=Europe/London\n0 1 * * 1-7')
+    }		
+    stages {		
+        stage('Build') {		
+            steps {		
+                echo 'Hello World'		
+            }		
+        }		
+    }		
+}
+
+apply and save
+Buildnow
+
+>>> pollscm with pipeline script
+
+node{	
+	properties(
+		[
+			pipelineTriggers(
+				[
+					pollSCM('* * * * *')
+				]
+			),
+		]
+	)
+        stage('Build') {				
+			checkout([$class: 'GitSCM', 				
+			branches: [[name: "origin/master"]], 
+			userRemoteConfigs: [[
+			url: 'https://github.com/pipelineascodecourse/scripted-pollSCM.git']]])
+        }		
+}
+
+apply and save
+Buildnow
+
+node{	
+	properties(
+		[
+			pipelineTriggers(
+				[
+					pollSCM('* * * * *')
+				]
+			),
+		]
+	)
+        stage('Build') {				
+			checkout([$class: 'GitSCM', 				
+			branches: [[name: "origin/master"]], 
+			userRemoteConfigs: [[
+			url: 'git@github.com:Jai
+			TrieTree/pollscmtest.git']]])
+        }		
+}
+
+apply and save
+Buildnow
+
+>> upstream for pipeline script
+paste the pipeline script
+
+pipeline {			
+    agent any			
+    triggers {
+        upstream(upstreamProjects: 'Pipeline10,Pipeline11', 			
+        threshold: hudson.model.Result.SUCCESS)//UNSTABLE, FAILURE, NOT_BUILT, ABORTED
+    }			
+    stages {			
+        stage('Build') {			
+            steps {			
+                echo 'pipeline-triggers-upstream executed'			
+            }			
+        }			
+    }			
+}			
+apply and save
+Buildnow
+
+run the pipeline 10,11.it will triggers the pipeline 12
+-----------------------------------------------------------
+part - 9 Jenkins Declarative/Scripted Pipelines - [02].
+
+>>> agent-Docker-image pipeline
+
+goto jenkins dahsboard -> create a new project -> Pipeline13 ->pipeline
+pipeline
+pipeline script
+
+pipeline {
+    agent {
+        docker {
+            image 'maven:3.5.3-jdk-10-slim'
+        }
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn -v'
+            }
+        }
+    }
+}
+apply and save
+Build now
+#### note:- docker plugin install in jenkins
+
+goto aws jenkins box
+>> docker images
+>> docker ps
+
+>>> pipeline-agent-docker-arguments in pipeline
+previous project
+pipeline
+pipeline script
+
+pipeline {
+    agent {
+        docker {
+            image 'maven:3.5.3-jdk-10-slim'
+			args '-e someEnv=dev'
+        }
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'echo $someEnv'
+            }
+        }
+    }
+}
+apply and save
+Build now
+
+>>> pipeline-agent-docker-alwaysPull in pipeline
+pipeline
+pipeline script
+
+pipeline {
+    agent {
+        docker {
+            image 'maven:3.5.3-jdk-10-slim'
+			args '-e someEnv=dev'
+			alwaysPull true
+        }
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'echo $someEnv'
+            }
+        }
+    }
+}
+apply and save
+Buildnow
+
+again 
+pipeline {
+    agent {
+        docker {
+            image 'maven:3.5.3-jdk-10-slim'
+			args '-e someEnv=dev'
+			//alwaysPull true
+        }
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'echo $someEnv'
+            }
+        }
+    }
+}
+apply and save
+Buildnow
+note: only inspect not pulling
+
+>>> pipeline-groovy-outside-script in pipeline
+pipeline
+pipeline script
+
+def nameOfPerson = "john"
+
+def printName(name){
+	echo name
+}
+
+pipeline{
+    agent any
+    stages{
+        stage("Build"){
+            steps{
+				script{
+					printName(nameOfPerson)
+				}
+            }
+        }
+    }
+}
+apply and save
+Buildnow
+note: only call the echo and john.
+but we are writing outside of the pipeline declare the function and outside of the pipeline declare the variable.
+variable call through pipeline.
+
+>>> pipeline-agent-dockerfile in pipeline
+pipeline
+pipeline script
+
+pipeline {
+	agent none
+    stages {
+        stage('Checkout') {
+			agent any
+            steps {                
+                checkout([$class: 'GitSCM', 
+				branches: [[name: "origin/master"]], 
+				userRemoteConfigs: [[
+                url: 'https://github.com/pipelineascodecourse/pipeline-agent-dockerfile.git']]				
+				])
+            }
+        }
+        stage('Build'){   
+		    agent {
+				dockerfile true
+			}
+            steps{
+                sh 'cat /etc/lsb-release'
+            }
+        }
+    }
+}
+apply and save
+Buildnow
+
+>> comparion betweeen declarative pipeline and scripted pipeline
+
+> Declarative pipeline 
+pipeline {
+	
+}
+
+> Scripted pipeline
+node {
+	
+}
+
+>>> scripted pipeline
+
+https://github.com/JaiTrietree/jenkins-Pipeline-Scripts-/blob/master/scripted-basic/node-introduction.txt
+
+goto jenkins dashboard -> scripted1->pipeline ->ok
+pipeline
+pipeline script
+
+node {
+	stage('Build'){
+		def mavenImage = docker.image('maven:3.5.3-jdk-10-slim')
+		
+		mavenImage.inside{ 
+			sh 'mvn -v'
+		}
+    }
+}
+
+apply and save
+Buildnow
+
+node {
+	stage('Build'){
+		def mavenImage = docker.image('maven:3.5.3-jdk-10-slim')
+		
+		mavenImage.inside('-e someEnv=dev',{ 
+			sh 'echo $someEnv'
+		})
+    }
+}
+
+apply and save 
+Buildnow
+
+node {
+	stage('Build'){
+		def mavenImage = docker.image('maven:3.5.3-jdk-10-slim')
+		
+		mavenImage.pull()
+		
+		mavenImage.inside('-e someEnv=dev',{ 
+			sh 'echo $someEnv'
+		})
+    }
+}
+apply and save
+Buildnow
+
+>>> scripted-when pipeline
+pipeline
+pipeline script
+
+node{
+	def name="jeff"
+	def isGroovyCool = false
+    withEnv(['DEPLOY_TO=production']) {
+        stage('Build') {
+		
+			//when-environment condition
+			if(env.DEPLOY_TO == 'production')
+				println "Deploying"
+				
+			//when-equals condition
+			if(	name == "jeff")
+				println "name is ${name}"
+
+			//when-expression condition				
+			if(isGroovyCool == false)
+				println "groovy is always cool"
+				
+			//when-not condition
+			if(	name != "john")
+				println "name is not john"			
+			
+			//when-allOf condition			
+			if( name == "jeff" && !isGroovyCool)
+				println "name is ${name} and groovy is cool"
+				
+			//when-anyOf condition	
+			if( name == "jeff" || !isGroovyCool)
+				println "name is ${name} or groovy is cool"	
+        }
+    }
+}
+apply and save
+Buildnow
+
+>>> scripted-parameters pipeline
+
+https://github.com/JaiTrieTree/jenkins-Pipeline-Scripts-/blob/master/scripted-parameters/scripted-parameter.txt
+
+pipeline
+pipeline script
+
+node() {
+   // adds job parameters within jenkinsfile
+   properties([
+     parameters([
+       string(
+         defaultValue: 'Dev',
+         description: 'Environment to build for (Valid values: Dev, Test, Prod)',
+         name: 'environment'
+       ),
+       booleanParam(
+         defaultValue: true,
+         description: '',
+         name: 'to_deploy_to_environment'
+       ),
+	   choice(
+		choices: 'US-EAST-1\nUS-WEST-2', 
+		description: 'What AWS region?', 
+		name: 'region'
+		),
+	   text(
+	   name:'myText', 
+	   defaultValue:'myTextValue', 
+	   description:'myText'
+	   ),
+	   password(
+	   name:'myPassword', 
+	   defaultValue:'myPasswordValue', 
+	   description:'myDescription'
+	   ),
+	   file(
+	   name:'myFile', 
+	   description:'fileDescription'
+	   ),
+	   credentials(
+	   name:'myCredentials', 
+	   description:'myCredentailsDesc', 
+	   required:true)			   
+     ])
+   ])
+   
+    echo "We are building for ${params.environment}, and we are deploying to environment: ${params.to_deploy_to_environment}"
+	echo "region:${params.region}, myText: ${params.myText}, myPassword: ${params.myPassword}, and myFile: ${params.myFile}"
+	echo "selected credentials is: ${params.myCredentials}"
+}
+apply and save
+Buildnow
+--------------------------------------------------------
+part-10 Jenkins Multi-Branch Pipeline with Git and Github
+
+>> how multibranch pipeline works
+goto jenkins dashboard -> create a new project -> multipipeline -> Multibranch Pipeline ->ok
+
+https://github.com/JaiTrieTree/multibranch-pipeline-project/tree/master
+
+goto branch sources -> Git
+https://github.com/JaiTrieTree/multibranch-pipeline-project.git
+
+add git credentials (#private repo add credentials and public repo don't have any credentials)
+
+apply and save
+
+goto git and create jenkinsfile
+
+Scan multibranch Pipeline Now
+Scan Multibranch Pipeline Log
+
+create two branches -> preprod-code -> dev-code
+
+discover branches -> Filter by name
+include -> master dev-*
+
+checkout to matching local branch
+clean after checkout
+clean before checkout
+
+Build configuration
+Mode -> by jenkinsfile
+Script Path -> Jenkinsfile
+
+Scan Multibranch Pipeline Triggers
+enable -> Periodically if not otherwise run
+interval -> 1 minute
+
+apply and save
+
+scan multibranch Pipeline now
+scan multibranch Pipeline Log
+
+Branch sources
+master dev-* preprod-*
+apply and save
+
+---------------------------------------------------
+>>> Realtime secenario
+goto manage jenkins -> manage credentials -> stored scope ->jenkins ->Global credentials -> Add credentials ->github app
+
+note: automatic monitor the github repos
+
+
+>> Read the article:-
+docs.cloudbees.com/docs/cloudbees-ci/latest/cloud-admin-guide/github-app-auth
+
+do the step by step
+
+goto github and go profile icon -> settings-> Developer settings -> Github apps -> New Github App
+
+Github app name -> Devsecapp
+homepageurl -> https://github.com/JaiTrieTree/multibranch-pipeline-project
+Webhook URL -> http://jenkinsurl:8080/github-webhook/
+
+Repository permissions
+Administration -> Read-only
+checks -> Read & write
+Contents -> Read-only
+Metadata -> Read-only
+Pull requests -> Read-only
+Webhooks -> Read & write
+commit statuses -> Read & write
+
+Subscribe to events
+Check run
+Check suite
+Pull request
+Push
+Repository
+
+where can this Github App be installed?
+only on this account
+Create Github App
+
+Generate a private key
+downloaded the private key to check
+
+Coverting the private key for jenkins
+copy the private key 
+
+goto aws jenkins terminal 
+>> vi Devsecapp.pem
+paste the copied private-key
+:wq!
+>> openssl pkcs8 -topk8 -inform PEM -outform PEM -in Devsecapp.pem -out devsec-github-app.pem -nocrypt
+>> vi devsec-github-app.pem
+>> cat devsec-github-app.pem
+copy the code into notepad
+
+goto installed app -> devsec -> install
+only select repositories -> JaiTrieTree/multibranch-pipeline-project -> install
+
+Adding jenkins credentials
+goto jenkins dashboard and manage credentials -> Global credentials ->
+kind -> Github app 
+ID -> devsecgitapp
+goto github and settings ->Developer settings -> Github apps -> devsecapp -> about -> App ID -> 
+copy the app id
+
+App ID -> paste the app id
+key -> paste the coiped private-key
+testconnection ->ok
+
+goto jenkins dashboard -> create a project -> mbp-ghapp ->
+Multibranch Pipeline -> ok
+Branch sources -> Github -> add github credentials 
+Repository HTTPS URL ->
+https://github.com/JaiTrieTree/multibranch-pipeline-project.git ->validate
+
+apply and save
+scan Repository Log
+Multibranch Pipeline Events
+
+goto github and add jenkins to your project
+create ->jenkinsfile
+pipeline{
+	agent any
+	stages{
+	    stage("Build"){
+	        steps{
+	            echo "Hello world"
+	        }
+	    }
+	}
+}
+
+commit newfile
+create jenkinsfile
+commit new file
+
+>> goto git 
+>> git checkout -b fix-123
+>> git push --set-upstream origin fix-123
+
+goto github and fix-123 branch and edit
+
+pipeline{
+	agent any
+	stages{
+	    stage("Build"){
+	        steps{
+	            echo "Hello world"
+	        }
+	    }
+	    stage("fix branch") {
+	      when {
+	        branch "fix-*"
+	      }
+	      steps {
+	        sh '''
+	          cat README.md
+	        '''  
+	      }
+	    }
+	    stage("PR branch") {
+	      when {
+	        branch "PR-*"
+	      }
+	      steps {
+	        echo "Runs only for PRs"
+	      }
+	    }
+	}
+}
+
+update jenkinsfile
+Commit changes
+
+goto jenkins checks the fix-123 
+
+goto github and compare and pull request
+create pull request
+
+goto jenkins dashboard and check the pull request
+
+goto github and merge pull request and confirm merge
+---------------------------------------------------------
+Jenkins on Kubernetes | Jenkins Part -05 | Helm Deployment
+
+https://github.com/jenkinsci/helm-charts
+
+goto ec2 instance 
+
+>> helm repo add jenkins https://charts.jenkins.io
+>> helm repo update
+>> helm show values jenkins/jenkins (### to see the helm values)
+>> helm show values jenkins/jenkins >> values.yaml
+>> vi values.yaml
+### install the helm
+>> helm install jenkins jenkins/jenkins
+>> kubens
+>> kubectl get pods
+>> kubectl logs jenkins-0 -c init
+>> kubectl logs jenkins-0 -c jenkins
+>> kubectl get all
+>> kubectl get pvc
+>> kubectl get pv
+>> kubectl get svc -o wide
+>> kubectl expose pod jenkins-0 --port 8080 --target-port 8080 --type NodePort
+>> kubectl get svc
+>> kubectl get pods -o wide
+goto google jenkinsserver:31759
+
+####################################
+1.Get your 'Admin' user password by running:
+>> kubectl exec --namespace default -it svc/jenkins -c jenkins -- /bin/cat /run/secrets/chart-admin-password && echo
+2.Get the Jenkins URL to visit by running these commands in the same shell:
+echo http://127.0.0.1:8080
+kubectl --namespace default port-forward svc/jenkins 8080:8080
+3. Login with the password from step 1 and the username: admin
+4. Configure security realm and authorization strategy
+5. Use Jenkins Configuration as Code by specifying configScripts in your values.yaml file, see documentation: http:///configuration-as-code and examples:
+https://github.com/jenkinsci/configuration-as-code-plugin/tree/master/demos
+####################################
+>> kubectl exec --namespace default -it svc/jenkins -c jenkins -- /bin/cat /run/secrets/chart-admin-password && echo
+>> copy the password
+>> admin and paste the password
+----------------------------------------------------------
+>>>> Jenkins Diagnosis with Support Core Plugin 
+
+>>jenkins support core plugin
+plugins.jenkins.io/support-core/#documentation
+
+goto jenkins dashboard -> manage jenkins -> manage plugins-> install support core plugin 
+
+goto jenkins dashboard -> support -> generate bundle
+
+configure global security -> Support Bundle Anonymization
+enable -> Anonymize support bundle contents
+----------------------------------------------------------
+>>>> Kaniko In Telugu | Build Container Image with Kaniko using Kubernetes and Jenkins | No Docker Daemon
+
+>> github.com/GoogleContainerTools/kaniko
+>> https://aws.amazon.com/kubernetes/
+
+>> goto manage jenkins -> manage plugins -> available -> kubernetes -> install
+
+>> goto manage jenkins -> manage nodes and clouds -> configure clouds -> kubernetes
+
+>> kubectl cluster info 
+##kubernetes url (paste into here)
+>> kubernetes cloud details ->
+> kubernetes url -> 
+> kubernetes namespace -> (## ex:- jenkins)
+command -> kubens (##to check the namespace)
+> enable Websocket
+> jenkins url -> paste the jenkins url
+apply and save
+
+create a new project -> kube-pipeline -> pipeline -> ok
+
+>>https://gist.github.com/JaiTrieTree
+
+goto dockerhub ->account settings -> security -> new access token ->copy the credentials 
+
+>> kubectl create secret docker-registry docker-credentials --docker-username=[userid] --docker-password=[Docker Hub access token] --docker-email=[user email address] --namespace jenkins
+>> kubectl get secrets
+>> create a jenkins file
+
+goto jenkins advanced project options ->
+pipeline script 
+
+pipeline {
+  agent {
+    kubernetes {
+      yaml """
+kind: Pod
+spec:
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug
+    imagePullPolicy: Always
+    command:
+    - sleep
+    args:
+    - 9999999
+    volumeMounts:
+      - name: jenkins-docker-cfg
+        mountPath: /kaniko/.docker
+  volumes:
+  - name: jenkins-docker-cfg
+    projected:
+      sources:
+      - secret:
+          name: docker-credentials
+          items:
+            - key: .dockerconfigjson
+              path: config.json
+"""
+    }
+  }
+  stages {
+    stage('Build with Kaniko') {
+      steps {
+        container(name: 'kaniko', shell: '/busybox/sh') {
+          sh '''#!/busybox/sh
+            echo "FROM jenkins/inbound-agent:latest" > Dockerfile
+            /kaniko/executor --context `pwd` --destination ittelugulowithjai/kaniko:latest
+          '''
+        }
+      }
+    }
+  }
+}
+
+apply and save
+Buildnow
+
+goto terminal 
+>> kubectl get pods
+goto docker
+>> docker pull ittelugulowithjai/kanikok8s:latest (##pull means uploading into dockerhub)
+>> docker images
+>> 
+--------------------------------------------------------
+>>>> Jenkins Pipeline Syntax | Impressive Document.
+
+>> https://github.com/JaiTrieTree/jenkins_pipeline
+
+read the document.
+
+-------------------------------------------------------
+>>>> Open LDAP Configuration for Jenkins 
+
+>> install and configure ldap
+
+goto aws and launch instance(linux)
+configure security group
+LDAP ->TCP-> 389 ->anywhere ->launch
+Http ->Http ->80 -> anywhere ->launch
+goto terminal 
+>> sudo su -
+>> apt-get update -y
+>> howtoforge.com/how-to-install-and-configure-openldap-phpldapadmin-on-ubuntu-2004/
+>> https://www.howtoforge.com/how-to-install-and-configure-openldap-phpldapadmin-on-ubuntu-2004//
+
+Installation steps:-
+>> follow the articles
+
+---------------------------------------------------------
+>>> SonarQube Installation on Linux and Integration With Jenkins
+
+>>sonarqube download
+>> copy the download link
+>> goto ec2 instance page login
+>> sudo su -
+>> wget <paste the link>
+>> apt install unzip
+>> unzip sonarqube-8.9.2.46101.zip
+>> ls -lrt
+>> cd sonarqube-8.9.2.46101
+>> cd bin
+>> cd linux-x56-64/
+>> cd ..
+>> ls -lrt
+>> cd linux-x56-64
+>> ls -lrt
+>> vi sonar.sh
+>> cd ..
+>> cd ..
+>> cd conf/
+>> ls -lrt
+>> vi sonar.properties (###add another user)
+sonar.jdbc.username=sonarqube
+sonar.jdbc.password=sonarqube
+sonar.embeddedDatabase.port=9092    (#kafkaport=9093)
+webser
+sonar.web.host=0.0.0.0
+sonar.web.content=/sonarqube
+sonar.web.port=9000
+:wq!
+>> vi wrapper.conf  (#install openjdk or java)
+wrapper.java.command=java
+:q!
+>> check java installed or not
+>> find / -name java
+>> vi wrapper.conf
+wrapper.java.command=/usr/lib/jvm/java-8-openjdk-amd64/bin/java
+:wq!
+>> cd ../
+>> cd ../
+>> cd sonarqube-8.9.2.46101/bin/
+>> ls -lrt
+>> cd linux-x86-64/
+>> ls -lrt
+>> ./sonar.sh
+>> ./sonar.sh status
+>> ./sonar.sh console
+>> java -version
+>> find / -name java
+wrapper.java.command=/usr/lib/jvm/java-16-openjdk-amd64/bin/java
+>> cd ..
+>> cd ..
+>> cd ..
+>> ls
+>> cp -R sonarqube-8.9.2.46101 /home/ubuntu/
+>> chown -R ubuntu:ubuntu /home/ubuntu/
+>> exit
+>> pwd
+/home/ubuntu
+>> ls -lrt
+>> cd sonarqube-8.9.2.46101/
+>> ls
+>> ls -lrt
+>> cd bin/linux-x86-64/
+>> ./sonar.sh console
+>> goto browser 
+ip:9000/sonarqube
+admin
+admin
+
+>>> how to integrate with jenkins with sonarqube
+goto jenkins dashboard -> manage jenkins -> manage plugins
+-> install sonarqube scanner
+
+goto jenkins dashboard -> configure system -> sonarqube servers 
+enable 
+sonarQube installations
+name -> sonarjenkins
+server URL -> http://ip:9000/sonarqube
+apply and save
+
+goto sonarqube dashboard -> administartion -> security -> users -> tokens ->generate tokens ->jenkins -> generate ->copy 
+
+goto jenkins 
+add credentials
+kind -> secret text
+secret -> paste here copied
+ID -> sonarjenkins
+Description -> sonarjenkins -> add
+apply and save
+
+create a new project -> sonarqubepipeline -> pipeline ->ok
+
+pipeline 
+pipeline script from SCM
+SCM -> Git
+Repo URL -> https://github.com/JaiTrieTree/java-web-app
+Branches to build
+*/main
+script Path -> Jenkinspath
+apply and save
+Buildnow
+
+>> configure sonarqube
+goto sonarqube dashboard -> administration ->configuration-> webhooks -> create -> 
+Name -> jenkins
+URL -> http://jenkins-ip:8080/sonarqube-webhook/
+create
+
+https://github.com/JaiTrieTree/java-web-app/tree/main
+
+goto jenkinsfile-1
+
+goto jenkins dashboard 
+Build Triggers
+Script Path -> Jenkinsfile-1 
+apply and save
+Build now
+---------------------------------------------------
+https://github.com/JaiTrieTree/webapp-sq/Jenkinsfile-1

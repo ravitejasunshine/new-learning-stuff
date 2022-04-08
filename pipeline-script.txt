@@ -1,0 +1,66 @@
+pipeline script:-
+---------------------------------------------------------
+pipeline{
+    tools{
+        jdk 'JAVA_HOME'
+        maven 'maven'
+    } 
+    agent none
+    stages{
+        stage('checkout'){
+            agent any
+            steps{
+                git 'https://github.com/docker-archive/jenkins-pipeline-scripts.git'
+            }
+        }
+        stage('Compile'){
+            agent any 
+            steps{
+                sh 'mvn compile'
+            }
+        }
+        stage('Test'){
+            agent any 
+            steps{
+                sh 'mvn test'
+            }
+        }
+        stage('Package'){
+            agent any 
+            steps{
+                sh 'mvn package'
+            }
+        }
+        
+    }
+}   
+
+
+jenkins-slave connect:-
+-------------------------------
+stage('Package'){
+	agent {label 'win_slave'}
+	steps{
+	    git 'https://github.com/devops-trainer/game-of-life.git'
+	    bat 'mvn package'
+	}
+}
+
+--------------------------------------------------
+
+GOL- jenkinsfile -> pipeline -> ok
+
+pipeline -> pipeline script from scm
+scm -> git -> save
+
+---------------------------------
+>> multiconfiguration project
+
+GOL-multiconfig-> multiconfigurationproject -> ok
+
+
+
+
+
+	}
+}

@@ -32,3 +32,16 @@ https://www.youtube.com/watch?v=JIFqqdRxmVo
 
 11) git and github
 https://www.youtube.com/watch?v=vR-y_2zWrIE&list=PLWKjhJtqVAbkFiqHnNaxpOPhh9tSWMXIF
+
+Nexus tutorials:-
+-------------------------------------------------------------
+https://www.youtube.com/playlist?list=PLDhScTEBdP8z9J-yDxcon3eZW5fwkRMb8
+
+https://www.youtube.com/watch?v=2idlFtwkvzk
+
+Jira tutorial:-
+https://www.youtube.com/playlist?list=PLTCuRW0ikUdP9RkR_meAKKIuQ1zwC7edZ
+
+
+kubernetes with HELM tutorial:-
+https://www.youtube.com/playlist?list=PLTCuRW0ikUdMZvuk5_So3AipadqUx-874

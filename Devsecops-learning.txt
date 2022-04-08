@@ -1,0 +1,325 @@
+Devsecops
+-------------------------------------------------------
+>> screen Recorder->screencast matic
+
+>>> DEVSECOPS#1 Introduction - Implementing Secure CI/CD Pipelines
+
+>> https://github.com/cehkunal/webapp
+
+>>> DEVOPS#2 Overview -CICD Pipeline
+
+>>> DEVOPS#3 Devops and SDLC
+Devops tools:-
+collaborate->build->Test->Depoly->Run
+
+>>> DEVSECOPS#4 Basic CICD Pipeline and DevSecOps Pipeline
+>> install plugin blueocen
+>> Vulnerability management(Defect Dojo) (#tool)
+>> Bug tracking tool (#Jira)
+
+build result ->
+start-> initialize->Check-git-secrets->build->source-composition-analysis->sast->Deploy-to-tomcat->Port scan->DAST->Nikto scan->SSL Checks-> Upload reports to Defect Dojo->End
+
+		>>> DEVSECOPS#5 Setting up Cloud Lab Environment
+>> setting up Cloud Lab Environment
+> 4 Ec2 Ubuntu boxes
+> 1: Java, Jenkins Maven
+> 2: Java,Tomcat
+> 3: Docker, Jira(t2.medium)
+> 4: Docker,DefectDojo
+
+>> creating EC2 Ubuntu Instances
+> Sign up for new AWS account-12 months limited usage free
+> Login to AWS Management Console
+> Select EC2 in services
+> Launch Instance -> Ubuntu Server 18.04 LTS(64 bit)->t2.micro
+> Change Number of Instance to 3
+> Create a new SSH Key pair and save it.
+
+one is jenkins and another one is tomcat(production server)
+
+>> Initial Setup
+> Save dedicated machine names to /etc/hosts
+> Change ssh-key permissions(chmod 600 ssh-key.pem)
+> Connect to Instance:
+-Eg. ssh -i ssh-key.pem ubuntu@jenkins.devsecops.lab
+     ssh -i ssh-key.pem ubuntu@jira.devsecops.lab
+
+>>>> DEVSECOPS#6 Setting up Jenkins Server
+
+     >> setting up jenkins server
+> SSH to jenkins.devsecops.lab
+> install java: http://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04
+> Install jenkins:
+ https://wiki.jenkins.io/display/JENKINS/Installing+Jenkins+on+Ubuntu
+> Install Docker: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04
+> Modify rule in Security Groups for port 8080
+> Active Jenkins from /var/lib/Jenkins/secrets/initialAdminPassword
+> Install Suggested Plugins + Maven Integration,Blue Ocen,Deploy To Container,SSH Agent
+> Install Maven: https://linuxize.com/post/how-to-install-apache-maven-on-ubuntu-18-04/
+> Add Maven Installation directory /usr/share/maven/in Jenkins Global Tool Configuration
+> To check-Run a simple maven project
+
+
+
+>> you create two instances (jenkins,tomcat)
+>> goto ec2 dashboard and login jenkins instance
+>> sudo su - (#login jenkins instance)
+>> install java ubuntu digitalocean(#search google)
+
+>> goto jenkins dashboard -> manage plugins -> install maven integration + SSH agent + Deploy to container + Blue ocean
+
+>> goto jenkins dashboard -> manage jenkins -> Global tool configuration ->
+maven > add maven 
+Name -> Maven
+maven_home -> sur/share/maven
+apply and save
+
+     >>>> DEVSECOPS#7 Setting Up Tomcat Server
+
+     >> Setting up prod server (Tomcat)
+> SSH to prod.devsecops.lab
+> Install Java:
+https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04
+> Download and unzip Tomcat:wget
+http://mirrors.estointernet.in/apache/tomcat/tomcat-8/v8.5.38/bin/apache-tomcat-8.5.38.zip
+> Create Tomcat User and Allow Manager access from another hosts by commenting access restrictions in /webapps/manager/META-INF/context.xml
+
+
+>> login to ec2 tomcat instance
+>> sudo su -
+>> java -version
+>> google search (download apache tomcat)
+>> install zip file and copy the link
+>> create floder -> mkdir /prod
+>> cd /prod
+>> wget <tomcatlink>
+>> ls -la
+>> apt install unzip
+>> unzip <tomcat.zip>
+>> ls -la
+>> cd apachetomcat
+>> ls -la
+>> cd bin
+>> ls -la
+>> chmod +x catalina.sh
+>> bash startup.sh
+>> goto browser -> tomcat:8080
+>> tomcat:8080/manager
+>> cd ..
+>> ls -la
+>> cd webapps
+>> ls
+>> cd manager
+>> ls -la
+>> cd META-INF/
+>> ls
+>> vi context.xml
+>> commenting the line
+<!-- <value calssName 
+allow =127.0.0.1 --> 
+>> cd ../../..
+>> ls -la
+>> cd conf/
+>> ls
+>> vi tomcat-users.xml
+>> copy the manager-gui code into browser
+and paste here
+
+<role rolename="manager-gui"/>
+<role rolename="manager-script"/>
+<user username="tomcat" password="tomcat" roles="manager-gui,manager-script"/>
+</tomcat-users>
+>> cd ..
+>> ls -la
+>> cd bin
+>> bash shutdown.sh
+>> bash startup.sh
+>> 
+
+>>>> DEVSECOPS#8 Creating Build Pipeline in Jenkins
+
+     >> Creating Build Pipeline in Jenkins
+> Login to Jenkins UI
+> Create New Item(Pipeline)
+> Connect with Jira Repository
+> Create Jenkinsfile to include Build Stage
+> Run Pipeline
+
+https://github.com/cehkunal/webapp
+
+>> goto jenkins dashboard -> create a new project -> webapp-cicd-pipeline->pipeline->ok
+
+General
+Description -> Devsecops pipeline demo
+discard old builds ->max builds keep =2
+
+Github project ->
+project url -> https://github.com/cehkunal/webapp.git
+Build triggers -> Github hook trigger for GIT Scm polling
+pollscm -> * * * * *
+
+Advanced Project options
+pipeline->pipeline script 
+pipeline script from scm -> git -> 
+Repository url -> https://github.com/cehkunal/webapp.git
+script path -> Jenkinsfile
+
+
+>>>> DEVSECOPS#9 Integrating Continuous Deployement in jenkins Pipeline
+
+     >>> Interating Automated Deployment to Tomcat in pipeline
+> Once build PASSES ,it should be deployed to prod.devsecops.lab
+> Install Deploy to Container,SSH Agent Plugin
+> Create Credentials for SSH to Prod Server
+> Add Deploy-To-Tomcat Stage
+
+>> login to aws tomcat instance
+>> sudo su -
+>> cd /prod
+>> ls -la
+>> cd apache-tomcat-8.5.39/webapps/
+>> ls -la
+>> pwd
+
+goto jenkins dashboard -> credentials -> Global credentials
+-> add credentials -> 
+kind -> SSH username with private key
+ID -> tomcat
+Description -> tomcat ssh credentials
+username -> ubuntu
+password -> paste the private key text
+ok
+
+>> pwd
+copy the path and paste into jenkinspipeline file
+
+>> build now
+
+change the permissions webapp
+>> cd ..
+>> ls -la
+>> chmod 777 webapps/
+
+buildnow
+
+>> goto browser
+tomcat:8080/webapp/
+
+
+>>>> DEVSECOPS#10 Checking Git Secrets in Pipeline using Trufflehog
+
+>>> Integrate Git Secrets in the Pipeline
+> Trufflehog - Regex based Scanner for git secrets
+
+stage ('Check-Git-Secrets') {
+        steps {
+     sh 'docker pull gesellix/trufflehog'
+     sh 'docker run -t gesellix/trufflehog --json https://github.com/devopssecure/webapp.git > trufflehog'    
+        }
+} 
+
+>> https://hub.docker.com/r/gesellix/trufflehog
+
+>> connect with jenkins server 
+>> sudo su
+>> docker pull gesellix/trufflehog
+>> docker images (#installed images)
+>> docker run gesellix/trufflehog https://github.com/cehkunal/webapp.git
+>> Build now
+>> systemctl restart jenkins
+>> 
+
+>>>> DEVSECOPS#11 Source Composition Analysis in Pipeline using OWASP Dependency Checker
+
+     >>> Integrating OWASP Dependency Checker for Source Composition Analysis
+> Download owasp-dependency-check.sh to jenkins workspace
+> Create Source-Composition-Analysis stage and run the script
+> sudo usermod -a -G docker jenkins
+> Systemctl restart jenkins
+stage ('Source-Composition-Analysis') {
+       
+        steps {
+                sh 'rm owasp*'
+sh 'wget https://raw.githubusercontent.com/devopssecure/webapp/master/owasp-dependency-check.sh'
+                sh 'chmod +x owasp-dependency-check.sh'
+                sh 'bash owasp-dependency-check.sh'                      
+        }
+}     
+
+
+>> https://hub.docker.com/r/owasp/dependency-check/
+
+
+>>>> DEVSECOPS#12 SAST - Sonarqube integration in Jenkins Pipeline
+
+     >>> Integrating SAST with Sonarqube in Pipeline
+> Run Sonarqube in container: docker run -d --name sonarqube -p 9000:9000 sonarqube
+> Default credentials - admin:admin
+> Generate sonarqube Token : My Account -> Security -> Generate Token
+> Install Sonarqube plugin and Configure Systems in Jenkins
+> Configure Sonarqube in Global tool Configuration and select automatic installation
+
+stage('SAST') {
+     steps {
+     withSonarQubeEnv('devopssecure') {
+             sh 'mvn sonar:sonar'
+             sh 'cat target/sonar/report-task.txt'
+     }
+     }
+}     
+
+
+>> login to jenkins instance
+>> sudo su -
+>> docker run -d -p 9000:9000 sonarqube  (##sonarqubeport=9000)
+>> goto browser 
+jenkins:9000
+>> install the plugin sonarqube
+>> manage jenkins -> manage plugins -> install sonarqube scanner
+>> manage jenkins -> configure system
+sonarqube servers ->
+Name -> sonar
+Server URL -> jenkinsip:9000
+Server authentication token -> paste the token id
+goto sonarqube dashboard -> myaccount -> security -> generate tokens -> devsecops -> Generate -> copy the token 
+apply and save
+
+>> goto manage jenkins -> Global tool configuration -> sonarqube scanner ->add sonarqube scanner
+name -> sonar
+apply and save
+build now
+
+
+>>>> DEVSECOPS#13 DAST - ZAP Baseline Scan Integration in Jenkins Pipeline
+
+>> Integrating DAST with ZAP-Baseline scan in Pipeline
+> Memory Issues in running ZAP on Jenkins host
+> Dedicated Server for ZAP
+> Configure SSH Credentials in jenkins
+> Add DAST step in pipeline
+> Allow on failure - "cmd || true"
+
+stage ('DAST') {
+        steps {
+                sshagent(['zap-ssh']) {
+                    sh 'ssh -o StrictHostKeyChecking-no ubuntu@zapip "docker run -t owasp/zap2docker-stable zap-baseline.py -t http://tomcatip:8080/WebApp"'
+                }
+        }
+}
+
+>> install one more (zap)instance(ubuntu)
+>> install docker
+>> goto jenkins dashboard 
+credentials -> jenkins -> global credentials ->add credentials
+kind -> SSH username with private key
+ID -> zap
+Description -> zap ssh creds
+username -> ubuntu
+private key -> paste the private key(##devsecops.pem file)
+ok
+
+buildnow
+
+
+

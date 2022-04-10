@@ -1,0 +1,42 @@
+#### Install Jenkins on Ubuntu 18.0.4 | Setup Jenkins on AWS EC2 Ubuntu instance |
+How to setup Jenkins in Ubuntu EC2 instance.
+
+## Perform update first => sudo apt update
+
+
+Java installation and  Home path setup in ubuntu |install jenkins |install maven | install tomcat | :-
+---------------------------------
+step 1:
+## Install Java 11. 
+=> sudo apt-get install default-jdk -y
+
+step 2:- 
+## Verify Java Version. 
+=> java -version
+
+step 3:-
+## Maven Installation. 
+=> sudo apt install maven -y
+
+## mvn --version
+
+step 4:-
+## Jenkins Setup:- Add Repository key to the system. 
+=> wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+
+## Append debian package repo address to the system.
+=> echo deb http://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list
+
+## Update Ubuntu package.  
+=> sudo apt update
+
+## Install Jenkins.
+=> sudo apt install jenkins -y
+
+goto jenkin-login and unblock the jenkins.
+
+=====================================================================================================================
+global tool configuration-> javapath setup(ubuntu)
+Name = Java
+JAVA_HOME = /usr/lib/jvm/java-11-openjdk-amd64
+=====================================================================================================================
